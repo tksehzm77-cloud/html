@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>이미지맵</title>
+    <style>
+        h1{text-align: center;}
+        p{text-align: center;}
+        hr{width: 600px;}
+    </style>
+</head>
+<body>
+    <h1>이미지맵(imagemap)</h1>
+    <p>하나의 이미지 안에서 두 개 이상의 다른 하이퍼링크를 걸 때 사용</p>
+    <hr>
+    <p>
+        <img src="./images/imgmap.jpg" alt="이미지맵" usemap="#sch">
+        <map name="sch">
+            <area shape="rect" coords="51,212,114,228" href="http://www.yahoo.com" alt="야후로 가기" target="_blank">
+            <area shape="circle" coords="146,261,22" href="http://www.daum.net" alt="다음카카오로 가기" target="_blank">
+            <area shape="poly" coords="192,283,216,283,229,304,216,325,192,325,180,304" href="http://www.naver.com" alt="네이버로 가기" target="_blank">
+        </map>
+    </p>
+</body>
+</html>
