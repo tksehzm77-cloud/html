@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>표만들기</title>
+    <style>
+        /* 전체표에 대한 디자인 */
+        table{
+            /* 선의 두께 */
+            border-width: 1px;
+            /* 선의 색상 */
+            border-color: #000;
+            /* 선의 종류(실선) */
+            border-style: solid;
+            width: 600px;
+            /* 글자(텍스트) 가운데 정렬 */
+            text-align: center;
+            /* 표를 가운데 정렬 */
+            margin: auto;
+            /* 표와 열 사이의 갭(간격)을 0으로 처리 */
+            border-spacing: 0;
+            /* 테두리선 사이 겹침 방지 */
+            border-collapse: collapse;
+        }
+        /* 열에 대한 디자인 */
+        th{
+            border-color: #000;
+            border-style: solid;
+            border-width: 1px;
+            background: orange;
+        }
+        td{
+            border-color: #000;
+            border-width: 1px;
+            border-style: solid;
+            background: #cdff00;
+        }
+        .blue{background: #00ccff;}
+        .red{background:red;}
+    </style>
+</head>
+<body>
+    <!-- 표만들기 -->
+    <table>
+        <!-- 행 -->
+        <tr>
+            <th>1교시</th>
+            <th>2교시</th>
+            <th class="blue">3교시</th>
+        </tr>
+        <tr>
+            <td>포토샵</td>
+            <td class="red">HTML</td>
+            <td class="blue">JQUERY</td>
+        </tr>
+        <tr>
+            <td class="red">일러스트</td>
+            <td>CSS</td>
+            <td class="blue">포트폴리오</td>
+        </tr>
+    </table>
+</body>
+</html>
