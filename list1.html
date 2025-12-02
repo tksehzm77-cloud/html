@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>list 목록</title>
+    <style>
+        ul li{list-style: circle; color: red;}
+        ol li{color: blue;}
+        ul li ol li{list-style: upper-alpha;}
+        ul li ul li{list-style: square;}
+        ul li ol li ul li{list-style: circle; color: green;}
+    </style>
+</head>
+<body>
+    <h1>순서 없는 목록(타는 것)</h1>
+    <hr>
+    <!-- 순서 없는 리스트 목록 -->
+    <!-- ul 안에는 반드시 li 태그만 적용된다 -->
+    <ul>
+        <li>
+            비행기
+            <ol>
+                <li>국내용</li>
+                <li>
+                    국제용
+                    <ul>
+                        <li>미주지역</li>
+                        <li>아시아지역</li>
+                        <li>유럽지역</li>
+                    </ul>
+                </li>
+            </ol>
+        </li>
+        <li>
+            버스
+            <ul>
+                <li>시내버스</li>
+                <li>시외버스</li>
+            </ul>
+        </li>
+        <li>기차</li>
+    </ul>
+    <hr>
+    <h1>순서 있는 목록(먹는 것)</h1>
+    <hr>
+    <!-- 순서가 있는 리스트 목록을 줄 때 -->
+    <!-- ol 안에는 li 태그만 올 수 있다 -->
+    <ol>
+        <li>바나나</li>
+        <li>딸기</li>
+        <li>수박</li>
+    </ol>
+</body>
+</html>
