@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>표만들기 응용4</title>
+    <style>
+        table{
+            border: 1px solid #d2d2d2;
+            margin:auto;
+            border-collapse: collapse;
+            border-spacing: 0;
+            border-top: 3px solid #313131;
+            border-left: none;
+            border-right: none;
+        }
+        td{
+            border: 1px solid #d2d2d2;
+            text-align: center;
+            color: #5a614f;
+            border-left: none;
+            height: 50px;
+        }
+        .last{border-right: none;}
+        .text{text-align: left;}
+    </style>
+</head>
+<body>
+    <table>
+        <tr>
+            <td>프로그램명</td>
+            <td>기능</td>
+            <td class="last">수동설치</td>
+        </tr>
+        <tr>
+            <td>암호화 프로그램<br>(AhnLab Safe Transaction)</td>
+            <td class="text">온라인을 통해 처리되는 모든 정보를 보호하는<br>프로그램 (메모리보호 및 방화벽 기능)</td>
+            <td class="last"><button>다운로드</button></td>
+        </tr>
+        <tr>
+            <td>키보드 보안 프로그램<br>(KOS)</td>
+            <td class="text">키보드를 통해 입력되는 정보유출(Keylog)등의<br>해킹툴로 부터 보호하는 프로그램</td>
+            <td class="last"><button>다운로드</button></td>
+        </tr>
+        <tr>
+            <td>공동인증프로그램<br>(Sign Korea Certification<br>Tollkit)</td>
+            <td class="text">공동인증 로그인과 거래내역에 대한 전자서명을<br>위한 프로그램입니다.</td>
+            <td class="last"><button>다운로드</button></td>
+        </tr>
+    </table>
+</body>
+</html>
