@@ -3,24 +3,46 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>웹문서처음(권나영)</title>
+    <title>폼 응용1</title>
     <style>
-        h1{text-align: center;color: red;}
-        h2{text-align: right;color: blue;}
-        h3{text-align: left;color: green;}
-        h4{text-align: center;color: yellow;}
-        h5{text-align: center;color: #000000;}
-        h6{text-align: right;color: blueviolet;}
-        p{font-size: 100px;text-align: center;color: red;}
+        li{list-style: none; margin-bottom: 16px;}
+        fieldset{
+            width: 426px;
+            height: 131px;
+        }
+        .label1{margin-left: 56px;}
+        .label2,.label4{margin-left: 27px;}
+        .label3{margin-left: 40px;}
     </style>
 </head>
 <body>
-<h1>권나영의 웹페이지 입니다</h1>
-<h2>html 언어</h2>
-<h3>css 언어</h3>
-<h4>자바스크립트</h4>
-<h5>웹퍼블리셔</h5>
-<h6>프런트엔드 개발자</h6>
-<p>여기는 <br><br><br> 문단입니다</p>
+    <form action="">
+        <fieldset>
+            <legend>개인정보</legend>
+            <ul>
+                <li>
+                    <label for="name" class="label1">이름</label> <input type="text" placeholder="" id="name">
+                </li>
+                <li>
+                    <label for="mail" class="label2">메일주소</label> <input type="email" placeholder="" id="mail">
+                </li>
+            </ul>
+        </fieldset>
+    </form>
+    <form action="">
+        <fieldset>
+            <legend>로그인 정보</legend>
+            <ul>
+                <li>
+                    <label for="id" class="label3">아이디</label> <input type="text" placeholder="" id="id">
+                </li>
+                <li>
+                    <label for="ps" class="label4">비밀번호</label> <input type="password" placeholder="" id="ps">
+                </li>
+            </ul>
+        </fieldset>
+    </form>
+    <input type="submit" value="제출">
+    <input type="reset" value="취소">
 </body>
 </html>

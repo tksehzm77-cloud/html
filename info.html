@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>나의 정보</title>
+    <style>
+        li{list-style: none; margin-bottom: 16px;}
+        textarea{text-align: left;}
+    </style>
+</head>
+<body>
+    <form action="">
+        <fieldset>
+            <legend>개인정보</legend>
+            <ul>
+                <li>
+                    <input type="radio" name="gender" id="man"> <label for="man">남자</label>
+                    <input type="radio" name="gender" checked id="women"> <label for="women">여자</label>
+                </li>
+                <li>
+                    <label for="tour">여행</label> <input type="checkbox" id="tour">
+                    <label for="movie">영화</label> <input type="checkbox" checked id="movie">
+                    <label for="book">독서</label> <input type="checkbox" id="book">
+                </li>
+                <li>
+                    <label for="st">컬러 선택</label>
+                    <select name="" id="st">
+                        <option value="">---색상을 선택하세요---</option>
+                        <option value="">빨간색</option>
+                        <option value="">녹색</option>
+                        <option value="">파란색</option>
+                    </select>
+                </li>
+                <li>
+                    <label for="mt">다중선택</label>
+                    <select name="" id="mt" multiple>
+                        <option value="">빨강</option>
+                        <option value="">노랑</option>
+                        <option value="">초록</option>
+                        <option value="">파랑</option>
+                    </select>
+                </li>
+                <li>
+                    <label for="tell">하고싶은 말</label>
+                    <textarea name="" id="" cols="50" rows="10"></textarea>
+                </li>
+            </ul>
+        </fieldset>
+        <input type="submit" value="가입하기">
+        <input type="reset" value="다시하기">
+    </form>
+</body>
+</html>

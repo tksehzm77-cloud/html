@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>로그인폼</title>
+    <style>
+        li{list-style:none; margin-bottom: 24px;}
+        input[type="email"],input[type="password"]{
+            width: 410px;
+            height: 56px;
+            font-size: 20px;
+            padding-left: 16px;
+        }
+        label{
+            margin-right: 16px;
+        }
+        .label1{
+            margin-right: 28px;
+        }
+        form{margin-bottom: 50px;}
+    </style>
+</head>
+<body>
+    <h1>폼 구성 요소 알아보기</h1>
+    <!-- 사용자로부터 data를 받아서 전송할 때 -->
+    <form action="">
+        <!-- 필드 테두리선 -->
+        <fieldset>
+            <!-- 폼 이름 -->
+            <legend>로그인폼</legend>
+            <ul>
+                <li>
+                    <label for="em" class="label1">이메일</label>
+                    <input type="email" placeholder="아이디 또는 이메일주소" id="em">
+                </li>
+                <li>
+                    <label for="pw">비밀번호</label>
+                    <input type="password" placeholder="비밀번호를 입력하세요" id="pw">
+                </li>
+            </ul>
+        </fieldset>
+        <!-- 데이터를 데이터베이스 서버에 전송해주는 버튼 -->
+        <input type="submit" value="로그인">
+        <!-- 사용자로부터 입력한 데이터를 취소(초기화) -->
+        <input type="reset" value="취소">
+    </form>
+
+    <form action="">
+        <fieldset>
+            <legend>개인정보</legend>
+                <ul>
+                    <li>
+                        <input type="radio"> <label for="">남자</label>
+                        <input type="radio"> <label for="">여자</label>
+                    </li>
+                </ul>
+            
+        </fieldset>
+    </form>
+</body>
+</html>
