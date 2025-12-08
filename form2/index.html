@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>html5추가된 from요소 알아보기</title>
+    <style>
+        body{background: #000; color: #fff;}
+        li{list-style: none; margin-bottom: 16px;}
+        .label1{margin-left: 15px;}
+        fieldset{margin-bottom: 16px;}
+        .tel{width: 25px;}
+        .tel2{width: 30px;}
+    </style>
+</head>
+<body>
+    <h1>입력요소의 종류와 속성</h1>
+    <form action="">
+        <fieldset>
+            <legend>로그인</legend>
+            <ul>
+                <li>
+                    <label for="id" class="label1">아이디 : </label>
+                    <input type="text" id="id" placeholder="아이디를 입력해주세요" required autofocus>
+                    <input type="button" value="아이디 확인">
+                </li>
+                <li>
+                    <label for="pw">패스워드 : </label>
+                    <input type="password" id="pw" placeholder="패스워드를 입력해주세요" required>
+                </li>
+            </ul>
+        </fieldset>
+        <fieldset>
+            <legend>나의 정보</legend>
+            <ul>
+                <li>
+                    <label for="">E-mail : </label>
+                    <input type="email" placeholder="exam@naver.com" required>
+                </li>
+                <li>
+                    <label for="">국적 : </label>
+                    <label for="in">내국인</label> <input type="radio" name="people" id="in" checked>
+                    <label for="out">외국인</label> <input type="radio" name="people" id="out">
+                </li>
+                <li>
+                    <label for="">Search : </label>
+                    <input type="text" placeholder="webdesign" disabled>
+                </li>
+                <li>
+                    <label for="">URL 주소 : </label>
+                    <input type="url" placeholder="http://">
+                </li>
+            </ul>
+        </fieldset>
+        <fieldset>
+            <legend>나의 일정</legend>
+            <ul>
+                <li>
+                    <label for="">숫자 입력 : </label>
+                    <input type="number" min="1" max="20" value="1">
+                </li>
+                <li>
+                    <label for="">Tel : </label>
+                    <input type="text" value="010" disabled class="tel"> -
+                    <input type="text" maxlength="4" class="tel2"> -
+                    <input type="text" maxlength="4" class="tel2">
+                </li>
+                <li>
+                    <label for="">범위(상, 중, 하) : </label>
+                    <input type="range" min="1" max="3" value="2">
+                </li>
+            </ul>
+        </fieldset>
+        <fieldset>
+            <legend>예약 관리 : </legend>
+            <ul>
+                <li>
+                    <label for="">예약 날짜 : </label>
+                    <input type="date">
+                </li>
+                <li>
+                    <label for="">예약 시간 : </label>
+                    <input type="time">
+                </li>
+                <li>
+                    <label for="">예약 날짜 및 시간 : </label>
+                    <input type="datetime-local">
+                </li>
+            </ul>
+        </fieldset>
+        <fieldset>
+            <legend>그래프</legend>
+            <ul>
+                <li>
+                    <label for="">Color : </label>
+                    <input type="color">
+                </li>
+                <li>
+                    <label for="">진행률 70% : </label>
+                    <progress max="100" value="70"></progress>
+                </li>
+                <li>
+                    <label for="">사용량(50%) : </label>
+                    <meter value="50" max="100"></meter>
+                </li>
+            </ul>
+        </fieldset>
+        <input type="submit" value="로그인">
+        <input type="reset" value="취소">
+    </form>
+</body>
+</html>
