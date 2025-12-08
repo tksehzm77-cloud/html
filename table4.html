@@ -13,6 +13,13 @@
             border-top: 3px solid #313131;
             border-left: none;
             border-right: none;
+            width: 636px;
+        }
+        th{
+            border: 1px solid #d2d2d2;
+            background-color: #f8f8f8;
+            height: 27px;
+            border-right: none;
         }
         td{
             border: 1px solid #d2d2d2;
@@ -20,30 +27,41 @@
             color: #5a614f;
             border-left: none;
             height: 50px;
+            font-size: 13px;
+        }
+        .col1{
+            width: 191px;
+        }
+        .col2{
+            width: 270px;
+        }
+        .col3{
+            width: 175px;
         }
         .last{border-right: none;}
-        .text{text-align: left;}
+        .text{text-align: left; padding: 8px 4px;}
+        .left{border-left: none;}
     </style>
 </head>
 <body>
     <table>
         <tr>
-            <td>프로그램명</td>
-            <td>기능</td>
-            <td class="last">수동설치</td>
+            <th class="col1 left">프로그램명</th>
+            <th class="col2">기능</th>
+            <th class="col3 last">수동설치</th>
         </tr>
         <tr>
-            <td>암호화 프로그램<br>(AhnLab Safe Transaction)</td>
+            <td class="left">암호화 프로그램<br>(AhnLab Safe Transaction)</td>
             <td class="text">온라인을 통해 처리되는 모든 정보를 보호하는<br>프로그램 (메모리보호 및 방화벽 기능)</td>
             <td class="last"><button>다운로드</button></td>
         </tr>
         <tr>
-            <td>키보드 보안 프로그램<br>(KOS)</td>
+            <td class="left">키보드 보안 프로그램<br>(KOS)</td>
             <td class="text">키보드를 통해 입력되는 정보유출(Keylog)등의<br>해킹툴로 부터 보호하는 프로그램</td>
             <td class="last"><button>다운로드</button></td>
         </tr>
         <tr>
-            <td>공동인증프로그램<br>(Sign Korea Certification<br>Tollkit)</td>
+            <td class="left">공동인증프로그램<br>(Sign Korea Certification<br>Tollkit)</td>
             <td class="text">공동인증 로그인과 거래내역에 대한 전자서명을<br>위한 프로그램입니다.</td>
             <td class="last"><button>다운로드</button></td>
         </tr>
