@@ -1,0 +1,44 @@
+@charset "utf-8";
+body{
+
+}
+*{
+    margin: 0; padding: 0;
+}
+ul{
+    width: 1680px;
+    height: 380px;
+    margin: 0 auto 20px;
+    background: #f2f1f0;
+}
+ul li{
+    width: 350px;
+    height: 380px;
+    float: left;
+    list-style: none;
+    background-color: #fff;
+    margin-right: 40px;
+    border-radius: 16px;
+}
+ul .blue{
+    background: #2e2e7c;
+    margin-left: 80px;
+}
+.box{
+    width: 1680px;
+    height: 380px;
+    margin: 0 auto;
+    background: #f2f1f0;
+}
+.box div{
+    width: 350px;
+    height: 380px;
+    float: left;
+    background-color: #fff;
+    border-radius: 16px;
+    margin-right: 40px;
+}
+div .blue2{
+    background: #2e2e7c;
+    margin-left: 80px;
+}
