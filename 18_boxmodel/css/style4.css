@@ -1,0 +1,30 @@
+@charset "utf-8";
+body{
+
+}
+*{
+    margin: 0; padding: 0;
+}
+li{
+    list-style: none;
+}
+ul{
+    width: 100px;
+    height: 300px;
+    margin: 0 auto;
+}
+ul li{
+    width: 333px;
+    height: 300px;
+    float: left;
+
+}
+ul .co1{
+    background: #1ddb17;
+}
+ul .co2{
+    background: #00d8ff;
+}
+ul .co3{
+    background: #ffbb00;
+}

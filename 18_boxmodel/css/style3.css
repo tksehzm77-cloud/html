@@ -1,0 +1,73 @@
+@charset "utf-8";
+body{
+
+}
+*{
+    margin: 0; padding: 0;
+}
+li{
+    list-style: none;
+}
+.box{
+    width: 1000px;
+    height: 300px;
+    border: 4px solid red;
+    margin: 0 auto;
+}
+.box div{
+    width: 480px;
+    height: 300px;
+    background: pink;
+    float: left;
+    margin-right: 40px;
+}
+.box .last{
+    margin-right: 0;
+}
+ul{
+    width: 1000px;
+    height: 300px;
+    border: 4px solid #000;
+    margin: 0 auto;
+}
+ul li{
+    width: 480px;
+    height: 300px;
+    background: purple;
+    float: left;
+    margin-right: 40px;
+}
+ul .last{
+    margin-right: 0;
+}
+.box2{
+    width: 1000px;
+    height: 300px;
+    border: 4px solid #000;
+    margin: 0 auto;
+}
+.box2 div{
+    width: 320px;
+    height: 300px;
+    background: yellow;
+    float: left;
+    margin-right: 20px;
+}
+.box2 .last{
+    margin-right: 0;
+}
+.ul3{
+    width: 1000px;
+    height: 300px;
+    border: 4px solid red;
+    margin: 0 auto;
+}
+.ul3 li{
+    width: 320px;
+    height: 300px;
+    background: green;
+    margin-right: 20px;
+}
+.ul3 .last{
+    margin-right: 0;
+}
