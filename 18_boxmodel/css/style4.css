@@ -14,7 +14,7 @@ ul{
     margin: 0 auto;
 }
 ul li{
-    width: 333px;
+    width: 333.3px;
     height: 300px;
     float: left;
 
@@ -27,4 +27,16 @@ ul .co2{
 }
 ul .co3{
     background: #ffbb00;
+}
+.box{
+    width: 1000px;
+    height: 300px;
+    background: #ffff00;
+    margin: 0 auto;
+}
+.box2{
+    width: 1000px;
+    height: 50px;
+    background: #eeeeee;
+    margin: 0 auto;
 }
