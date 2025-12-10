@@ -12,6 +12,7 @@ li{
     width: 1000px;
     height: 300px;
     margin: 0 auto 20px;
+    border: 4px solid #000;
 }
 .box div{
     width: 235px;
@@ -27,6 +28,7 @@ ul{
     width: 1000px;
     height: 300px;
     margin: 0 auto;
+    border: 4px solid #000;
 }
 ul li{
     width: 235px;
