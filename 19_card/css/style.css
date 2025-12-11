@@ -1,0 +1,63 @@
+@charset "utf-8";
+body{
+    background: #6c8332;
+}
+/* 초기화 작업 */
+*{
+    margin: 0; padding: 0;
+}
+/* 특수문자 없애기 */
+li{
+    list-style: none;
+}
+/* 글자 밑 하이퍼링크 밑줄 없애기 */
+a{
+    text-decoration: none;
+}
+ul{
+    width: 1280px;
+    /* border: 5px solid red; */
+    margin: 40px auto 0;
+    /* 자식 크기만큼 감싸는 명령 */
+    /* overflow:hidden */
+    overflow: hidden;
+}
+ul li{
+    width: 400px;
+    height: 272px;
+    background: pink;
+    float: left;
+    margin-right: 40px;
+}
+ul li a{
+    /* 옆으로 배치하는 태그 inline 태그 */
+    /* inline 태그의 특징 : 크기 설정을 못함 */
+    /* inline 태그에 크기를 주려면 block 여소 태그 성질로 변환 */
+    /* display:block */
+    /* 아래로 쌓이는 태그 block 요소 태그 */
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+ul li a .imgbox{
+    width: 100%;
+    height: 227px;
+}
+ul li a .imgbox img{
+    width: 100%;
+    height: 100%;
+}
+ul li a .tit{
+    width: 100%;
+    height: 45px;
+    background: #fff;
+    text-align: center;
+}
+ul .last{
+    margin-right: 0;
+}
+ul li a .tit h3{
+    /* 위아래 가운데 정렬 */
+    line-height: 45px;
+    color: #222;
+}
