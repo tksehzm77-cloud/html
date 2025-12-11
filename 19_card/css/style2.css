@@ -1,0 +1,56 @@
+@charset "utf-8";
+body{
+    font-family: "맑은 고딕","malgun gothic",sans-serif;
+
+}
+*{
+    margin: 0; padding: 0;
+}
+li{
+    list-style: none;
+}
+a{
+    text-decoration: none;
+}
+ul{
+    width: 1810px;
+    border: 3px solid red;
+    margin: 0 auto;
+    overflow: hidden;
+}
+ul li{
+    width: 250px;
+    float: left;
+    margin-right: 10px;
+}
+ul li a{
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+ul li a .imgbox{
+    width: 100%;
+    height: 236px;
+}
+ul li a .imgbox img{
+    width: 100%;
+    height: 100%;
+}
+ul li .info{
+    width: 100%;
+    background-color: #fff;
+    margin-top: 8px;
+}
+ul li .info h3{
+    font-size: 14px;
+    color: #222;
+    line-height: 19px;
+}
+ul li .info p{
+    font-size: 13px;
+    color: #6a6a6a;
+    line-height: 19px;
+}
+ul .last{
+    margin-right: 0;
+}
