@@ -1,0 +1,122 @@
+@charset "utf-8";
+body{
+
+}
+*{
+    margin: 0; padding: 0;
+}
+.bigbox{
+    width: 1000px;
+    height: 1000px;
+    margin: 0 auto;
+    background: #87ceea;
+    position: relative;
+}
+.bigbox .box1{
+    width: 200px;
+    height: 200px;
+    background: #81007f;
+    position: absolute;
+    left: 0;
+    top: 0;
+}
+.bigbox .box2{
+    width: 200px;
+    height: 200px;
+    background: #ffff00;
+    position: absolute;
+    left: 100px;
+    top: 100px;
+}
+.bigbox .box3{
+    width: 200px;
+    height: 200px;
+    background: #fe0000;
+    position: absolute;
+    left: 200px;
+    top: 200px;
+}
+.bigbox .box4{
+    width: 200px;
+    height: 200px;
+    background: #000;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-top: -100px;
+    margin-left: -100px;
+}
+.bigbox .box5{
+    width: 200px;
+    height: 200px;
+    background-color: purple;
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+.bigbox .box6{
+    width: 200px;
+    height: 200px;
+    background: yellow;
+    position: absolute;
+    right: 100px;
+    top: 100px;
+}
+.bigbox .box7{
+    width: 200px;
+    height: 200px;
+    background: red;
+    position: absolute;
+    right: 200px;
+    top: 200px;
+}
+.bigbox .box8{
+    width: 200px;
+    height: 200px;
+    background: #81007f;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+}
+.bigbox .box9{
+    width: 200px;
+    height: 200px;
+    background: #ffff00;
+    position: absolute;
+    left: 100px;
+    bottom: 100px;
+}
+.bigbox .box10{
+    width: 200px;
+    height: 200px;
+    background: #fe0000;
+    position: absolute;
+    left: 200px;
+    bottom: 200px;
+}
+.bigbox .box11{
+    width: 200px;
+    height: 200px;
+    background-color: #81007f;
+    position: absolute;
+    right: 0;
+    bottom: 0;
+}
+.bigbox .box12{
+    width: 200px;
+    height: 200px;
+    background: #ffff00;
+    position: absolute;
+    right: 100px;
+    bottom: 100px;
+}
+.bigbox .box13{
+    width: 200px;
+    height: 200px;
+    background: #fe0000;
+    position: absolute;
+    right: 200px;
+    bottom: 200px;
+}
+
+

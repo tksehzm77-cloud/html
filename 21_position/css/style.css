@@ -1,0 +1,67 @@
+@charset "utf-8";
+body{
+
+}
+h1{
+    position: fixed;
+    left: 0; bottom: 0;
+    background: yellow;
+    z-index: 6;
+}
+div{
+    width: 200px;
+    height: 200px;
+    border: 1px solid #000;
+}
+.box1{
+    background: red;
+    /* 공중에 띄움 */
+    position: absolute;
+    /* 배치 명령 */
+    left: 100px;
+    top: 100px;
+    position: static;
+    position: absolute;
+    /* position에서 가로 중앙 정렬 */
+    left: 50%;
+    top: 0;
+    margin-left: -100px;
+    /* position에서 세로 가운데 정렬 */
+    top: 50%;
+    margin-top: -100px;
+}
+.box2{
+    background: green;
+    position: relative;
+}
+.box2 div{
+    width: 80px;
+    height: 80px;
+    border: 1px solid #000;
+}
+.box2 .child1{
+    background: orange;
+    position: absolute;
+    /* 좌우 한 번,상하 한 번 */
+    left: 30px;
+    top: 30px;
+    z-index: 4;
+}
+.box2 .child2{
+    background: pink;
+    position: absolute;
+    left: 90px;
+    top: 90px;
+    z-index: 5;
+}
+.box3{
+    background: blue;
+}
+.box4{
+    background: lightblue;
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    /* position 공중에 띄운 명령 해제 */
+    position: static;
+}
