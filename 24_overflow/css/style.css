@@ -1,0 +1,20 @@
+@charset "utf-8";
+body{
+
+}
+*{
+    margin: 0; padding: 0;
+}
+div{
+    width: 800px;
+    height: 600px;
+    text-align: justify;
+    /* 부모 요소보다 초과된 data를 안 보이게 할 때 */
+    overflow: hidden;
+    /* overflow: scroll; */
+    overflow: auto;
+    overflow-y: scroll;
+    /* overflow-x: scroll; */
+    border: 5px solid red;
+    margin: 0 auto;
+}
