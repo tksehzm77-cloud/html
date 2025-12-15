@@ -1,0 +1,66 @@
+@charset "utf-8";
+body{
+    font-family: "맑은 고딕","malgun gothic",sans-serif;
+}
+*{
+    margin: 0; padding: 0;
+}
+a{
+    text-decoration: none;
+}
+li{
+    list-style: none;
+}
+.header{
+    width: 100%;
+    height: 70px;
+    border-bottom: 1px solid #d0d0d0;
+}
+.header .inner{
+    width: 1200px;
+    height: 70px;
+    background: gold;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.header .inner h1 a{
+    /* 배경이미지 삽입 시 반드시 크기를 설정한다 */
+    display: block;
+    width: 98px;
+    height: 28px;
+    background: url(../images/pic_mtopLogo.png) no-repeat;
+    /* 들여쓰기 브라우저 화면 밖으로 안보이게 내보내기 */
+    text-indent: -99999px;
+}
+.header .inner .icon{
+    display: flex;
+    gap: 22px;
+}
+.header .inner .icon .search a{
+    display: block;
+    width: 15px;
+    height: 15px;
+    background: url(../images/ico_mTopetc01.png) no-repeat;
+    text-indent: -99999px;
+}
+.header .inner .icon .lg a{
+    display: block;
+    width: 27px;
+    height: 10px;
+    background: url(../images/ico_mTopetc02.png) no-repeat;
+    text-indent: -99999px;
+}
+.header .inner .icon .menu a{
+    display: block;
+    width: 14px;
+    height: 12px;
+    background: url(../images/ico_mTopetc04.png) no-repeat;
+    text-indent: -99999px;
+}
+.visual{
+    width: 100%;
+    height: 920px;
+    background: url(../images/main_01_01.jpg) no-repeat center top;
+}

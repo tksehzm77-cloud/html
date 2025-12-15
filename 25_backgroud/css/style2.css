@@ -1,0 +1,48 @@
+@charset "utf-8";
+body{
+    height: 3000px;
+
+}
+*{
+    margin: 0; padding: 0;
+}
+div{
+    width: 1000px;
+    height: 600px;
+    border: 10px solid red;
+    margin: 0 auto;
+    /* 배경이미지를 반복 채울 때 */
+    background-image: url(../images/icon\ \(1\)\ \(1\).png);
+    /* 배경이미지를 x축으로 반복 채울 때 */
+    background-repeat: repeat-x;
+    /* 배경이미지를 y축으로 반복 채울 때 */
+    background-repeat: repeat-y;
+    /* 배경이미지를 하나만 채울 때 */
+    background-repeat: no-repeat;
+    /* 배경이미지의 위치 배치 */
+    background-position: center top;
+    background-position: center center;
+    background-position: right top;
+    background-position: left bottom;
+    /* 배경이미지를 위치 배치(%) */
+    background-position: 50% 50%;
+    background-position: 80% 20%;
+    /* 배경이미지를 위치 배치(px) */
+    background-position: 0 0;
+    background-position: 100px 300px;
+    /* 배경이미지를 x축으로만 배치 */
+    background-position: 0 0;
+    background-position-x: 500px;
+    /* 배경이미지를 y축으로만 배치 */
+    background-position-y: 400px;
+    /* 배경이미지를 고정 */
+    background-position: 10px 10px;
+    /* background-attachment: fixed; */
+    /* background-attachment: scroll;
+    background-attachment: fixed; */
+
+    /* 약식방식(shorthand) 방식 */
+    background: yellow url(../images/icon\ \(1\)\ \(1\).png) no-repeat 50% 50%;
+
+
+}
