@@ -1,0 +1,59 @@
+@charset "utf-8";
+body{
+    font-family: "맑은 고딕";
+
+}
+*{
+    margin: 0; padding: 0;
+}
+a{
+    text-decoration: none;
+}
+li{
+    list-style: none;
+}
+.box{
+    width: 660px;
+    border: 1px solid #ebebeb;
+    margin: 50px auto 0;
+    padding: 20px;
+}
+.box ul{
+    display: flex;
+    gap: 12px;
+    /* 가로 사이즈 차면 다음 줄로 줄 바꿈 */
+    flex-wrap: wrap;
+}
+.box ul li{
+    width: 156px;
+    /* background: gold; */
+}
+.box ul li a{
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+.box ul li a .imgbox{
+    width: 100%;
+    height: 150px;
+    border-radius: 8px;
+    overflow: hidden;
+}
+.box ul li a .imgbox img{
+    width: 100%;
+    height: 100%;
+    transition: all 0.3s ease-in-out;
+}
+.box ul li a p{
+    margin-top: 14px;
+    font-size: 14px;
+    color: #2e2e2e;
+    line-height: 22px;
+    font-weight: 300;
+}
+.box ul li:hover a p{
+    text-decoration: underline;
+}
+.box ul li:hover a .imgbox img{
+    transform: scale(1.1);
+}
