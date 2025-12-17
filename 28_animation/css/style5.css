@@ -1,0 +1,41 @@
+@charset "utf-8";
+body{
+
+}
+*{
+    margin: 0; padding: 0;
+}
+button{
+    border: none;
+    background: none;
+}
+.box{
+    width: 500px;
+    height: 300px;
+    border: 2px solid #000;
+    overflow: hidden;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%,-50%);
+}
+.box .text{
+    position: absolute;
+    left: 60px;
+    top: -70px;
+    animation: text_ani 2s ease-in-out forwards;
+}
+@keyframes text_ani {
+    0%{top: -70px;}
+    100%{top: 160px;}
+}
+.box .jobs{
+    position: absolute;
+    right: -30px;
+    bottom: -300px;
+    animation: jobs_ani 2s ease-in-out forwards 2s;
+}
+@keyframes jobs_ani {
+    0%{bottom: -300px;}
+    100%{bottom: -10px;}
+}
