@@ -23,7 +23,7 @@ button{
     position: absolute;
     left: 60px;
     top: -70px;
-    animation: text_ani 2s ease-in-out forwards;
+    animation: text_ani 1s ease-in-out forwards 1s;
 }
 @keyframes text_ani {
     0%{top: -70px;}
@@ -33,7 +33,7 @@ button{
     position: absolute;
     right: -30px;
     bottom: -300px;
-    animation: jobs_ani 2s ease-in-out forwards 2s;
+    animation: jobs_ani 1s ease-in-out forwards 2s;
 }
 @keyframes jobs_ani {
     0%{bottom: -300px;}
