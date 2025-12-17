@@ -30,7 +30,7 @@ body{
     height: 100px;
     background: yellow;
     position: absolute;
-    animation: box2_ani 4s ease-in-out forwards 2s;
+    animation: box2_ani 5s ease-in-out forwards 2s;
 }
 
 @keyframes box_ani {
