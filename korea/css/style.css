@@ -1,0 +1,100 @@
+@charset "utf-8";
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap');
+body{
+    font-family: "Noto Sans KR", sans-serif;
+
+}
+/* 여백 초기화 */
+*{
+    margin: 0; padding: 0;
+}
+/* 기본설정 초기화 */
+a{
+    text-decoration: none;
+}
+li{
+    list-style: none;
+}
+button{
+    border: none;
+    background: none;
+}
+.header{
+    width: 100%;
+    height: 80px;
+    border-bottom: 1px solid #e1e1e1;
+}
+.header .inner{
+    width: 1360px;
+    height: 80px;
+    /* background: gold; */
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.header .inner h1 a{
+    display: block;
+    width: 278px;
+    height: 20px;
+    background: url(../images/logo.jpg) no-repeat;
+    text-indent: -99999px;
+}
+.gnb{
+    width: 1360px;
+    height: 60px;
+    background: #fff;
+    margin: 0 auto;
+    display: flex;justify-content: center;
+    align-items: center;
+    gap: 70px;
+    position: relative;
+}
+.gnb>li>a{
+    font-size: 16px;
+    font-weight: 400;
+    color: #000;
+}
+.gnb>li:hover>a{
+    display: block;
+    width: 100%;
+    height: 60px;
+    color: #d1ac7f;
+    line-height: 60px;
+}
+
+/* 2단 메뉴 */
+.gnb>li>.depth2{
+    width: 1360px;
+    height: 43px;
+    background: rgba(255,255,255,0.7);
+    position: absolute;
+    left: 0;
+    top: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 63px;
+    display: none;
+}
+.gnb>li:hover>.depth2{
+    display: flex;
+}
+.gnb>li>.depth2 li a{
+    color: #838383;
+    font-size: 14px;
+    font-weight: 400;
+}
+.gnb>li>.depth2 li:hover a{
+    color: #333;
+}
+
+.visual{
+    width: 1360px;
+    height: 610px;
+    margin: 0 auto;
+}
+.visual img{
+    width: 100%;
+    height: 100%;
+}
