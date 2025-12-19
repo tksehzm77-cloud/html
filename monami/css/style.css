@@ -1,0 +1,127 @@
+@charset "utf-8";
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap');
+body{
+    font-family: "Noto Sans KR", sans-serif;
+
+}
+/* 여백 초기화 */
+*{
+    margin: 0; padding: 0;
+}
+/* 기본설정 초기화 */
+a{
+    text-decoration: none;
+}
+li{
+    list-style: none;
+}
+button{
+    border: none;
+    background: none;
+}
+.header{
+    width: 100%;
+    height: 89px;
+    border-bottom: 1px solid #e8e8e8;
+}
+.header .inner{
+    width: 1400px;
+    height: 89px;
+    /* background: gold; */
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.header .inner h1 a{
+    display: block;
+    width: 162px;
+    height: 89px;
+    background: url(../images/logo.jpg) no-repeat;
+    text-indent: -99999px;
+}
+.header .inner .gnb{
+    display: flex;
+    /* gap: 49px; */
+}
+.header .inner .gnb>li{
+    position: relative;
+    /* background: gold; */
+}
+.header .inner .gnb>li>a{
+    display: block;
+    font-size: 18px;
+    color: #333;
+    font-weight: 400;
+    /* background: pink; */
+    height: 89px;
+    line-height: 89px;
+    padding: 0 45px;
+}
+.header .inner .gnb>li:hover>a{
+    color: #c40f39;
+    position: relative;
+}
+.header .inner .gnb>li:hover>a::after{
+    content: '';
+    width: 100%;
+    height: 2px;
+    background: #c40f39;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+}
+.header .inner .icon{
+    display: flex;
+    gap: 28px;
+}
+.header .inner .icon li:first-child a{
+    display: block;
+    width: 19px;
+    height: 18px;
+    background: url(../images/btn_search.gif) no-repeat;
+    text-indent: -99999px;
+}
+.header .inner .icon li:last-child a{
+    display: block;
+    width: 20px;
+    height: 21px;
+    background: url(../images/menu.png) no-repeat;
+    text-indent: -99999px;
+}
+/* 2차 메뉴 */
+.header .inner .gnb>li>.depth2{
+    position: absolute;
+    left: 0;
+    top: 89px;
+    text-align: center;
+    background: gold;
+    width: 100%;
+    background: rgba(255,255,255,0.5);
+    display: none;
+
+}
+/* 주메뉴 li에 hover 하면 2차메뉴 depth2 보여라 */
+.header .inner .gnb>li:hover .depth2{
+    display: block;
+}
+.header .inner .gnb>li>.depth2 li a{
+    display: block;
+    width: 100%;
+    height: 59px;
+    border-bottom: 1px solid #e1e1e1;
+    line-height: 59px;
+    color: #7c7c7c;
+    background: rgba(255,255,255,0.7);
+    font-size: 15px;
+}
+.header .inner .gnb>li>.depth2 li:hover a{
+    color: #c40f39;
+}
+
+/* 메인 비주얼 영역 */
+.visual{
+    width: 100%;
+    height: 652px;
+    background: url(../images/visual1.jpg) no-repeat center top;
+}
