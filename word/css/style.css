@@ -1,0 +1,177 @@
+@charset "utf-8";
+body{
+
+}
+*{
+    margin: 0;
+    padding: 0;
+}
+a{
+    text-decoration: none;
+}
+li{
+    list-style: none;
+}
+button{
+    border: none;
+    background: none;
+    cursor: pointer;
+}
+.section{
+    width: 100%;
+    background: #f3f3f3;
+    padding: 80px 0;
+}
+.section .inner{
+    width: 1100px;
+    height: 260px;
+    /* background: gold; */
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+}
+.section .inner .left{
+    width: 540px;
+    height: 260px;
+    background: url(../images/bg_search2024_03_05.jpg) no-repeat;
+    padding: 30px 30px;
+    box-sizing: border-box;
+}
+.section .inner .left h2{
+    font-size: 30px;
+    font-weight: 700;
+    color: #000;
+}
+.section .inner .left p{
+    font-size: 16px;
+    font-weight: 500;
+    color: #333;
+    line-height: 27px;
+    margin: 25px 0 15px;
+}
+.section .inner .left form fieldset{
+    border: none;
+}
+.section .inner .left form legend{
+    /* 일반적 */
+    /* text-indent: -99999px; */
+    /* form 태그 내 */
+    position: absolute;
+    left: -99999px;
+}
+.section .inner .left form input{
+    width: 220px;
+    height: 40px;
+    border: 1px solid #2263bb;
+    text-indent: 10px;
+    float: left;
+    box-sizing: border-box;
+    /* form안에 클릭할 때 테두리선 안 나옴 */
+    outline: none;
+}
+.section .inner .left form button{
+    width: 80px;
+    height: 40px;
+    border: 1px solid #2263bb;
+    background: #2263bb;
+    color: #fff;
+    float: left;
+}
+
+
+/* 오른쪽 박스 */
+.section .inner .right{
+    width: 540px;
+    height: 260px;
+    background: #fff;
+    padding: 30px;
+    box-sizing: border-box;
+    
+}
+.section .inner .right .wrap{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.section .inner .right .wrap .menu{
+    display: flex;
+    gap: 30px;
+}
+.section .inner .right .wrap .menu li{
+    position: relative;
+}
+.section .inner .right .wrap .menu li::after{
+    content: '';
+    width: 1px;
+    height: 15px;
+    background: #ccc;
+    position: absolute;
+    left: -15px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+.section .inner .right .wrap .menu li:first-child::after{
+    display: none;
+}
+.section .inner .right .wrap .menu li a{
+    font-size: 20px;
+    font-weight: 700;
+    color: #888;
+}
+/* 더보기(+) */
+.section .inner .right .wrap .more{
+    display: block;
+    width: 22px;
+    height: 22px;
+    border: 1px solid #ccc;
+    text-indent: -99999px;
+    position: relative;
+}
+.section .inner .right .wrap .more::after{
+    content: '';
+    width: 10px;
+    height: 10px;
+    background: url(../images/spr_common.png) no-repeat;
+    background-position: -147px -77px;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%,-50%);
+}
+/* 공지사항 리스트 */
+.section .inner .right ul.list{
+    margin-top: 30px;
+}
+.section .inner .right ul.list li{
+    display: flex;
+    justify-content: space-between;
+    line-height: 40px;
+    position: relative;
+}
+.section .inner .right ul.list li::after{
+    content: '';
+    width: 3px;
+    height: 3px;
+    background: #888;
+    position: absolute;
+    left: -8px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+.section .inner .right ul.list li a{
+    font-size: 15px;
+    color: #000;
+    font-weight: 500;
+    width: 334px;
+    /* background: gold; */
+    /* 넘치는 Data 줄 바꾸지 않기 */
+    white-space: nowrap;
+    overflow: hidden;
+    /* 말줄임표 표시 */
+    text-overflow: ellipsis;
+}
+.section .inner .right ul.list li span{
+    font-size: 14px;
+    color: #999999;
+}
+
