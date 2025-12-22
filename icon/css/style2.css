@@ -18,27 +18,28 @@ li{
     border-bottom: 1px solid #6b6b6b;
     background: #000;
     box-sizing: border-box;
-    position: relative;
+    /* position: relative; */
 }
 .header ul{
     display: flex;
     justify-content: space-between;
     line-height: 48px;
+    align-items: center;
     padding: 0 16px;
 }
 .header ul li a{
     color: #fff;
     font-size: 20px;
 }
-.header ul h1{
+.header ul li h1{
     width: 148px;
     height: 22px;
     background: url(../images/lg-logo2.png) no-repeat;
     text-indent: -99999px;
-    position: absolute;
+    /* position: absolute;
     left: 50%;
     top: 50%;
-    transform: translate(-50%,-50%);
+    transform: translate(-50%,-50%); */
 }
 .gnb{
     width: 100%;
