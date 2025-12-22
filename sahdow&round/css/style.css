@@ -1,0 +1,56 @@
+@charset "utf-8";
+body{
+
+}
+*{
+    margin: 0;
+    padding: 0;
+}
+h1{
+    text-shadow: 4px 4px 10px rgba(255,0,0,0.5);
+}
+h2{
+    color: #fff;
+    text-shadow: -2px -2px 2px #000;
+}
+h3{
+    font-size: 50px;
+    color: #fff;
+    text-shadow: 0 0 2px #000;
+}
+h4{
+    font-size: 50px;
+    color: #fff;
+    text-shadow: 0 0 2px red,0 0 5px blue,0 0 10px green; 
+}
+div{
+    width: 200px;
+    height: 200px;
+    background: #fff;
+    border: 1px solid #000;
+    margin-bottom: 50px;
+}
+.box1{
+    box-shadow: 10px 10px 10px red;
+}
+.box2{
+    box-shadow: 10px 10px 5px 10px blue;
+}
+/* 안쪽 그림자 효과 */
+.box3{
+    box-shadow: 10px 10px 5px gray inset;
+}
+.box4{
+    box-shadow: 10px 10px 0 rgba(0,0,0,0.1);
+}
+
+.box5{
+    width: 710px;
+    height: 140px;
+    border: 1px solid #000;
+    margin: 0 auto;
+    padding: 35px;
+    box-sizing: border-box;
+    border-radius: 12px 24px 36px 48px;
+    box-shadow: 0 0 8px #000;
+}

@@ -1,0 +1,45 @@
+@charset "utf-8";
+body{
+
+}
+*{
+    margin: 0;
+    padding: 0;
+}
+div{
+    width: 710px;
+    height: 140px;
+    margin: 40px auto 50px;
+    border: 1px solid #000;
+}
+.box1{
+    padding: 30px 30px;
+    box-sizing: border-box;
+    border-radius: 8px 16px 8px 16px;
+}
+.box2{
+    padding: 30px 30px;
+    box-sizing: border-box;
+    border-radius: 8px 8px 8px 8px;
+    box-shadow: 0 0 8px #000;
+}
+.box3{
+    text-align: center;
+    line-height: 140px;
+    font-size: 56px;
+    font-weight: 700;
+    color: #000;
+    text-shadow: 3px 3px 1px red;
+}
+.box4{
+    text-align: center;
+    line-height: 140px;
+    font-size: 56px;
+    font-weight: 900;
+    background: #000;
+    color: #000;
+    text-shadow: 0 0 6px #fff;
+}
+.box4 span{
+    text-shadow: 3px 3px 1px #fff;
+}
