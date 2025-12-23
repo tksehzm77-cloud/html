@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>변수</title>
+</head>
+<body>
+    <!-- 변수 -> 데이터를 저장하는 기억 장소
+    변수는 데이터를 하나만 저장한다
+    변수를 사용하고자 할 땐 반드시 변수 선언을 하고 사용한다
+    변수를 선언할 때 사용하는 keyword는 var, let, const
+    변수 이름은 개발자가 작명 작명 첫 자는 반드시 영문으로 시작한다
+    한글 이름은 변수로서 작동하지 않는다 -->
+
+    <script>
+        // 문자변수를 선언
+        let name = "KD 아카데미 학원"
+        document.write(name)
+        alert(name)
+        console.log(name)
+        // 데이터를 변경할 때
+        name = "이젠 컴퓨터학원"
+        document.write(name)
+        // 숫자변수 선언
+        let age = 20
+        document.write(age)
+        alert(age)
+        age = 50
+        document.write(age)
+        let addr = "경기도 김포시 장기동"
+        document.write(addr)
+
+        // 논리변수(참true, 거짓 false)
+        let gender = true;
+        document.write(gender)
+        gender = false
+        document.write(gender)
+
+        // 사용자 입장에서
+        document.write("<br>이름=" + name)
+        document.write("<br>나이=" + age)
+        document.write("<br>주소=" + addr)
+        document.write("<br>성별=" + gender)
+        document.write("<br>이름은" + name + "이고 나이는" + age + "살 이며 주소는" + addr + "이며 성별은" + gender)
+        
+    </script>
+</body>
+</html>
