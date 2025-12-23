@@ -1,0 +1,80 @@
+@charset "utf-8";
+body{
+    background: #fff;
+    color: #333;
+
+}
+*{
+    margin: 0;
+    padding: 0;
+}
+.header{
+    width: 1200px;
+    height: 100px;
+    background: aquamarine;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.header h1{
+    width: 200px;
+    height: 40px;
+    background: bisque;
+}
+.header .gnb{
+    width: 600px;
+    height: 40px;
+    background: blue;
+}
+.slide{
+    width: 1200px;
+    height: 300px;
+    background: chartreuse;
+    margin: 0 auto;
+}
+.contents{
+    width: 1200px;
+    height: 200px;
+    background: chocolate;
+    margin: 0 auto;
+    display: flex;
+}
+.contents .notice{
+    width: 400px;
+    height: 200px;
+    background: darkcyan;
+}
+.contents .banner{
+    width: 400px;
+    height: 200px;
+    background: darkgoldenrod;
+}
+.contents .golink{
+    width: 400px;
+    height: 200px;
+    background: fuchsia;
+}
+.footer{
+    width: 1200px;
+    height: 100px;
+    background: firebrick;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+}
+.footer .logo{
+    width: 200px;
+    height: 40px;
+    background: gold;
+}
+.footer .copy{
+    width: 800px;
+    height: 100px;
+    background: hotpink;
+}
+.footer .sns{
+    width: 200px;
+    height: 100px;
+    background: greenyellow;
+}
