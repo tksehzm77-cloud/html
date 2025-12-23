@@ -1,0 +1,54 @@
+@charset "utf-8";
+body{
+
+}
+*{
+    margin: 0;
+    padding: 0;
+}
+.test{
+    /* 이미지 효과(blur 흐리게) */
+    filter: blur(10px);
+}
+.test2{
+    /* 이미지 효과(밝기) 기본값 100% */
+    filter: brightness(200%);
+}
+.test3{
+    /* 이미지 명도 대비 기본값 100% */
+    filter: contrast(100%);
+    filter: contrast(150%);
+    filter: contrast(170%);
+}
+.test4{
+    /* drop shadow */
+    /* filter: drop-shadow(x y blur color); */
+    filter: drop-shadow(10px 10px 10px gray);
+}
+.test5{
+    /* 흑백 효과 기본값 0% */
+    filter: grayscale(100%);
+}
+.test6{
+    /* 색회전 효과(0도~360도) deg */
+    filter: hue-rotate(90deg);
+}
+.test7{
+    /* 색 반전(상환/보색)/투명도(Opacity) 0~100% */
+    filter: invert(100%);
+}
+.test8{
+    /* 채도 */
+    filter: saturate(0%);
+    filter: saturate(50%);
+    filter: saturate(100%);
+    filter: saturate(150%);
+    filter: saturate(200%);
+}
+.test9{
+    /* 세피아톤 */
+    filter: sepia(100%);
+
+    /* 한 번에 효과를 멀티 지정 */
+    filter: sepia(100%) brightness(100%);
+}

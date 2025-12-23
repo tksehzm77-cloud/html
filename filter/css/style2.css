@@ -1,0 +1,76 @@
+@charset "utf-8";
+body{
+
+}
+*{
+    margin: 0;
+    padding: 0;
+}
+li{
+    list-style: none;
+}
+.head{
+    width: 100%;
+}
+.head ul{
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+.head ul li{
+}
+.head ul .box1{
+    width: 272.5px;
+    height: 285px;
+    background: url(../images/subimg01.png) no-repeat;
+    background-size: 272.5px 285px;
+    filter: blur(10px);
+}
+.head ul .box1:hover{
+    width: 272.5px;
+    height: 285px;
+    background: url(../images/subimg01.png) no-repeat;
+    background-size: 272.5px 285px;
+    filter:invert(100%)
+}
+.head ul .box2{
+    width: 272.5px;
+    height: 285px;
+    background: url(../images/subimg02.png) no-repeat;
+    background-size: 275.5px 285px;
+}
+.head ul .box2:hover{
+    width: 272.5px;
+    height: 285px;
+    background: url(../images/subimg02.png) no-repeat;
+    background-size: 275.5px 285px;
+    filter: opacity(50%);
+}
+.head ul .box3{
+    width: 272.5px;
+    height: 285px;
+    background: url(../images/subimg03.png) no-repeat;
+    background-size: 272.5px 285px;
+    filter: grayscale(100%);
+}
+.head ul .box3:hover{
+    width: 272.5px;
+    height: 285px;
+    background: url(../images/subimg03.png) no-repeat;
+    background-size: 272.5px 285px;
+    filter:contrast(200%)
+}
+.head ul .box4{
+    width: 272.5px;
+    height: 285px;
+    background: url(../images/subimg04.png) no-repeat;
+    background-size: 272.5px 285px;
+    filter: drop-shadow(4px 4px 12px #000);
+}
+.head ul .box4:hover{
+    width: 272.5px;
+    height: 285px;
+    background: url(../images/subimg04.png) no-repeat;
+    background-size: 272.5px 285px;
+    filter:hue-rotate(90deg)
+}
