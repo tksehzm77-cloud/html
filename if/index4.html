@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>if문 제 3형식(다중if)</title>
+</head>
+<body>
+    <pre>
+        if문 제 3형식
+        if(조건식){
+            참일 때 실행
+        }else if(조건식){
+            참일 때 실행
+        }else if(조건식){
+            참일 때 실행
+        }else if(조건식){
+            참일 때 실행
+        }else{
+            거짓일 때 실행
+        }
+
+    </pre>
+    <hr>
+    <script>
+        // 이름, 국어, 영어 , 수학 점수 입력 받아서 총점, 평균을 구함
+        // 평균이 90점 이상이면 "수"
+        // 평균이 80점 이상이면 "우"
+        // 평균이 70점 이상이면 "미"
+        // 평균이 60점 이상이면 "양"
+        // 나머지는 "가"
+
+        let name = prompt("이름을 입력해주세요")
+        let kor = prompt("국어점수를 입력해주세요")
+        let eng = prompt("영어점수를 입력해주세요")
+        let math = prompt("수학점수를 입력해주세요")
+
+        // 데이터 처리
+        let tot = Number(kor) + Number(eng) + Number(math)
+        let avg = tot / 3
+        let res = ''
+        let cre = ''
+
+        if(avg>=90){
+            res = "수"
+        }else if(avg>=80){
+            res = "우"
+        }else if(avg>=70){
+            res = "미"
+        }else if(avg>=60){
+            res = "양"
+        }else{
+            res = "가"
+        }
+
+        if(avg>=95){
+            cre = "A+"
+        }else if(avg>=90){
+            cre = "A"
+        }else if(avg>=85){
+            cre = "B+"
+        }else if(avg>=80){
+            cre = "B"
+        }else if(avg>=75){
+            cre = "C+"
+        }else if(avg>=70){
+            cre = "C"
+        }else if(avg>=65){
+            cre = "D+"
+        }else if(avg>=60){
+            cre = "D"
+        }else{
+            cre = "F"
+        }
+
+        
+        document.write("이름 : " + name + "님<br>")
+        document.write("국어점수 : " + kor + "점<br>")
+        document.write("영어점수 : " + eng + "점<br>")
+        document.write("수학점수 : " + math + "점<br>")
+        document.write("총점 : " + tot + "점<br>")
+        document.write("평균 : " + avg + "점<br>")
+        document.write("평점 : " + res + "<br>")
+        document.write("학점 : " + cre + "<br>")
+
+    </script>
+    <!-- 1번 문제 -->
+    <!-- 학점은 평균이 95점 이상이면 A+ -->
+    <!-- 학점은 평균이 90점 이상이면 A -->
+    <!-- 학점은 평균이 85점 이상이면 B+ -->
+    <!-- 학점은 평균이 80점 이상이면 B -->
+    <!-- 학점은 평균이 75점 이상이면 C+ -->
+    <!-- 학점은 평균이 70점 이상이면 C -->
+    <!-- 학점은 평균이 65점 이상이면 D+ -->
+    <!-- 학점은 평균이 60점 이상이면 D -->
+    <!-- 나머지는 F  -->
+    <!-- 2번 문제  -->
+    <!-- 나이를 입력 받아서 성년과 미성년자를 구분하는 프로그램 -->
+</body>
+</html>

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>if문 제 2형식</title>
+</head>
+<body>
+    <pre>
+        if문 제 2형식
+        if(조건문){
+            조건문이 참일 때 실행
+        }else{조건문이 거짓일 때 실행
+        }
+        <script>
+            // 외부로부터 점수 data를 받아서 그 점수가 80점 이상이면 "합격" 또는 "불합격"으로 출력해주는 프로그램
+
+        let jumsu = prompt("점수를 입력해주세요")
+        let res = ''
+        if(jumsu>=80){
+            res = "합격"
+        }else{
+            res = "불합격"
+        }
+
+        // 출력
+        alert("고객님이 입력하신 점수" + jumsu + "점은" + res + "입니다.")
+        </script>
+    </pre>
+</body>
+</html>
