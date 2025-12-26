@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>if 응용 BMI 지수</title>
+</head>
+<body>
+    <Script>
+        let name = prompt("성함을 입력해주세요");
+        let weight = prompt("체중을 입력해주세요");
+        let height = prompt("신장을 입력해주세요");
+
+        // 체질량 지수 구하는 수식
+        let bmi = weight / (height * height) * 10000
+        let les = '';
+    if(bmi>=25){
+        les = "비만"
+    }else if(bmi>=23){
+        les = "과체중"
+    }else if(bmi>=18.5){
+        les = "정상 체중"
+    }else{
+        les = "저체중"
+    }
+
+    document.write("성함 : " + name + "님<br>")
+    document.write("입력하신 고객님의 체중" + weight + "kg과 신장" + height + "cm를 반영한<br>" + "BMI 지수 결과는" + bmi + "로" + les + "입니다")
+
+    </Script>
+</body>
+</html>
