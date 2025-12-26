@@ -10,4 +10,10 @@ $(function(){
     $(".family2 button").click(function(){
         $(".family2 .family_list").toggle()
     })
+    $(".family button").click(function(){
+        $(".family2 .family_list").hide()
+    })
+    $(".family2 button").click(function(){
+        $(".family .family_list").hide()
+    })
 })
