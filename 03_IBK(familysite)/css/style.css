@@ -58,6 +58,7 @@ li{
     justify-content: space-between;
     padding: 30px 0;
     box-sizing: border-box;
+    align-items: center;
 }
 .footer .inner .wrap ul.list{
     width: 610px;
@@ -143,7 +144,7 @@ li{
     box-sizing: border-box;
     position: absolute;
     left: 0;
-    bottom: 59px;
+    bottom: 25px;
     overflow: auto;
 }
 .footer .inner .family_wrap .family .family_list li{
@@ -166,7 +167,7 @@ li{
 .footer .inner .family_wrap .family2 .family_list{
     position: absolute;
     left: 0;
-    bottom: 59px;
+    bottom: 25px;
     width: 140px;
     height: 135px;
     border: 1px solid #bec9ca;
