@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>type 변환</title>
+</head>
+<body>
+    <script>
+        // 외부에서 계산할 왼쪽에 숫자데이터 한 개를 받고,
+        // 외부에서 계산할 오른쪽에 숫자데이터 한 개를 받아서
+        // 더하기, 빼기, 곱하기, 나누기를 하는 프로그램
+        // 문자 data를 숫자 data로 바꿈
+
+        let leftnum = prompt("계산할 숫자 Data1을 넣어주세요");
+        let rightnum = prompt("계산할 숫자 Data2을 넣어주세요");
+
+        // 처리(계산,가공)
+        let add = Number(leftnum) + Number(rightnum);
+        let sub = leftnum - rightnum;
+        let mul = leftnum * rightnum;
+        let div = leftnum / rightnum;
+
+        // 결과 출력
+        alert(leftnum + "+" + rightnum + "=" + add + "\n" + leftnum + "-" + rightnum + "=" + sub + "\n" + leftnum + "*" + rightnum + "=" + mul + "\n" + leftnum + "/" + rightnum + "=" + div)
+        // alert(leftnum + "-" + rightnum + "=" + sub )
+        // alert(leftnum + "*" + rightnum + "=" + mul )
+        // alert(leftnum + "/" + rightnum + "=" + div )
+    </script>
+</body>
+</html>

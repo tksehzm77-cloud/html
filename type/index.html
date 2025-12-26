@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>문자 Data를 숫자 Data로 변환</title>
+</head>
+<body>
+    <script>
+        // 외부로부터 이름을 입력 받고, 체중, 키, 몸무게를 입력 받아 BMI 지수를 계산하는 프로그램
+        // 입력 data
+        let name = prompt("이름을 입력해주세요");
+        let weight = prompt("몸무게를 입력하세요");
+        let height = prompt("키를 입력해주세요");
+
+        // 체질량 지수 구하는 수식
+        let bmi = weight / (height * height) * 10000
+
+        // 출력
+        alert("고객님의 성명은" + name + "이고 \n" + "입력하신 체질량 지수는" + bmi + "입니다.")
+    </script>
+</body>
+</html>

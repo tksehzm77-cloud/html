@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>숫자 변환 응용</title>
+</head>
+<body>
+    <script>
+        let number = prompt("번호를 입력해주세요")
+        let name = prompt("성함을 입력해주세요")
+        let lang = prompt("국어점수를 입력해주세요")
+        let eng = prompt("영어점수를 입력해주세요")
+        let math = prompt("수학점수를 입력해주세요")
+
+        let all = Number(lang) + Number(eng) + Number(math)
+        let aver = all / 3
+
+        alert("번호 : " + number + "번" + "\n" + "이름 : " + name + "님" + "\n" + "국어점수 : " + lang + "점" + "\n" + "영어점수 : " + eng + "점" + "\n" + "수학점수 : " + math + 
+            "점" + "\n" + "총점 : " + all + "점" + "\n" + "평균 : " + aver + "점"
+        )
+    </script>
+</body>
+</html>
