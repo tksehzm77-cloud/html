@@ -89,21 +89,25 @@ button{
 .gnb>li>.depth2 li:hover a{
     color: #333;
 }
-
+/* swiper 슬라이드 */
 .main-swiper {
-    width: 1360px;
-    height: 610px;
+    width: 1330px;
+    height: 600px;
     margin: 0 auto;
     position: relative;
+}
+.main-swiper img{
+    width: 100%;
+    height: 100%;
 }
 
 .swiper-controls {
     position: absolute;
-    right: 32px;
-    bottom: 24px;
+    right: 60px;
+    bottom: 15px;
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 2px;
     z-index: 10;
 }
 .swiper-pagination {
@@ -116,7 +120,7 @@ button{
     height: 12px;
     background: rgba(0,0,0,0.25);
     opacity: 1;
-    margin: 0 4px;
+    margin: 0 2px;
     transition: background 0.3s;
 }
 
@@ -151,7 +155,7 @@ button{
 .swiper-btn-toggle.play::before {
     width: 0;
     height: 0;
-    border-left: 10px solid #5e5e5e;
+    border-left: 10px solid #111;
     border-top: 7px solid transparent;
     border-bottom: 7px solid transparent;
     left: 2px;
