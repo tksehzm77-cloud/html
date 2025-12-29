@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>한국 화장품</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@12/swiper-bundle.min.css"/>
     <link rel="stylesheet" href="./css/style.css">
 </head>
 <body>
@@ -70,8 +71,24 @@
             </li>
         </ul>
     <!-- 메인 비주얼 영역 -->
-    <div class="visual">
-        <img src="./images/slider13.jpg" alt="메인 이미지">
+    <div class="swiper main-swiper">
+        <div class="swiper-wrapper">
+        <div class="swiper-slide"><img src="./images/slider11.jpg" alt=""></div>
+        <div class="swiper-slide"><img src="./images/slider12.jpg" alt=""></div>
+        <div class="swiper-slide"><img src="./images/slider13.jpg" alt=""></div>
+        <div class="swiper-slide"><img src="./images/slider14.jpg" alt=""></div>
+        <div class="swiper-slide"><img src="./images/slider15.jpg" alt=""></div>
     </div>
+
+    <!-- pagination + control wrapper -->
+    <div class="swiper-controls">
+        <div class="swiper-pagination"></div>
+        <button class="swiper-btn-toggle" aria-label="pause"></button>
+        </div>
+    </div>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/swiper@12/swiper-bundle.min.js"></script>
+    <script src="./js/main.js"></script>
 </body>
 </html>

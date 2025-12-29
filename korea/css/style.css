@@ -51,16 +51,16 @@ button{
     position: relative;
 }
 .gnb>li>a{
+    display: block;
+    width: 100%;
+    height: 60px;
+    line-height: 60px;
     font-size: 16px;
     font-weight: 400;
     color: #000;
 }
 .gnb>li:hover>a{
-    display: block;
-    width: 100%;
-    height: 60px;
     color: #d1ac7f;
-    line-height: 60px;
 }
 
 /* 2단 메뉴 */
@@ -76,6 +76,7 @@ button{
     align-items: center;
     gap: 63px;
     display: none;
+    z-index: 20;
 }
 .gnb>li:hover>.depth2{
     display: flex;
@@ -89,12 +90,75 @@ button{
     color: #333;
 }
 
-.visual{
+.main-swiper {
     width: 1360px;
     height: 610px;
     margin: 0 auto;
+    position: relative;
 }
-.visual img{
-    width: 100%;
-    height: 100%;
+
+.swiper-controls {
+    position: absolute;
+    right: 32px;
+    bottom: 24px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    z-index: 10;
 }
+.swiper-pagination {
+  position: static; /* flex 안에서 자연스럽게 */
+    width: auto;
+}
+
+.swiper-pagination-bullet {
+    width: 12px;
+    height: 12px;
+    background: rgba(0,0,0,0.25);
+    opacity: 1;
+    margin: 0 4px;
+    transition: background 0.3s;
+}
+
+.swiper-pagination-bullet-active {
+    background: #5e5e5e;
+}
+.swiper-btn-toggle {
+    width: 14px;
+    height: 14px;
+    background: none;
+    border: 0;
+    padding: 0;
+    cursor: pointer;
+    position: relative;
+}
+
+/* pause 아이콘 */
+.swiper-btn-toggle::before,
+.swiper-btn-toggle::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    width: 4px;
+    height: 14px;
+    background: #5e5e5e;
+}
+
+.swiper-btn-toggle::before { left: 0; }
+.swiper-btn-toggle::after { right: 0; }
+
+/* play 상태 */
+.swiper-btn-toggle.play::before {
+    width: 0;
+    height: 0;
+    border-left: 10px solid #111;
+    border-top: 7px solid transparent;
+    border-bottom: 7px solid transparent;
+    left: 2px;
+}
+
+.swiper-btn-toggle.play::after {
+    display: none;
+}
+
+
