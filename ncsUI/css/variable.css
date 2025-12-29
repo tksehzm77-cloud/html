@@ -1,0 +1,79 @@
+@charset "utf-8";
+body{
+
+}
+*{
+    margin: 0;
+    padding: 0;
+}
+a{
+    text-decoration: none;
+}
+li{
+    list-style: none;
+}
+button{
+    border: none;
+    background: none;
+    cursor: pointer;
+}
+/* 변수로 등록하여 사용 */
+/* 전역 변수 선언 */
+:root{
+    /* --변수명:값 */
+    --blue:#116dec;
+    --white:#fff;
+    --gray:#ededed;
+    /* 여백 변수명 */
+    --padd:30px;
+    /* 글자 크기 변수명 */
+    --fsize:48px;
+    /* 갭 변수 선언 */
+    --gap:16px;
+    /* list 박스 사이즈 변수 선언 */
+    --width:140px;
+    --height:56px;
+    /* 마진 변수 선언 */
+    --margin:30px;
+    /* 테두리 둥글게 */
+    --border-radi:999px;
+}
+
+.section{
+    width: 100%;
+    /* 변수 적용 */
+    background: var(--gray);
+    /* 변수 적용 */
+    padding: var(--padd) 0;
+}
+.section h2{
+    font-size: var(--fsize);
+    color: var(--blue);
+    text-align: center;
+}
+.section ul{
+    display: flex;
+    justify-content: center;
+    gap: var(--gap);
+    margin-top: var(--margin);
+}
+.section ul li{
+    width: var(--width);
+    height: var(--height);
+    border: 2px solid var(--blue);
+    text-align: center;
+    line-height: var(--height);
+}
+.section ul li a{
+    color: var(--blue);
+}
+.section button{
+    /* block 요소 변환 */
+    display: block;
+    width: var(--width);
+    height: var(--height);
+    background: var(--blue);
+    color: var(--white);
+    border-radius: var(--border-radi);
+    margin: var(--margin) auto 0;
+}
