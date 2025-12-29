@@ -1,0 +1,88 @@
+@charset "utf-8";
+body{
+    font-family: "맑은 고딕","malgun dothic",sans-serif;
+}
+*{
+    margin: 0;padding: 0;
+}
+li{
+    list-style: none;
+}
+a{
+    text-decoration: none;
+}
+button{
+    border: none;
+}
+.header{
+    width: 100%;
+    height: 45px;
+    background: #33353f;
+    display: flex;
+    justify-content: space-between;
+}
+.header button img{
+    width: 45px;
+}
+.header h1 a img{
+    width: 90px;
+}
+/* slick slide */
+.slickslide{
+    width: 100%;
+    /* height: 385px; */
+    position: relative;
+}
+.slickslide img{
+    width: 100%;
+    height: 100%;
+}
+/* 슬라이드 prev 버튼 커스터마이징 */
+.slick-prev{
+    position: absolute;
+    left: 24px;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 10;
+    width: 16px;
+    height: 30px;
+    background: url(../images/imgi_48_btn_health_left.png) no-repeat;
+    text-indent: -99999px;
+    cursor: pointer;
+}
+/* 슬라이드 next 버튼 커스터마이징 */
+.slick-next{
+    position: absolute;
+    right: 24px;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 10;
+    width: 16px;
+    height: 30px;
+    background: url(../images/imgi_47_btn_health_right.png) no-repeat;
+    text-indent: -99999px;
+    cursor: pointer;
+}
+/* 페이지버튼 커스터마이징 */
+ul.slick-dots{
+    display: flex;
+    gap: 8px;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: 20px;
+}
+ul.slick-dots li button{
+    width: 8px;
+    height: 8px;
+    background: #fff;
+    text-indent: -99999px;
+    border-radius: 100%;
+    cursor: pointer;
+    opacity: 0.5;
+}
+/* 슬라이드가 활성화 됐을 때 */
+ul.slick-dots li.slick-active button{
+    background: #007aff;
+    opacity: 1;
+}
