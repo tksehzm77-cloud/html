@@ -124,8 +124,8 @@ button{
     background: #5e5e5e;
 }
 .swiper-btn-toggle {
-    width: 14px;
-    height: 14px;
+    width: 12px;
+    height: 12px;
     background: none;
     border: 0;
     padding: 0;
@@ -151,7 +151,7 @@ button{
 .swiper-btn-toggle.play::before {
     width: 0;
     height: 0;
-    border-left: 10px solid #111;
+    border-left: 10px solid #5e5e5e;
     border-top: 7px solid transparent;
     border-bottom: 7px solid transparent;
     left: 2px;

@@ -2,6 +2,7 @@ const swiper = new Swiper('.swiper', {
   // Optional parameters
     direction: 'horizontal',
     effect: 'fade',
+    speed: 800,
     loop: true,
     autoplay: {
     delay: 3000,
