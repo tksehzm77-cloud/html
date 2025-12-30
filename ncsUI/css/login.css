@@ -1,0 +1,199 @@
+@charset "utf-8";
+    :root{
+      --brand:#516BB3;        /* 시안의 블루 */
+      --brand-2:#3F5FAE;
+      --text:#1d1e23;
+      --muted:#B8BFD0;        /* 라벨/힌트 */
+      --line:#CFD5E3;         /* 인풋 라인 */
+      --bg:#ffffff;
+    }
+
+    *{box-sizing:border-box; margin:0; padding:0; -webkit-tap-highlight-color: transparent;}
+    html,body{height:100%;}
+    body{
+      font-family:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Pretendard","Noto Sans KR",sans-serif;
+      background:var(--bg);
+      color:var(--text);
+      display:flex;
+      justify-content:center;
+    }
+
+    /* 모바일 프레임 안전 영역 */
+    .page{
+      width:100%;
+      max-width:420px;
+      min-height:100vh;
+      padding:64px 28px 28px;
+    }
+
+    /* 상단 로고 */
+    .brand{
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      gap:14px;
+      margin-bottom:46px;
+    }
+    .mark{
+      width:64px;
+      height:48px;
+    }
+    .word{
+      letter-spacing:0.46em;
+      font-weight:700;
+      color:var(--brand);
+      font-size:20px;
+      text-indent:0.46em; /* 첫 글자도 동일 간격 느낌 */
+    }
+
+    /* 폼 */
+    .form{margin-top:10px;}
+
+    .field{margin-bottom:34px;}
+    .label{
+      display:block;
+      color:var(--muted);
+      font-size:22px;
+      font-weight:700;
+      margin-bottom:18px;
+    }
+
+    /* 시안처럼 얇은 언더라인 인풋 */
+    .underline{
+      width:100%;
+      border:none;
+      outline:none;
+      background:transparent;
+      font-size:24px;
+      padding:0 0 12px;
+      color:#7C879D;
+    }
+
+    /* placeholder 주컬러 적용 */
+    .underline::placeholder{
+      color:var(--brand);
+      opacity:1; /* iOS 사파리 대비 */
+    }
+    .underline::-webkit-input-placeholder{
+      color:var(--brand);
+    }
+    .underline::-ms-input-placeholder{
+      color:var(--brand);
+    }
+
+    .line{
+      height:2px;
+      background:var(--line);
+      border-radius:2px;
+    }
+
+    /* 비밀번호 입력 – 보안용 원형 표시 */
+    .password{
+      letter-spacing:6px;           /* 원형 간격 */
+      -webkit-text-security:disc;   /* iOS Safari */
+      text-security:disc;
+    }
+
+    /* placeholder는 아이디와 동일하게 주컬러 */
+    .password::placeholder{
+      color:var(--brand);
+      opacity:1;
+      letter-spacing:0; /* placeholder는 일반 텍스트 */
+    }
+
+    /* 버튼 */
+    .btn{
+      width:100%;
+      height:64px;
+      border-radius:14px;
+      border:2px solid var(--brand);
+      font-size:22px;
+      font-weight:800;
+      cursor:pointer;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      user-select:none;
+    }
+    .btn.primary{
+      background:var(--brand);
+      color:#fff;
+      margin-top:12px;
+    }
+    .btn.secondary{
+      background:#fff;
+      color:var(--brand);
+      margin-top:14px;
+    }
+
+    /* 하단 링크 */
+    .links{
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      gap:22px;
+      margin-top:22px;
+      color:var(--muted);
+      font-weight:700;
+      font-size:18px;
+    }
+    .links a{color:var(--muted); text-decoration:none;}
+    .links .sep{opacity:.8;}
+
+    /* 간편로그인 섹션 */
+    .social-wrap{margin-top:36px;}
+    .social-title{
+      display:flex;
+      align-items:center;
+      gap:14px;
+      color:var(--muted);
+      font-weight:800;
+      font-size:22px;
+      justify-content:center;
+      margin-bottom:18px;
+    }
+    .social-title::before,
+    .social-title::after{
+      content:"";
+      height:2px;
+      background:var(--line);
+      flex:1;
+      border-radius:2px;
+    }
+
+    .social{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:18px;
+      padding:0 24px;
+      margin-top:14px;
+    }
+
+    .icon-btn{
+      width:54px;
+      height:54px;
+      border-radius:14px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      border:0;
+      background:transparent;
+      cursor:pointer;
+    }
+    .icon{
+      width:44px;
+      height:44px;
+      display:block;
+    }
+
+    /* 접근성 */
+    .sr-only{
+      position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); border:0;
+    }
+
+    /* 작은 화면 보정 */
+    @media (max-height:760px){
+      .page{padding-top:48px;}
+      .brand{margin-bottom:34px;}
+    }
