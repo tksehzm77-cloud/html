@@ -30,7 +30,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // ✅ 시작하기 → 로그인 페이지 이동
   const startBtn = document.getElementById("startBtn");
   startBtn.addEventListener("click", () => {
-    window.location.assign("/login"); // 또는 "/login"
+    window.location.assign("login.html"); // 또는 "/login"
   });
 });
 
