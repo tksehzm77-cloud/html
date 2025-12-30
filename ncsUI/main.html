@@ -23,20 +23,16 @@
       --line:#E5E7EB;
     }
 
-    /* ===== Responsive Shell =====
-       - Mobile: 430px 기준으로 중앙 정렬
-       - Tablet/PC: 최대 1200px까지 확장
-    */
+    /* ===== Responsive Shell ===== */
     .container{
       width:100%;
       margin:0 auto;
       background:var(--card);
       min-height:100vh;
-      max-width:430px;            /* 모바일 기본 */
+      max-width:430px;
       box-shadow:0 0 0 rgba(0,0,0,0);
     }
 
-    /* 데스크탑/태블릿에서 양옆 여백 */
     @media (min-width: 768px){
       .container{ max-width: 920px; border-radius: 18px; margin: 18px auto; box-shadow: 0 18px 60px rgba(17,24,39,.08); }
       body{ padding: 0 18px; }
@@ -45,14 +41,13 @@
       .container{ max-width: 1200px; }
     }
 
-    /* 페이지 하단 여백(모바일 고정 네비에 가려지지 않도록) */
     .page{ padding-bottom: calc(var(--navH) + 20px); }
 
-    /* ===== HERO (360x250 비율 유지, 반응형) ===== */
+    /* ===== HERO ===== */
     .hero{
       position:relative;
       width:100%;
-      aspect-ratio: 360 / 250;   /* 핵심: 화면폭에 따라 높이 자동 */
+      aspect-ratio: 360 / 250;
       overflow:hidden;
       border-radius:0 0 26px 26px;
     }
@@ -77,10 +72,9 @@
 
     .category-grid{
       display:grid;
-      grid-template-columns: repeat(4, 1fr); /* 모바일 */
+      grid-template-columns: repeat(4, 1fr);
       gap:14px;
     }
-    /* 태블릿: 8개를 한 줄로 보기 좋게 */
     @media (min-width: 768px){
       .category-grid{ grid-template-columns: repeat(8, 1fr); gap:16px; }
     }
@@ -95,7 +89,6 @@
     .rank-title{padding:16px 18px;font-size:clamp(18px,2.8vw,24px);font-weight:900;color:var(--brand)}
     .rank-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:0 18px 18px;background:#fff}
 
-    /* 태블릿/PC: 3열로 확장(큰 카드는 2열 스팬) */
     @media (min-width: 768px){
       .rank-grid{ grid-template-columns: 1fr 1fr 1fr; gap:16px; padding: 0 20px 20px; }
     }
@@ -121,10 +114,7 @@
     .btn.primary{background:var(--brand);color:#fff}
     .btn.ghost{background:#fff;color:var(--brand)}
 
-    /* ===== BOTTOM NAV =====
-       - Mobile: fixed
-       - Tablet/PC: fixed를 유지하면 어색할 수 있어 sticky로 전환
-    */
+    /* ===== BOTTOM NAV ===== */
     .bottom-nav{
       position:fixed;
       bottom:0;
@@ -141,7 +131,29 @@
       backdrop-filter: blur(10px);
       z-index:50;
     }
-    .nav-item{font-size:12px;font-weight:800;color:rgba(156,163,175,1);text-align:center}
+
+    /* ✅ 핵심: nav-item 레이아웃 + svg 사이즈 지정 */
+    .nav-item{
+      width:20%;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      justify-content:center;
+      gap:6px;
+      font-size:12px;
+      font-weight:800;
+      color:rgba(156,163,175,1);
+      text-align:center;
+      padding:10px 0;
+      user-select:none;
+      cursor:pointer;
+    }
+    .nav-item svg{
+      width:24px;
+      height:24px;
+      display:block;
+      color:currentColor;
+    }
     .nav-item.active{color:var(--brand)}
 
     @media (min-width: 768px){
@@ -153,7 +165,7 @@
         width: 100%;
         border-top: 1px solid rgba(229,231,235,.95);
       }
-      .page{ padding-bottom: 20px; } /* sticky라서 추가 여백 불필요 */
+      .page{ padding-bottom: 20px; }
     }
 
     /* iOS safe-area (모바일 fixed일 때) */
@@ -169,7 +181,6 @@
 <div class="container">
   <div class="page">
 
-    <!-- HERO IMAGE (교체 가능) -->
     <header class="hero">
       <img class="bg" src="./images/banner.png" alt="상단 배너 이미지" />
       <div class="hero-inner">
@@ -185,18 +196,17 @@
       </div>
     </header>
 
-    <!-- CATEGORY -->
     <section class="section">
       <div class="section-title">테마별 카테고리</div>
       <div class="category-grid">
-        <div class="cat"><div class="icon">🐶</div>반려견</div>
-        <div class="cat"><div class="icon">🔥</div>불멍</div>
-        <div class="cat"><div class="icon">🏙</div>도시</div>
-        <div class="cat"><div class="icon">🍖</div>바베큐</div>
-        <div class="cat"><div class="icon">🌳</div>산책</div>
-        <div class="cat"><div class="icon">⛰</div>오지</div>
-        <div class="cat"><div class="icon">🌠</div>별감상</div>
-        <div class="cat"><div class="icon">🎒</div>장비</div>
+        <div class="cat"><div class="icon"><img src="./images/Corgi.svg" alt=""></div>반려견</div>
+        <div class="cat"><div class="icon"><img src="./images/Fire.svg" alt=""></div>불멍</div>
+        <div class="cat"><div class="icon"><img src="./images/Company.svg" alt=""></div>도시</div>
+        <div class="cat"><div class="icon"><img src="./images/Grill.svg" alt=""></div>바베큐</div>
+        <div class="cat"><div class="icon"><img src="./images/Oak Tree.svg" alt=""></div>산책</div>
+        <div class="cat"><div class="icon"><img src="./images/Mountain.svg" alt=""></div>오지</div>
+        <div class="cat"><div class="icon"><img src="./images/Star of Bethlehem.svg" alt=""></div>별감상</div>
+        <div class="cat"><div class="icon"><img src="./images/Tent.svg" alt=""></div>장비</div>
       </div>
 
       <div class="quick-row">
@@ -206,7 +216,6 @@
       </div>
     </section>
 
-    <!-- RANKING (이미지 교체 가능) -->
     <div class="rank-title">장소 랭킹 TOP 10</div>
     <section class="rank-grid">
       <div class="rank-card small">
@@ -223,7 +232,6 @@
       </div>
     </section>
 
-    <!-- PLACE DETAIL -->
     <section class="place">
       <div class="place-title">강원도 숲캠핑장</div>
       <div class="place-addr">강원도 원주시 치악면 치악산 1번지</div>
@@ -235,7 +243,6 @@
 
   </div>
 
-  <!-- BOTTOM NAV -->
   <nav class="bottom-nav">
     <div class="nav-item active">
       <svg viewBox="0 0 24 24" fill="none">
