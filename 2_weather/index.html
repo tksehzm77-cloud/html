@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Global Weather</title>
+  <style>
+    :root{
+      --bg:#0b1220;
+      --card:#111a2e;
+      --muted:#9aa6c5;
+      --text:#eaf0ff;
+      --accent:#55d6be;
+      --line:rgba(255,255,255,.10);
+      --danger:#ff5c7a;
+    }
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{
+      font-family: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Pretendard", "Noto Sans KR", sans-serif;
+      background: radial-gradient(1200px 800px at 30% 0%, #132043 0%, var(--bg) 50%, #050914 100%);
+      color:var(--text);
+      min-height:100vh;
+      display:flex;
+      justify-content:center;
+      padding:20px;
+    }
+    .app{
+      width:min(480px, 100%);
+      display:flex;
+      flex-direction:column;
+      gap:14px;
+    }
+    header{
+      display:flex;
+      align-items:flex-end;
+      justify-content:space-between;
+      gap:10px;
+      padding:4px 2px;
+    }
+    .title{
+      display:flex;
+      flex-direction:column;
+      gap:4px;
+    }
+    .title h1{font-size:20px;letter-spacing:.2px}
+    .title p{font-size:12px;color:var(--muted)}
+    .btn{
+      border:1px solid var(--line);
+      background:rgba(255,255,255,.06);
+      color:var(--text);
+      padding:10px 12px;
+      border-radius:12px;
+      font-weight:600;
+      cursor:pointer;
+      transition:.15s ease;
+      user-select:none;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .btn:active{transform:scale(.98)}
+    .btn:hover{background:rgba(255,255,255,.09)}
+    .btnAccent{
+      border-color: rgba(85,214,190,.35);
+      background: rgba(85,214,190,.12);
+    }
+
+    .card{
+      background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
+      border:1px solid var(--line);
+      border-radius:18px;
+      padding:16px;
+      box-shadow: 0 12px 30px rgba(0,0,0,.35);
+    }
+
+    .searchRow{
+      display:flex;
+      gap:10px;
+      align-items:center;
+    }
+    .search{
+      flex:1;
+      display:flex;
+      align-items:center;
+      gap:10px;
+      padding:12px 12px;
+      border-radius:14px;
+      border:1px solid var(--line);
+      background:rgba(255,255,255,.05);
+    }
+    .search input{
+      border:none;
+      outline:none;
+      background:transparent;
+      color:var(--text);
+      width:100%;
+      font-size:14px;
+    }
+    .search input::placeholder{color:rgba(234,240,255,.55)}
+    .chip{
+      font-size:11px;
+      color:var(--muted);
+      border:1px solid var(--line);
+      background:rgba(255,255,255,.03);
+      padding:6px 10px;
+      border-radius:999px;
+      white-space:nowrap;
+    }
+
+    .hero{
+      display:flex;
+      justify-content:space-between;
+      gap:12px;
+      align-items:flex-start;
+    }
+    .place{
+      display:flex;
+      flex-direction:column;
+      gap:6px;
+      min-width:0;
+    }
+    .place .name{
+      font-size:18px;
+      font-weight:800;
+      line-height:1.2;
+      word-break:keep-all;
+    }
+    .place .meta{
+      font-size:12px;
+      color:var(--muted);
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+      align-items:center;
+    }
+    .temp{
+      display:flex;
+      flex-direction:column;
+      align-items:flex-end;
+      gap:6px;
+    }
+    .temp .value{
+      font-size:40px;
+      font-weight:900;
+      letter-spacing:-.8px;
+      line-height:1;
+    }
+    .temp .desc{
+      color:var(--muted);
+      font-size:13px;
+      display:flex;
+      align-items:center;
+      gap:8px;
+      justify-content:flex-end;
+    }
+    .temp img{width:34px;height:34px;image-rendering:auto}
+
+    .grid{
+      margin-top:14px;
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap:10px;
+    }
+    .stat{
+      border:1px solid var(--line);
+      background:rgba(255,255,255,.04);
+      border-radius:16px;
+      padding:12px;
+      display:flex;
+      flex-direction:column;
+      gap:6px;
+      min-height:74px;
+    }
+    .stat .label{font-size:12px;color:var(--muted)}
+    .stat .val{font-size:18px;font-weight:800}
+    .stat .unit{font-size:12px;color:rgba(234,240,255,.6);font-weight:700;margin-left:6px}
+
+    .hint{
+      font-size:12px;
+      color:var(--muted);
+      line-height:1.45;
+    }
+    .error{
+      color: #ffd4dc;
+      background: rgba(255,92,122,.10);
+      border: 1px solid rgba(255,92,122,.25);
+      padding:10px 12px;
+      border-radius:14px;
+      font-size:12px;
+      display:none;
+    }
+
+    /* Loading overlay */
+    .loading{
+      position:fixed;
+      inset:0;
+      background:rgba(0,0,0,.45);
+      display:none;
+      align-items:center;
+      justify-content:center;
+      z-index:999;
+      backdrop-filter: blur(4px);
+    }
+    .spinnerWrap{
+      width:110px;
+      height:110px;
+      border-radius:22px;
+      border:1px solid var(--line);
+      background:rgba(255,255,255,.06);
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      justify-content:center;
+      gap:10px;
+      box-shadow: 0 18px 40px rgba(0,0,0,.35);
+    }
+    .spinner{
+      width:42px;height:42px;border-radius:50%;
+      border:4px solid rgba(255,255,255,.18);
+      border-top-color: var(--accent);
+      animation: spin .9s linear infinite;
+    }
+    .loadingText{font-size:12px;color:rgba(234,240,255,.75);font-weight:700}
+    @keyframes spin { to { transform: rotate(360deg); } }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <header>
+      <div class="title">
+        <h1>Global Weather</h1>
+        <p>현재 위치 + 도시 검색으로 전세계 날씨 조회</p>
+      </div>
+      <button class="btn btnAccent" id="btnMyLocation">내 위치</button>
+    </header>
+
+    <div class="card">
+      <div class="searchRow">
+        <div class="search" role="search">
+          <span style="opacity:.8">🔎</span>
+          <input id="cityInput" type="text" placeholder="도시명을 입력하세요 (예: Seoul, Tokyo, New York)" autocomplete="off" />
+        </div>
+        <button class="btn" id="btnSearch">검색</button>
+      </div>
+      <div style="margin-top:10px; display:flex; gap:8px; flex-wrap:wrap;">
+        <span class="chip">예시: London</span>
+        <span class="chip">예시: Paris</span>
+        <span class="chip">예시: 부산</span>
+      </div>
+    </div>
+
+    <div class="error" id="errorBox"></div>
+
+    <div class="card" id="resultCard" style="display:none;">
+      <div class="hero">
+        <div class="place">
+          <div class="name" id="placeName">-</div>
+          <div class="meta" id="placeMeta">-</div>
+        </div>
+        <div class="temp">
+          <div class="value"><span id="tempValue">-</span>°</div>
+          <div class="desc">
+            <img id="weatherIcon" alt="" style="display:none;">
+            <span id="weatherDesc">-</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid">
+        <div class="stat">
+          <div class="label">풍속</div>
+          <div class="val"><span id="windValue">-</span><span class="unit">m/s</span></div>
+        </div>
+        <div class="stat">
+          <div class="label">습도</div>
+          <div class="val"><span id="humidityValue">-</span><span class="unit">%</span></div>
+        </div>
+        <div class="stat">
+          <div class="label">체감/기온</div>
+          <div class="val"><span id="feelsValue">-</span><span class="unit">°C</span></div>
+        </div>
+        <div class="stat">
+          <div class="label">오존(O₃)</div>
+          <div class="val"><span id="ozoneValue">-</span><span class="unit">μg/m³</span></div>
+        </div>
+      </div>
+
+      <div style="margin-top:12px" class="hint">
+        * 오존 농도는 OpenWeather <b>Air Pollution API</b>에서 제공되는 O₃(μg/m³) 값을 표시합니다.
+      </div>
+    </div>
+
+    <div class="hint" style="padding:0 4px;">
+      팁) 브라우저에서 위치 권한을 허용하면 “내 위치”로 자동 조회됩니다.
+    </div>
+  </div>
+
+  <!-- Loading Overlay -->
+  <div class="loading" id="loading">
+    <div class="spinnerWrap">
+      <div class="spinner"></div>
+      <div class="loadingText">날씨 불러오는 중...</div>
+    </div>
+  </div>
+
+  <script>
+    // ✅ 사용자 제공 API KEY (데모용 - 실제 서비스에서는 서버 프록시/환경변수 권장)
+    const APPID = "e36c9163b79b3c206ce99a59bca8b1d2";
+
+    // ✅ 사용자 제공: lat/lon 기반 Current Weather URL 템플릿
+    // let url = https://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&appid=...&units=metric
+    const WEATHER_URL = (lat, lon) =>
+      `https://api.openweathermap.org/data/2.5/weather?lat=${encodeURIComponent(lat)}&lon=${encodeURIComponent(lon)}&appid=${APPID}&units=metric`;
+
+    // 오존(O3) 포함 공기질 API (좌표 기반)
+    const AIR_URL = (lat, lon) =>
+      `https://api.openweathermap.org/data/2.5/air_pollution?lat=${encodeURIComponent(lat)}&lon=${encodeURIComponent(lon)}&appid=${APPID}`;
+
+    // 도시명 -> 좌표 변환 (검색 기능을 위해 필요)
+    const GEO_URL = (q) =>
+      `https://api.openweathermap.org/geo/1.0/direct?q=${encodeURIComponent(q)}&limit=1&appid=${APPID}`;
+
+    // DOM
+    const $ = (id) => document.getElementById(id);
+    const loading = $("loading");
+    const errorBox = $("errorBox");
+    const resultCard = $("resultCard");
+
+    const placeName = $("placeName");
+    const placeMeta = $("placeMeta");
+    const tempValue = $("tempValue");
+    const feelsValue = $("feelsValue");
+    const weatherDesc = $("weatherDesc");
+    const weatherIcon = $("weatherIcon");
+    const windValue = $("windValue");
+    const humidityValue = $("humidityValue");
+    const ozoneValue = $("ozoneValue");
+
+    function showLoading(on){
+      loading.style.display = on ? "flex" : "none";
+    }
+    function showError(message){
+      if(!message){
+        errorBox.style.display = "none";
+        errorBox.textContent = "";
+        return;
+      }
+      errorBox.style.display = "block";
+      errorBox.textContent = message;
+    }
+    function showResult(on){
+      resultCard.style.display = on ? "block" : "none";
+    }
+
+    async function fetchJSON(url){
+      const res = await fetch(url);
+      if(!res.ok){
+        // OpenWeather는 에러 시 JSON으로 내려주는 경우가 많지만, 안전하게 처리
+        const txt = await res.text().catch(()=> "");
+        throw new Error(`요청 실패 (${res.status}) ${txt}`);
+      }
+      return res.json();
+    }
+
+    function formatLocalTime(unixSeconds, tzOffsetSeconds){
+      // tzOffsetSeconds: 해당 지역의 UTC offset(sec)
+      const ms = (unixSeconds + tzOffsetSeconds) * 1000;
+      const d = new Date(ms);
+      const yy = d.getUTCFullYear();
+      const mm = String(d.getUTCMonth()+1).padStart(2,"0");
+      const dd = String(d.getUTCDate()).padStart(2,"0");
+      const hh = String(d.getUTCHours()).padStart(2,"0");
+      const mi = String(d.getUTCMinutes()).padStart(2,"0");
+      return `${yy}.${mm}.${dd} ${hh}:${mi}`;
+    }
+
+    async function loadByCoords(lat, lon, labelForMeta = ""){
+      showError("");
+      showLoading(true);
+      showResult(false);
+
+      try{
+        // 1) 날씨(Current Weather)
+        const weather = await fetchJSON(WEATHER_URL(lat, lon));
+
+        // 2) 오존(공기질 Air Pollution)
+        const air = await fetchJSON(AIR_URL(lat, lon));
+
+        // 파싱
+        const name = weather.name || "Unknown";
+        const country = weather.sys?.country ? `· ${weather.sys.country}` : "";
+        const tz = weather.timezone ?? 0; // seconds
+        const nowUnix = Math.floor(Date.now()/1000);
+        const localTime = formatLocalTime(nowUnix, tz);
+
+        const temp = Math.round(weather.main?.temp ?? 0);
+        const feels = Math.round(weather.main?.feels_like ?? temp);
+        const hum = Math.round(weather.main?.humidity ?? 0);
+        const wind = weather.wind?.speed ?? 0;
+
+        const desc = weather.weather?.[0]?.description ?? "-";
+        const icon = weather.weather?.[0]?.icon;
+        const iconUrl = icon ? `https://openweathermap.org/img/wn/${icon}@2x.png` : null;
+
+        // Air Pollution: list[0].components.o3 (μg/m3)
+        const o3 = air.list?.[0]?.components?.o3;
+        const o3Text = (typeof o3 === "number") ? Math.round(o3) : "-";
+
+        // 렌더
+        placeName.textContent = `${name}`;
+        placeMeta.textContent = `${localTime} ${country} ${labelForMeta ? "· " + labelForMeta : ""}`.trim();
+
+        tempValue.textContent = temp;
+        feelsValue.textContent = feels;
+        humidityValue.textContent = hum;
+        windValue.textContent = wind;
+        ozoneValue.textContent = o3Text;
+
+        weatherDesc.textContent = desc;
+
+        if(iconUrl){
+          weatherIcon.src = iconUrl;
+          weatherIcon.style.display = "inline-block";
+          weatherIcon.alt = desc;
+        }else{
+          weatherIcon.style.display = "none";
+        }
+
+        showResult(true);
+      }catch(err){
+        console.error(err);
+        showError("날씨 정보를 불러오지 못했어요. 도시명/네트워크/키를 확인해 주세요.");
+      }finally{
+        showLoading(false);
+      }
+    }
+
+    async function loadByCity(city){
+      const q = city.trim();
+      if(!q) return showError("도시명을 입력해 주세요.");
+      showError("");
+      showLoading(true);
+      showResult(false);
+
+      try{
+        // 도시명 -> 좌표 변환
+        const geo = await fetchJSON(GEO_URL(q));
+        if(!Array.isArray(geo) || geo.length === 0){
+          throw new Error("No geocoding result");
+        }
+        const g = geo[0];
+        const lat = g.lat;
+        const lon = g.lon;
+        const label = `${g.name}${g.state ? " ("+g.state+")" : ""}`;
+
+        // 좌표 기반으로 날씨/오존 조회 (요구사항 lat/lon URL 사용)
+        await loadByCoords(lat, lon, `검색: ${label}`);
+      }catch(err){
+        console.error(err);
+        showError("해당 도시를 찾을 수 없어요. 영문 표기 또는 다른 도시명을 시도해 주세요.");
+      }finally{
+        showLoading(false);
+      }
+    }
+
+    function loadMyLocation(){
+      showError("");
+      if(!navigator.geolocation){
+        showError("이 브라우저는 위치 기능을 지원하지 않습니다.");
+        return;
+      }
+
+      showLoading(true);
+      navigator.geolocation.getCurrentPosition(
+        async (pos) => {
+          const { latitude, longitude } = pos.coords;
+          await loadByCoords(latitude, longitude, "현재 위치");
+          showLoading(false);
+        },
+        (err) => {
+          console.error(err);
+          showLoading(false);
+          showError("위치 권한이 필요해요. 브라우저 설정에서 위치 권한을 허용해 주세요.");
+        },
+        { enableHighAccuracy:true, timeout:12000, maximumAge: 60000 }
+      );
+    }
+
+    // 이벤트
+    $("btnMyLocation").addEventListener("click", loadMyLocation);
+    $("btnSearch").addEventListener("click", () => loadByCity($("cityInput").value));
+    $("cityInput").addEventListener("keydown", (e) => {
+      if(e.key === "Enter") loadByCity(e.target.value);
+    });
+
+    // 최초 실행: 현재 위치 자동 시도
+    loadMyLocation();
+  </script>
+</body>
+</html>

@@ -1,0 +1,923 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Global Weather</title>
+  <style>
+    :root{
+      /* 기존 팔레트(유지) */
+      --bg:#0b1220;
+      --card:#111a2e;
+      --muted:#9aa6c5;
+      --text:#eaf0ff;
+      --accent:#55d6be;
+      --line:rgba(255,255,255,.10);
+      --danger:#ff5c7a;
+
+      /* 날씨 테마용 */
+      --bgGrad: radial-gradient(1200px 800px at 30% 0%, #132043 0%, #0b1220 50%, #050914 100%);
+      --accent2: rgba(85,214,190,.12);
+    }
+
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{
+      font-family: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Pretendard", "Noto Sans KR", sans-serif;
+      background: var(--bgGrad);
+      transition: background 650ms ease;
+      color:var(--text);
+      min-height:100vh;
+      display:flex;
+      justify-content:center;
+      padding:20px;
+      overflow-x:hidden;
+      position:relative;
+    }
+
+    /* ✅ Weather Animation Layer (추가) */
+    .weather-layer{
+      position:fixed;
+      inset:0;
+      z-index:0;
+      pointer-events:none;
+      overflow:hidden;
+    }
+
+    /* 부드러운 분위기 레이어 */
+    .weather-layer::before{
+      content:"";
+      position:absolute;
+      inset:-40px;
+      opacity:.55;
+      filter: blur(18px);
+      transition: opacity 650ms ease;
+      background:
+        radial-gradient(600px 400px at 10% 15%, rgba(255,255,255,.08), transparent 55%),
+        radial-gradient(700px 450px at 85% 25%, rgba(255,255,255,.06), transparent 60%),
+        radial-gradient(800px 520px at 60% 85%, rgba(255,255,255,.05), transparent 60%);
+    }
+
+    /* ===== Night: stars + moon ===== */
+    .stars{
+      position:absolute;
+      inset:0;
+      opacity:0;
+      transition: opacity 600ms ease;
+      background:
+        radial-gradient(circle, rgba(255,255,255,.9) 1px, transparent 2px) 0 0/120px 120px,
+        radial-gradient(circle, rgba(255,255,255,.7) 1px, transparent 2px) 40px 60px/160px 160px,
+        radial-gradient(circle, rgba(255,255,255,.5) 1px, transparent 2px) 80px 20px/220px 220px;
+      animation: twinkle 6s ease-in-out infinite;
+    }
+    @keyframes twinkle{
+      0%,100%{ filter: brightness(1); transform: translateY(0); }
+      50%{ filter: brightness(1.25); transform: translateY(1px); }
+    }
+
+    .moon{
+      position:absolute;
+      top:7%;
+      right:10%;
+      width:120px;
+      height:120px;
+      border-radius:50%;
+      opacity:0;
+      transition: opacity 600ms ease;
+      background: radial-gradient(circle at 30% 30%, rgba(255,255,255,.95), rgba(255,255,255,.65) 55%, rgba(255,255,255,.15) 70%, transparent 72%);
+      box-shadow: 0 0 40px rgba(255,255,255,.18);
+      transform: translate3d(0,0,0);
+      animation: moonDrift 18s ease-in-out infinite;
+    }
+    @keyframes moonDrift{
+      0%,100%{ transform: translate3d(0,0,0); }
+      50%{ transform: translate3d(-10px, 6px, 0); }
+    }
+
+    /* ===== Clouds ===== */
+    .clouds{
+      position:absolute;
+      inset:0;
+      opacity:0;
+      transition: opacity 600ms ease;
+      background:
+        radial-gradient(circle at 15% 30%, rgba(255,255,255,.18), transparent 45%),
+        radial-gradient(circle at 35% 40%, rgba(255,255,255,.14), transparent 48%),
+        radial-gradient(circle at 60% 32%, rgba(255,255,255,.12), transparent 50%),
+        radial-gradient(circle at 80% 45%, rgba(255,255,255,.10), transparent 52%);
+      filter: blur(1px);
+      animation: cloudMove 80s linear infinite;
+    }
+    @keyframes cloudMove{
+      from{ transform: translateX(0); }
+      to{ transform: translateX(-140px); }
+    }
+
+    /* ===== Rain ===== */
+    .rain{
+      position:absolute;
+      inset:-20% 0 0 0;
+      opacity:0;
+      transition: opacity 400ms ease;
+      background-image:
+        repeating-linear-gradient(
+          110deg,
+          rgba(255,255,255,.20) 0,
+          rgba(255,255,255,.20) 2px,
+          transparent 2px,
+          transparent 10px
+        );
+      background-size: 18px 18px;
+      animation: rainFall .35s linear infinite;
+      filter: blur(.2px);
+    }
+    @keyframes rainFall{
+      from{ background-position:0 0; }
+      to{ background-position:0 18px; }
+    }
+
+    /* ===== Snow ===== */
+    .snow{
+      position:absolute;
+      inset:0;
+      opacity:0;
+      transition: opacity 600ms ease;
+      background-image:
+        radial-gradient(circle, rgba(255,255,255,.95) 2px, transparent 3px),
+        radial-gradient(circle, rgba(255,255,255,.75) 1.5px, transparent 3px);
+      background-size: 44px 44px, 70px 70px;
+      background-position: 0 -200px, 20px -260px;
+      animation: snowFall 7s linear infinite;
+    }
+    @keyframes snowFall{
+      from{ background-position: 0 -240px, 20px -320px; }
+      to{ background-position: 0 0, 20px 0; }
+    }
+
+    /* ===== Fog ===== */
+    .fog{
+      position:absolute;
+      inset:0;
+      opacity:0;
+      transition: opacity 600ms ease;
+      background:
+        radial-gradient(900px 260px at 20% 70%, rgba(255,255,255,.14), transparent 60%),
+        radial-gradient(800px 240px at 60% 75%, rgba(255,255,255,.12), transparent 62%),
+        radial-gradient(1000px 300px at 80% 80%, rgba(255,255,255,.10), transparent 65%);
+      filter: blur(6px);
+      animation: fogDrift 22s ease-in-out infinite;
+    }
+    @keyframes fogDrift{
+      0%,100%{ transform: translateX(0) translateY(0); }
+      50%{ transform: translateX(-35px) translateY(6px); }
+    }
+
+    /* ===== Lightning Flash (Thunder) ===== */
+    .lightning{
+      position:absolute;
+      inset:0;
+      opacity:0;
+      background: rgba(255,255,255,.75);
+      mix-blend-mode: screen;
+      transition: opacity 120ms ease;
+    }
+    .lightning.flash{
+      animation: lightningFlash 1.2s ease-out 1;
+    }
+    @keyframes lightningFlash{
+      0%{opacity:0}
+      8%{opacity:.85}
+      16%{opacity:.05}
+      28%{opacity:.65}
+      40%{opacity:.08}
+      55%{opacity:.55}
+      100%{opacity:0}
+    }
+
+    /* ===== City Skyline SVG ===== */
+    .skyline{
+      position:absolute;
+      left:0; right:0; bottom:-2px;
+      height: 180px;
+      opacity:0;
+      transition: opacity 650ms ease;
+      filter: drop-shadow(0 -10px 30px rgba(0,0,0,.35));
+    }
+    .skyline::before{
+      content:"";
+      position:absolute;
+      inset:0;
+      background: linear-gradient(to top, rgba(0,0,0,.55), transparent 70%);
+      pointer-events:none;
+    }
+    .skySvg{
+      position:absolute;
+      left:0; bottom:0;
+      width:100%;
+      height:100%;
+      opacity:.85;
+    }
+    .skySvg path, .skySvg rect, .skySvg circle{
+      fill: rgba(255,255,255,.12);
+    }
+    .skyline.night .skySvg path,
+    .skyline.night .skySvg rect,
+    .skyline.night .skySvg circle{
+      fill: rgba(255,255,255,.16);
+    }
+
+    /* ===== 기존 UI (그대로) ===== */
+    .app{
+      width:min(480px, 100%);
+      display:flex;
+      flex-direction:column;
+      gap:14px;
+      position:relative;
+      z-index:1;
+    }
+    header{
+      display:flex;
+      align-items:flex-end;
+      justify-content:space-between;
+      gap:10px;
+      padding:4px 2px;
+    }
+    .title{display:flex;flex-direction:column;gap:4px;}
+    .title h1{font-size:20px;letter-spacing:.2px}
+    .title p{font-size:12px;color:var(--muted)}
+    .btn{
+      border:1px solid var(--line);
+      background:rgba(255,255,255,.06);
+      color:var(--text);
+      padding:10px 12px;
+      border-radius:12px;
+      font-weight:600;
+      cursor:pointer;
+      transition:.15s ease;
+      user-select:none;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .btn:active{transform:scale(.98)}
+    .btn:hover{background:rgba(255,255,255,.09)}
+    .btnAccent{
+      border-color: rgba(85,214,190,.35);
+      background: var(--accent2);
+    }
+
+    .card{
+      background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
+      border:1px solid var(--line);
+      border-radius:18px;
+      padding:16px;
+      box-shadow: 0 12px 30px rgba(0,0,0,.35);
+      backdrop-filter: blur(6px);
+    }
+
+    .searchRow{display:flex;gap:10px;align-items:center;}
+    .search{
+      flex:1;
+      display:flex;
+      align-items:center;
+      gap:10px;
+      padding:12px 12px;
+      border-radius:14px;
+      border:1px solid var(--line);
+      background:rgba(255,255,255,.05);
+    }
+    .search input{
+      border:none; outline:none; background:transparent;
+      color:var(--text); width:100%; font-size:14px;
+    }
+    .search input::placeholder{color:rgba(234,240,255,.55)}
+    .chip{
+      font-size:11px;color:var(--muted);
+      border:1px solid var(--line);
+      background:rgba(255,255,255,.03);
+      padding:6px 10px;border-radius:999px;white-space:nowrap;
+    }
+
+    .hero{display:flex;justify-content:space-between;gap:12px;align-items:flex-start;}
+    .place{display:flex;flex-direction:column;gap:6px;min-width:0;}
+    .place .name{font-size:18px;font-weight:800;line-height:1.2;word-break:keep-all;}
+    .place .meta{font-size:12px;color:var(--muted);display:flex;flex-wrap:wrap;gap:8px;align-items:center;}
+    .temp{display:flex;flex-direction:column;align-items:flex-end;gap:6px;}
+    .temp .value{font-size:40px;font-weight:900;letter-spacing:-.8px;line-height:1;}
+    .temp .desc{color:var(--muted);font-size:13px;display:flex;align-items:center;gap:8px;justify-content:flex-end;}
+    .temp img{width:34px;height:34px;image-rendering:auto}
+
+    .grid{margin-top:14px;display:grid;grid-template-columns: 1fr 1fr;gap:10px;}
+    .stat{
+      border:1px solid var(--line);
+      background:rgba(255,255,255,.04);
+      border-radius:16px;
+      padding:12px;
+      display:flex;
+      flex-direction:column;
+      gap:6px;
+      min-height:74px;
+    }
+    .stat .label{font-size:12px;color:var(--muted)}
+    .stat .val{font-size:18px;font-weight:800}
+    .stat .unit{font-size:12px;color:rgba(234,240,255,.6);font-weight:700;margin-left:6px}
+
+    .hint{font-size:12px;color:var(--muted);line-height:1.45;}
+    .error{
+      color: #ffd4dc;
+      background: rgba(255,92,122,.10);
+      border: 1px solid rgba(255,92,122,.25);
+      padding:10px 12px;
+      border-radius:14px;
+      font-size:12px;
+      display:none;
+    }
+
+    /* Loading overlay */
+    .loading{
+      position:fixed;
+      inset:0;
+      background:rgba(0,0,0,.45);
+      display:none;
+      align-items:center;
+      justify-content:center;
+      z-index:999;
+      backdrop-filter: blur(4px);
+    }
+    .spinnerWrap{
+      width:110px;height:110px;border-radius:22px;
+      border:1px solid var(--line);
+      background:rgba(255,255,255,.06);
+      display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;
+      box-shadow: 0 18px 40px rgba(0,0,0,.35);
+    }
+    .spinner{
+      width:42px;height:42px;border-radius:50%;
+      border:4px solid rgba(255,255,255,.18);
+      border-top-color: var(--accent);
+      animation: spin .9s linear infinite;
+    }
+    .loadingText{font-size:12px;color:rgba(234,240,255,.75);font-weight:700}
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* Reduce motion */
+    @media (prefers-reduced-motion: reduce){
+      .stars,.moon,.clouds,.rain,.snow,.fog{ animation:none !important; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ✅ Weather Animation Layer (추가) -->
+  <div class="weather-layer" id="weatherLayer">
+    <div class="stars" id="stars"></div>
+    <div class="moon" id="moon"></div>
+    <div class="clouds" id="clouds"></div>
+    <div class="rain" id="rain"></div>
+    <div class="snow" id="snow"></div>
+    <div class="fog" id="fog"></div>
+    <div class="lightning" id="lightning"></div>
+
+    <!-- Skyline -->
+    <div class="skyline" id="skyline">
+      <svg class="skySvg" id="skySvg" viewBox="0 0 1200 180" preserveAspectRatio="none" aria-hidden="true"></svg>
+    </div>
+  </div>
+
+  <div class="app">
+    <header>
+      <div class="title">
+        <h1>Global Weather</h1>
+        <p>현재 위치 + 도시 검색으로 전세계 날씨 조회</p>
+      </div>
+      <button class="btn btnAccent" id="btnMyLocation">내 위치</button>
+    </header>
+
+    <div class="card">
+      <div class="searchRow">
+        <div class="search" role="search">
+          <span style="opacity:.8">🔎</span>
+          <input id="cityInput" type="text" placeholder="도시명을 입력하세요 (예: Seoul, Tokyo, New York)" autocomplete="off" />
+        </div>
+        <button class="btn" id="btnSearch">검색</button>
+      </div>
+      <div style="margin-top:10px; display:flex; gap:8px; flex-wrap:wrap;">
+        <span class="chip">예시: London</span>
+        <span class="chip">예시: Paris</span>
+        <span class="chip">예시: 부산</span>
+      </div>
+    </div>
+
+    <div class="error" id="errorBox"></div>
+
+    <div class="card" id="resultCard" style="display:none;">
+      <div class="hero">
+        <div class="place">
+          <div class="name" id="placeName">-</div>
+          <div class="meta" id="placeMeta">-</div>
+        </div>
+        <div class="temp">
+          <div class="value"><span id="tempValue">-</span>°</div>
+          <div class="desc">
+            <img id="weatherIcon" alt="" style="display:none;">
+            <span id="weatherDesc">-</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid">
+        <div class="stat">
+          <div class="label">풍속</div>
+          <div class="val"><span id="windValue">-</span><span class="unit">m/s</span></div>
+        </div>
+        <div class="stat">
+          <div class="label">습도</div>
+          <div class="val"><span id="humidityValue">-</span><span class="unit">%</span></div>
+        </div>
+        <div class="stat">
+          <div class="label">체감/기온</div>
+          <div class="val"><span id="feelsValue">-</span><span class="unit">°C</span></div>
+        </div>
+        <div class="stat">
+          <div class="label">오존(O₃)</div>
+          <div class="val"><span id="ozoneValue">-</span><span class="unit">μg/m³</span></div>
+        </div>
+      </div>
+
+      <div style="margin-top:12px" class="hint">
+        * 오존 농도는 OpenWeather <b>Air Pollution API</b>에서 제공되는 O₃(μg/m³) 값을 표시합니다.
+      </div>
+    </div>
+
+    <div class="hint" style="padding:0 4px;">
+      팁) 브라우저에서 위치 권한을 허용하면 “내 위치”로 자동 조회됩니다.
+    </div>
+  </div>
+
+  <!-- Loading Overlay -->
+  <div class="loading" id="loading">
+    <div class="spinnerWrap">
+      <div class="spinner"></div>
+      <div class="loadingText">날씨 불러오는 중...</div>
+    </div>
+  </div>
+
+  <script>
+    const APPID = "e36c9163b79b3c206ce99a59bca8b1d2";
+
+    const WEATHER_URL = (lat, lon) =>
+      `https://api.openweathermap.org/data/2.5/weather?lat=${encodeURIComponent(lat)}&lon=${encodeURIComponent(lon)}&appid=${APPID}&units=metric`;
+
+    const AIR_URL = (lat, lon) =>
+      `https://api.openweathermap.org/data/2.5/air_pollution?lat=${encodeURIComponent(lat)}&lon=${encodeURIComponent(lon)}&appid=${APPID}`;
+
+    const GEO_URL = (q) =>
+      `https://api.openweathermap.org/geo/1.0/direct?q=${encodeURIComponent(q)}&limit=1&appid=${APPID}`;
+
+    const $ = (id) => document.getElementById(id);
+    const loading = $("loading");
+    const errorBox = $("errorBox");
+    const resultCard = $("resultCard");
+
+    const placeName = $("placeName");
+    const placeMeta = $("placeMeta");
+    const tempValue = $("tempValue");
+    const feelsValue = $("feelsValue");
+    const weatherDesc = $("weatherDesc");
+    const weatherIcon = $("weatherIcon");
+    const windValue = $("windValue");
+    const humidityValue = $("humidityValue");
+    const ozoneValue = $("ozoneValue");
+
+    // weather layer dom
+    const stars = $("stars");
+    const moon = $("moon");
+    const clouds = $("clouds");
+    const rain = $("rain");
+    const snow = $("snow");
+    const fog = $("fog");
+    const lightning = $("lightning");
+    const skyline = $("skyline");
+    const skySvg = $("skySvg");
+
+    function showLoading(on){ loading.style.display = on ? "flex" : "none"; }
+    function showError(message){
+      if(!message){ errorBox.style.display = "none"; errorBox.textContent = ""; return; }
+      errorBox.style.display = "block"; errorBox.textContent = message;
+    }
+    function showResult(on){ resultCard.style.display = on ? "block" : "none"; }
+
+    async function fetchJSON(url){
+      const res = await fetch(url);
+      if(!res.ok){
+        const txt = await res.text().catch(()=> "");
+        throw new Error(`요청 실패 (${res.status}) ${txt}`);
+      }
+      return res.json();
+    }
+
+    function formatLocalTime(unixSeconds, tzOffsetSeconds){
+      const ms = (unixSeconds + tzOffsetSeconds) * 1000;
+      const d = new Date(ms);
+      const yy = d.getUTCFullYear();
+      const mm = String(d.getUTCMonth()+1).padStart(2,"0");
+      const dd = String(d.getUTCDate()).padStart(2,"0");
+      const hh = String(d.getUTCHours()).padStart(2,"0");
+      const mi = String(d.getUTCMinutes()).padStart(2,"0");
+      return `${yy}.${mm}.${dd} ${hh}:${mi}`;
+    }
+
+    /* =========================
+       1) 배경 테마(그라데이션)
+       ========================= */
+    function applyWeatherTheme(weatherMain, iconCode){
+      const isNight = typeof iconCode === "string" && iconCode.includes("n");
+
+      const m = (weatherMain || "").toLowerCase();
+      const isFoggy = ["mist","fog","haze","smoke","dust","sand","ash","squall"].includes(m);
+
+      let theme = "default";
+      if(m === "clear") theme = "clear";
+      else if(m === "clouds") theme = "clouds";
+      else if(m === "rain") theme = "rain";
+      else if(m === "drizzle") theme = "drizzle";
+      else if(m === "thunderstorm") theme = "thunder";
+      else if(m === "snow") theme = "snow";
+      else if(isFoggy) theme = "fog";
+      else if(m === "tornado" || m === "extreme") theme = "extreme";
+
+      const THEMES = {
+        default: {
+          day:  { bg: "radial-gradient(1200px 800px at 30% 0%, #132043 0%, #0b1220 50%, #050914 100%)", accent2: "rgba(85,214,190,.12)" },
+          night:{ bg: "radial-gradient(1200px 800px at 20% 0%, #0b1440 0%, #070b1b 55%, #02040c 100%)", accent2: "rgba(124,156,255,.10)" }
+        },
+        clear: {
+          day:  { bg: "radial-gradient(1200px 800px at 20% 0%, #1a4fb8 0%, #0d2a5b 55%, #071226 100%)", accent2: "rgba(255,210,86,.12)" },
+          night:{ bg: "radial-gradient(1200px 800px at 10% 0%, #1b2a6b 0%, #070b1b 55%, #02040c 100%)", accent2: "rgba(160,180,255,.10)" }
+        },
+        clouds: {
+          day:  { bg: "radial-gradient(1200px 800px at 25% 0%, #3d5a80 0%, #1a2b3d 55%, #0b1220 100%)", accent2: "rgba(160,180,255,.10)" },
+          night:{ bg: "radial-gradient(1200px 800px at 20% 0%, #232f4a 0%, #0a1020 60%, #02040c 100%)", accent2: "rgba(160,180,255,.08)" }
+        },
+        rain: {
+          day:  { bg: "radial-gradient(1200px 800px at 20% 0%, #284b63 0%, #0b2230 60%, #06111a 100%)", accent2: "rgba(85,214,190,.09)" },
+          night:{ bg: "radial-gradient(1200px 800px at 20% 0%, #1b2a3a 0%, #07101a 60%, #02040c 100%)", accent2: "rgba(85,214,190,.08)" }
+        },
+        drizzle: {
+          day:  { bg: "radial-gradient(1200px 800px at 20% 0%, #2c5364 0%, #0f2d37 60%, #071226 100%)", accent2: "rgba(85,214,190,.10)" },
+          night:{ bg: "radial-gradient(1200px 800px at 20% 0%, #20323f 0%, #070f16 60%, #02040c 100%)", accent2: "rgba(85,214,190,.08)" }
+        },
+        thunder: {
+          day:  { bg: "radial-gradient(1200px 800px at 25% 0%, #3b2f63 0%, #13102b 60%, #070716 100%)", accent2: "rgba(255,92,122,.10)" },
+          night:{ bg: "radial-gradient(1200px 800px at 20% 0%, #241a40 0%, #090712 60%, #02040c 100%)", accent2: "rgba(255,92,122,.10)" }
+        },
+        snow: {
+          day:  { bg: "radial-gradient(1200px 800px at 25% 0%, #dbeafe 0%, #93c5fd 35%, #0b1220 100%)", accent2: "rgba(255,255,255,.14)" },
+          night:{ bg: "radial-gradient(1200px 800px at 25% 0%, #c7d2fe 0%, #1e293b 55%, #02040c 100%)", accent2: "rgba(255,255,255,.10)" }
+        },
+        fog: {
+          day:  { bg: "radial-gradient(1200px 800px at 20% 0%, #64748b 0%, #1f2937 60%, #0b1220 100%)", accent2: "rgba(255,255,255,.10)" },
+          night:{ bg: "radial-gradient(1200px 800px at 20% 0%, #334155 0%, #0b1020 60%, #02040c 100%)", accent2: "rgba(255,255,255,.08)" }
+        },
+        extreme: {
+          day:  { bg: "radial-gradient(1200px 800px at 20% 0%, #7f1d1d 0%, #1f0b0b 65%, #02040c 100%)", accent2: "rgba(255,92,122,.12)" },
+          night:{ bg: "radial-gradient(1200px 800px at 20% 0%, #3f0d0d 0%, #120606 65%, #02040c 100%)", accent2: "rgba(255,92,122,.10)" }
+        },
+      };
+
+      const preset = THEMES[theme] || THEMES.default;
+      const mode = isNight ? preset.night : preset.day;
+
+      document.documentElement.style.setProperty("--bgGrad", mode.bg);
+      document.documentElement.style.setProperty("--accent2", mode.accent2);
+
+      return { isNight, theme };
+    }
+
+    /* =========================
+       2) 날씨 애니메이션 레이어 ON/OFF
+       - 별/달(밤)
+       - 천둥 번쩍임
+       - 안개
+       - 구름/비/눈
+       ========================= */
+    function resetWeatherLayers(){
+      stars.style.opacity = 0;
+      moon.style.opacity = 0;
+      clouds.style.opacity = 0;
+      rain.style.opacity = 0;
+      snow.style.opacity = 0;
+      fog.style.opacity = 0;
+      skyline.style.opacity = 0;
+      skyline.classList.remove("night");
+      lightning.classList.remove("flash");
+    }
+
+    // thunder 번쩍임(간헐적으로)
+    let lightningTimer = null;
+    function stopLightningLoop(){
+      if(lightningTimer){ clearInterval(lightningTimer); lightningTimer = null; }
+    }
+    function startLightningLoop(){
+      stopLightningLoop();
+      // 4~8초 사이 랜덤 번쩍임을 주기적으로 시도
+      lightningTimer = setInterval(() => {
+        const chance = Math.random();
+        if(chance < 0.55) return; // 너무 자주 번쩍이지 않게 확률
+        lightning.classList.remove("flash");
+        // reflow trick
+        void lightning.offsetWidth;
+        lightning.classList.add("flash");
+      }, 1200);
+    }
+
+    function applyWeatherAnimation(weatherMain, iconCode, cityName, countryCode){
+      resetWeatherLayers();
+
+      const main = (weatherMain || "");
+      const isNight = typeof iconCode === "string" && iconCode.includes("n");
+
+      // night sky
+      if(isNight){
+        stars.style.opacity = 0.55;
+        moon.style.opacity = 0.75;
+        skyline.classList.add("night");
+      }
+
+      // clouds baseline for many conditions
+      if(main === "Clear"){
+        clouds.style.opacity = isNight ? 0.10 : 0.25;
+      } else if(main === "Clouds"){
+        clouds.style.opacity = isNight ? 0.22 : 0.45;
+      } else if(main === "Mist" || main === "Fog" || main === "Haze" || main === "Smoke" || main === "Dust" || main === "Sand" || main === "Ash" || main === "Squall"){
+        fog.style.opacity = isNight ? 0.22 : 0.35;
+        clouds.style.opacity = isNight ? 0.12 : 0.18;
+      } else if(main === "Rain" || main === "Drizzle"){
+        rain.style.opacity = 0.35;
+        clouds.style.opacity = isNight ? 0.16 : 0.26;
+        // 비 오는 날 살짝 안개
+        fog.style.opacity = isNight ? 0.10 : 0.14;
+      } else if(main === "Snow"){
+        snow.style.opacity = 0.55;
+        clouds.style.opacity = isNight ? 0.12 : 0.20;
+        // 눈 날릴 때 은은한 안개
+        fog.style.opacity = isNight ? 0.08 : 0.12;
+      } else if(main === "Thunderstorm"){
+        rain.style.opacity = 0.35;
+        clouds.style.opacity = isNight ? 0.22 : 0.30;
+        startLightningLoop();
+      } else {
+        clouds.style.opacity = isNight ? 0.10 : 0.18;
+      }
+
+      // skyline: 도시가 매칭되면 표시
+      const skylineKey = pickSkylineKey(cityName, countryCode);
+      if(skylineKey){
+        renderSkylineSVG(skylineKey);
+        skyline.style.opacity = 1;
+      }
+    }
+
+    /* =========================
+       3) 도시/국가별 실루엣 SVG (서울/파리/뉴욕)
+       - 간단한 형태로 (가벼운 렌더링)
+       ========================= */
+    function norm(s){ return (s || "").toLowerCase().trim(); }
+
+    function pickSkylineKey(cityName, countryCode){
+      const c = norm(cityName);
+      const cc = (countryCode || "").toUpperCase();
+
+      // 서울
+      if(cc === "KR" && (c.includes("seoul") || c.includes("서울"))) return "seoul";
+
+      // 파리
+      if(cc === "FR" && (c.includes("paris") || c.includes("파리"))) return "paris";
+
+      // 뉴욕
+      if(cc === "US" && (c.includes("new york") || c.includes("nyc") || c.includes("뉴욕"))) return "nyc";
+
+      // 기본: 대도시 힌트로 뉴욕
+      if(c.includes("new york")) return "nyc";
+      if(c.includes("paris")) return "paris";
+      if(c.includes("seoul")) return "seoul";
+
+      return null;
+    }
+
+    function renderSkylineSVG(key){
+      // 매우 단순화된 실루엣 (path/rect 기반)
+      const SVG = {
+        seoul: `
+          <rect x="0" y="120" width="1200" height="60"></rect>
+          <!-- N Seoul Tower -->
+          <rect x="250" y="58" width="10" height="62"></rect>
+          <rect x="242" y="52" width="26" height="10"></rect>
+          <rect x="246" y="40" width="18" height="12"></rect>
+          <rect x="253" y="28" width="4" height="12"></rect>
+
+          <!-- Lotte World Tower-ish -->
+          <rect x="820" y="20" width="28" height="100" rx="6"></rect>
+          <rect x="830" y="10" width="8" height="12"></rect>
+
+          <!-- Buildings -->
+          <rect x="60" y="80" width="70" height="40"></rect>
+          <rect x="140" y="70" width="52" height="50"></rect>
+          <rect x="200" y="86" width="42" height="34"></rect>
+          <rect x="290" y="78" width="90" height="42"></rect>
+          <rect x="392" y="64" width="48" height="56"></rect>
+          <rect x="450" y="82" width="70" height="38"></rect>
+          <rect x="532" y="74" width="44" height="46"></rect>
+          <rect x="590" y="86" width="60" height="34"></rect>
+          <rect x="662" y="68" width="54" height="52"></rect>
+          <rect x="726" y="88" width="70" height="32"></rect>
+          <rect x="858" y="76" width="58" height="44"></rect>
+          <rect x="928" y="86" width="46" height="34"></rect>
+          <rect x="986" y="72" width="78" height="48"></rect>
+          <rect x="1076" y="84" width="64" height="36"></rect>
+        `,
+        paris: `
+          <rect x="0" y="120" width="1200" height="60"></rect>
+
+          <!-- Eiffel Tower (stylized) -->
+          <path d="M585 120 L600 40 L615 120 Z"></path>
+          <rect x="595" y="32" width="10" height="10"></rect>
+          <rect x="590" y="60" width="20" height="6"></rect>
+          <rect x="588" y="88" width="24" height="6"></rect>
+
+          <!-- Buildings -->
+          <rect x="70" y="82" width="90" height="38"></rect>
+          <rect x="170" y="74" width="60" height="46"></rect>
+          <rect x="240" y="88" width="70" height="32"></rect>
+          <rect x="320" y="70" width="52" height="50"></rect>
+          <rect x="380" y="84" width="82" height="36"></rect>
+          <rect x="470" y="78" width="66" height="42"></rect>
+          <rect x="650" y="82" width="90" height="38"></rect>
+          <rect x="750" y="74" width="60" height="46"></rect>
+          <rect x="820" y="88" width="70" height="32"></rect>
+          <rect x="900" y="70" width="52" height="50"></rect>
+          <rect x="960" y="84" width="82" height="36"></rect>
+          <rect x="1050" y="78" width="66" height="42"></rect>
+        `,
+        nyc: `
+          <rect x="0" y="120" width="1200" height="60"></rect>
+
+          <!-- Empire State-ish -->
+          <rect x="500" y="35" width="34" height="85"></rect>
+          <rect x="510" y="20" width="14" height="15"></rect>
+          <rect x="515" y="10" width="4" height="10"></rect>
+
+          <!-- One WTC-ish -->
+          <rect x="820" y="26" width="32" height="94" rx="4"></rect>
+          <rect x="834" y="8" width="4" height="18"></rect>
+
+          <!-- Buildings -->
+          <rect x="60" y="72" width="64" height="48"></rect>
+          <rect x="134" y="86" width="58" height="34"></rect>
+          <rect x="202" y="60" width="72" height="60"></rect>
+          <rect x="286" y="80" width="52" height="40"></rect>
+          <rect x="348" y="70" width="62" height="50"></rect>
+          <rect x="420" y="86" width="62" height="34"></rect>
+          <rect x="550" y="78" width="70" height="42"></rect>
+          <rect x="632" y="66" width="58" height="54"></rect>
+          <rect x="700" y="84" width="70" height="36"></rect>
+          <rect x="860" y="78" width="70" height="42"></rect>
+          <rect x="942" y="66" width="58" height="54"></rect>
+          <rect x="1010" y="84" width="70" height="36"></rect>
+          <rect x="1092" y="74" width="70" height="46"></rect>
+        `
+      };
+
+      skySvg.innerHTML = SVG[key] || "";
+    }
+
+    /* thunder 타이머 관리: 다른 날씨로 바뀌면 꺼주기 */
+    function ensureLightningOffIfNeeded(main){
+      if(main !== "Thunderstorm") stopLightningLoop();
+    }
+
+    /* =========================
+       4) 좌표/도시 로딩
+       ========================= */
+    async function loadByCoords(lat, lon, labelForMeta = ""){
+      showError("");
+      showLoading(true);
+      showResult(false);
+
+      try{
+        const weather = await fetchJSON(WEATHER_URL(lat, lon));
+        const air = await fetchJSON(AIR_URL(lat, lon));
+
+        const name = weather.name || "Unknown";
+        const countryCode = weather.sys?.country || "";
+        const country = countryCode ? `· ${countryCode}` : "";
+        const tz = weather.timezone ?? 0;
+        const nowUnix = Math.floor(Date.now()/1000);
+        const localTime = formatLocalTime(nowUnix, tz);
+
+        const temp = Math.round(weather.main?.temp ?? 0);
+        const feels = Math.round(weather.main?.feels_like ?? temp);
+        const hum = Math.round(weather.main?.humidity ?? 0);
+        const wind = weather.wind?.speed ?? 0;
+
+        const main = weather.weather?.[0]?.main ?? "";
+        const desc = weather.weather?.[0]?.description ?? "-";
+        const icon = weather.weather?.[0]?.icon;
+        const iconUrl = icon ? `https://openweathermap.org/img/wn/${icon}@2x.png` : null;
+
+        const o3 = air.list?.[0]?.components?.o3;
+        const o3Text = (typeof o3 === "number") ? Math.round(o3) : "-";
+
+        // ✅ 배경 그라데이션
+        const { isNight } = applyWeatherTheme(main, icon);
+
+        // ✅ 애니메이션 레이어(별/달/천둥/안개/실루엣)
+        ensureLightningOffIfNeeded(main);
+        applyWeatherAnimation(main, icon, name, countryCode);
+
+        // 렌더
+        placeName.textContent = `${name}`;
+        placeMeta.textContent = `${localTime} ${country} ${labelForMeta ? "· " + labelForMeta : ""}`.trim();
+
+        tempValue.textContent = temp;
+        feelsValue.textContent = feels;
+        humidityValue.textContent = hum;
+        windValue.textContent = wind;
+        ozoneValue.textContent = o3Text;
+
+        weatherDesc.textContent = desc;
+
+        if(iconUrl){
+          weatherIcon.src = iconUrl;
+          weatherIcon.style.display = "inline-block";
+          weatherIcon.alt = desc;
+        }else{
+          weatherIcon.style.display = "none";
+        }
+
+        showResult(true);
+      }catch(err){
+        console.error(err);
+        stopLightningLoop();
+        showError("날씨 정보를 불러오지 못했어요. 도시명/네트워크/키를 확인해 주세요.");
+      }finally{
+        showLoading(false);
+      }
+    }
+
+    async function loadByCity(city){
+      const q = city.trim();
+      if(!q) return showError("도시명을 입력해 주세요.");
+      showError("");
+      showLoading(true);
+      showResult(false);
+
+      try{
+        const geo = await fetchJSON(GEO_URL(q));
+        if(!Array.isArray(geo) || geo.length === 0) throw new Error("No geocoding result");
+
+        const g = geo[0];
+        const lat = g.lat;
+        const lon = g.lon;
+        const label = `${g.name}${g.state ? " ("+g.state+")" : ""}`;
+
+        await loadByCoords(lat, lon, `검색: ${label}`);
+      }catch(err){
+        console.error(err);
+        showError("해당 도시를 찾을 수 없어요. 영문 표기 또는 다른 도시명을 시도해 주세요.");
+      }finally{
+        showLoading(false);
+      }
+    }
+
+    function loadMyLocation(){
+      showError("");
+      if(!navigator.geolocation){
+        showError("이 브라우저는 위치 기능을 지원하지 않습니다.");
+        return;
+      }
+
+      showLoading(true);
+      navigator.geolocation.getCurrentPosition(
+        async (pos) => {
+          const { latitude, longitude } = pos.coords;
+          await loadByCoords(latitude, longitude, "현재 위치");
+          showLoading(false);
+        },
+        (err) => {
+          console.error(err);
+          showLoading(false);
+          showError("위치 권한이 필요해요. 브라우저 설정에서 위치 권한을 허용해 주세요.");
+        },
+        { enableHighAccuracy:true, timeout:12000, maximumAge: 60000 }
+      );
+    }
+
+    $("btnMyLocation").addEventListener("click", loadMyLocation);
+    $("btnSearch").addEventListener("click", () => loadByCity($("cityInput").value));
+    $("cityInput").addEventListener("keydown", (e) => {
+      if(e.key === "Enter") loadByCity(e.target.value);
+    });
+
+    // 최초 실행: 현재 위치 자동 시도
+    loadMyLocation();
+  </script>
+</body>
+</html>
