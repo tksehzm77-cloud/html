@@ -1,28 +1,40 @@
-const swiper = new Swiper(".onboarding-swiper", {
-  slidesPerView: 1,
-  spaceBetween: 0,
+document.addEventListener("DOMContentLoaded", () => {
+  const swiper = new Swiper(".onboarding-swiper", {
+    slidesPerView: 1,
+    spaceBetween: 0,
 
-  /* 자동 실행 (1회) */
-  autoplay: {
-    delay: 3000,                // 3초 간격
-    disableOnInteraction: false // 터치해도 멈추지 않음
-  },
+    autoplay: {
+      delay: 3000,
+      disableOnInteraction: false,
+    },
 
-  speed: 600,
+    speed: 600,
 
-  /* 페이지 버튼 */
-  pagination: {
-    el: ".swiper-pagination",
-    clickable: true,
-  },
+    pagination: {
+      el: ".swiper-pagination",
+      clickable: true,
+    },
 
-  loop: false, // 반드시 false
+    loop: false,
+
+    // ✅ 버튼/링크 클릭 막힘 방지
+    preventClicks: false,
+    preventClicksPropagation: false,
+  });
+
+  // ✅ 마지막 슬라이드 도달 시 자동 실행 1회 종료
+  swiper.on("reachEnd", () => {
+    swiper.autoplay.stop();
+  });
+
+  // ✅ 시작하기 → 로그인 페이지 이동
+  const startBtn = document.getElementById("startBtn");
+  startBtn.addEventListener("click", () => {
+    window.location.assign("/login"); // 또는 "/login"
+  });
 });
 
-/* 마지막 슬라이드 도달 시 자동 실행 완전 중지 */
-swiper.on("reachEnd", () => {
-  swiper.autoplay.stop();
-});
+
 setTimeout(() => {
   window.location.href = "index2.html";
 }, 10000);

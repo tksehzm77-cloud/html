@@ -4,89 +4,445 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <title>CAMBAK 로그인</title>
-    <link rel="stylesheet" href="./css/login.css">
+  <style>
+    :root{
+      --brand:#516BB3;        /* 시안의 블루 */
+      --brand-2:#3F5FAE;
+      --text:#1d1e23;
+      --muted:#B8BFD0;        /* 라벨/힌트 */
+      --line:#CFD5E3;         /* 인풋 라인 */
+      --bg:#ffffff;
+    }
+
+    *{box-sizing:border-box; margin:0; padding:0; -webkit-tap-highlight-color: transparent;}
+    html,body{height:100%;}
+    body{
+      font-family:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Pretendard","Noto Sans KR",sans-serif;
+      background:var(--bg);
+      color:var(--text);
+      display:flex;
+      justify-content:center;
+    }
+
+    /* 모바일 프레임 안전 영역 */
+    .page{
+      width:100%;
+      max-width:420px;
+      min-height:100vh;
+      padding:64px 28px 28px;
+    }
+
+    /* 상단 로고 */
+    .brand{
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      gap:14px;
+      margin-bottom:46px;
+    }
+    .mark{
+      width:64px;
+      height:48px;
+    }
+    .word{
+      letter-spacing:0.46em;
+      font-weight:700;
+      color:var(--brand);
+      font-size:20px;
+      text-indent:0.46em; /* 첫 글자도 동일 간격 느낌 */
+    }
+
+    /* 폼 */
+    .form{margin-top:10px;}
+
+    .field{margin-bottom:34px;}
+    .label{
+      display:block;
+      color:var(--muted);
+      font-size:22px;
+      font-weight:700;
+      margin-bottom:18px;
+    }
+
+    /* 시안처럼 얇은 언더라인 인풋 */
+    .underline{
+      width:100%;
+      border:none;
+      outline:none;
+      background:transparent;
+      font-size:24px;
+      padding:0 0 12px;
+      color:#7C879D;
+    }
+
+    /* placeholder 주컬러 적용 */
+    .underline::placeholder{
+      color:var(--brand);
+      opacity:1; /* iOS 사파리 대비 */
+    }
+    .underline::-webkit-input-placeholder{
+      color:var(--brand);
+    }
+    .underline::-ms-input-placeholder{
+      color:var(--brand);
+    }
+
+    .line{
+      height:2px;
+      background:var(--line);
+      border-radius:2px;
+    }
+
+    /* 비밀번호 입력 – 보안용 원형 표시 */
+    .password{
+      letter-spacing:6px;           /* 원형 간격 */
+      -webkit-text-security:disc;   /* iOS Safari */
+      text-security:disc;
+    }
+
+    /* placeholder는 아이디와 동일하게 주컬러 */
+    .password::placeholder{
+      color:var(--brand);
+      opacity:1;
+      letter-spacing:0; /* placeholder는 일반 텍스트 */
+    }
+
+    /* 버튼 */
+    .btn{
+      width:100%;
+      height:64px;
+      border-radius:14px;
+      border:2px solid var(--brand);
+      font-size:22px;
+      font-weight:800;
+      cursor:pointer;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      user-select:none;
+    }
+    .btn.primary{
+      background:var(--brand);
+      color:#fff;
+      margin-top:12px;
+    }
+    .btn.secondary{
+      background:#fff;
+      color:var(--brand);
+      margin-top:14px;
+    }
+
+    /* 하단 링크 */
+    .links{
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      gap:22px;
+      margin-top:22px;
+      color:var(--muted);
+      font-weight:700;
+      font-size:18px;
+    }
+    .links a{color:var(--muted); text-decoration:none;}
+    .links .sep{opacity:.8;}
+
+    /* 간편로그인 섹션 */
+    .social-wrap{margin-top:36px;}
+    .social-title{
+      display:flex;
+      align-items:center;
+      gap:14px;
+      color:var(--muted);
+      font-weight:800;
+      font-size:22px;
+      justify-content:center;
+      margin-bottom:18px;
+    }
+    .social-title::before,
+    .social-title::after{
+      content:"";
+      height:2px;
+      background:var(--line);
+      flex:1;
+      border-radius:2px;
+    }
+
+    .social{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:18px;
+      padding:0 24px;
+      margin-top:14px;
+    }
+
+    .icon-btn{
+      width:54px;
+      height:54px;
+      border-radius:14px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      border:0;
+      background:transparent;
+      cursor:pointer;
+    }
+    .icon{
+      width:44px;
+      height:44px;
+      display:block;
+    }
+
+    /* 접근성 */
+    .sr-only{
+      position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); border:0;
+    }
+
+    /* 상단바(회원가입) */
+    .topbar{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      padding-top:4px;
+      margin-bottom:22px;
+    }
+    .back{
+      width:44px;
+      height:44px;
+      border:0;
+      background:transparent;
+      border-radius:12px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      cursor:pointer;
+    }
+    .top-title{
+      font-size:22px;
+      font-weight:800;
+      color:var(--brand);
+      letter-spacing:-0.02em;
+    }
+    .top-spacer{width:44px; height:44px;}
+
+    /* 체크박스 영역 */
+    .agree{
+      margin-top:8px;
+      margin-bottom:22px;
+      border-top:2px solid var(--line);
+      padding-top:18px;
+    }
+    .chk{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      color:#7C879D;
+      font-size:16px;
+      font-weight:700;
+      line-height:1.3;
+      user-select:none;
+    }
+    .chk input{width:18px; height:18px; accent-color: var(--brand);}
+    .agree-sub{margin-top:14px; display:flex; flex-direction:column; gap:12px;}
+
+    /* 작은 화면 보정 */
+    @media (max-height:760px){
+      .page{padding-top:48px;}
+      .brand{margin-bottom:34px;}
+    }
+  </style>
 </head>
 <body>
   <main class="page" role="main">
-    <header class="brand" aria-label="CAMBAK">
-      <!-- 시안의 ^ 형태 심볼 -->
-      <svg class="mark" viewBox="0 0 120 90" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-        <path d="M24 66 L60 24 L96 66" stroke="var(--brand)" stroke-width="18" stroke-linecap="round" stroke-linejoin="round"/>
-      </svg>
-      <div class="word">CAMBAK</div>
-    </header>
+    <!-- LOGIN SCREEN -->
+    <section id="screen-login" class="screen" aria-label="로그인">
+      <header class="brand" aria-label="CAMBAK">
+        <!-- 시안의 ^ 형태 심볼 -->
+        <svg class="mark" viewBox="0 0 120 90" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M24 66 L60 24 L96 66" stroke="var(--brand)" stroke-width="18" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <div class="word">CAMBAK</div>
+      </header>
 
-    <section class="form" aria-label="로그인">
-      <!-- 아이디 -->
-      <div class="field">
-        <label class="label" for="userId">아이디</label>
-        <input id="userId" class="underline" type="text" placeholder="아이디를 입력해주세요" autocomplete="username" inputmode="text" />
-        <div class="line" aria-hidden="true"></div>
-      </div>
-
-      <!-- 비밀번호 -->
-      <div class="field">
-        <label class="label" for="pw">비밀번호</label>
-        <input id="pw" class="underline password" type="password" placeholder="비밀번호를 입력해주세요" autocomplete="current-password" />
-        <div class="line" aria-hidden="true"></div>
-      </div>
-
-      <button class="btn primary" type="button">로그인</button>
-      <button class="btn secondary" type="button">회원가입</button>
-
-      <nav class="links" aria-label="계정 도움">
-        <a href="#" role="link">아이디 찾기</a>
-        <span class="sep">|</span>
-        <a href="#" role="link">비밀번호 찾기</a>
-        <span class="sep">|</span>
-        <a href="#" role="link">둘러보기</a>
-      </nav>
-
-      <div class="social-wrap" aria-label="간편 로그인">
-        <div class="social-title">간편 로그인</div>
-        <div class="social">
-          <!-- Kakao -->
-          <button class="icon-btn" type="button" aria-label="카카오로 로그인">
-            <svg class="icon" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-              <rect x="6" y="6" width="52" height="52" rx="12" fill="#FEE500"/>
-              <text x="32" y="39" text-anchor="middle" font-size="18" font-weight="900" fill="#000" font-family="-apple-system, BlinkMacSystemFont, Pretendard, Noto Sans KR, sans-serif">TALK</text>
-            </svg>
-          </button>
-
-          <!-- Naver -->
-          <button class="icon-btn" type="button" aria-label="네이버로 로그인">
-            <svg class="icon" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-              <rect x="6" y="6" width="52" height="52" rx="12" fill="#ffffff"/>
-              <path d="M20 46V18h6l12 17V18h6v28h-6L26 29v17h-6z" fill="#03C75A"/>
-            </svg>
-          </button>
-
-          <!-- Google -->
-          <button class="icon-btn" type="button" aria-label="구글로 로그인">
-            <svg class="icon" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-              <rect x="6" y="6" width="52" height="52" rx="12" fill="#ffffff"/>
-              <path d="M32 29v6h12c-.8 6-6 10-12 10-7 0-13-6-13-13s6-13 13-13c3.5 0 6 1.5 8 3.3l4-4C41 15 37 13 32 13c-10.5 0-19 8.5-19 19s8.5 19 19 19c11 0 18.5-7.7 18.5-18.5 0-1.3-.2-2.3-.4-3.5H32z" fill="#4285F4"/>
-              <path d="M16.5 24.6l5 3.7C23 24.4 27.2 21 32 21c3.5 0 6 1.5 8 3.3l4-4C41 15 37 13 32 13c-7.3 0-13.7 4.1-16.5 11.6z" fill="#EA4335"/>
-              <path d="M32 51c5.6 0 10.2-2 13.5-5.4l-5.2-4.3C38.3 43.2 35.6 45 32 45c-5.8 0-10.7-3.9-12.4-9.2l-5.2 4C17.2 46.8 24 51 32 51z" fill="#34A853"/>
-              <path d="M19.6 35.8c-.4-1.2-.6-2.5-.6-3.8s.2-2.6.6-3.8l-5.2-4C13.4 26 13 29 13 32s.4 6 1.4 8l5.2-4.2z" fill="#FBBC05"/>
-            </svg>
-          </button>
-
-          <!-- Facebook -->
-          <button class="icon-btn" type="button" aria-label="페이스북으로 로그인">
-            <svg class="icon" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-              <rect x="6" y="6" width="52" height="52" rx="12" fill="#ffffff"/>
-              <path d="M38 22h5v-8h-5c-6 0-10 4-10 10v5h-7v8h7v17h8V37h7l2-8h-9v-4c0-2 1-3 2-3z" fill="#1877F2"/>
-            </svg>
-          </button>
+      <section class="form" aria-label="로그인 폼">
+        <!-- 아이디 -->
+        <div class="field">
+          <label class="label" for="userId">아이디</label>
+          <input id="userId" class="underline" type="text" placeholder="아이디를 입력해주세요" autocomplete="username" inputmode="text" />
+          <div class="line" aria-hidden="true"></div>
         </div>
-      </div>
+
+        <!-- 비밀번호 -->
+        <div class="field">
+          <label class="label" for="pw">비밀번호</label>
+          <input id="pw" class="underline password" type="password" placeholder="비밀번호를 입력해주세요" autocomplete="current-password" />
+          <div class="line" aria-hidden="true"></div>
+        </div>
+
+        <button class="btn primary" type="button">로그인</button>
+        <button id="goSignup" class="btn secondary" type="button">회원가입</button>
+
+        <nav class="links" aria-label="계정 도움">
+          <a href="#" role="link">아이디 찾기</a>
+          <span class="sep">|</span>
+          <a href="#" role="link">비밀번호 찾기</a>
+          <span class="sep">|</span>
+          <a href="#" role="link">둘러보기</a>
+        </nav>
+
+        <div class="social-wrap" aria-label="간편 로그인">
+          <div class="social-title">간편 로그인</div>
+          <div class="social">
+            <!-- Kakao -->
+            <button class="icon-btn" type="button" aria-label="카카오로 로그인">
+              <svg class="icon" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <rect x="6" y="6" width="52" height="52" rx="12" fill="#FEE500"/>
+                <text x="32" y="39" text-anchor="middle" font-size="18" font-weight="900" fill="#000" font-family="-apple-system, BlinkMacSystemFont, Pretendard, Noto Sans KR, sans-serif">TALK</text>
+              </svg>
+            </button>
+
+            <!-- Naver -->
+            <button class="icon-btn" type="button" aria-label="네이버로 로그인">
+              <svg class="icon" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <rect x="6" y="6" width="52" height="52" rx="12" fill="#ffffff"/>
+                <path d="M20 46V18h6l12 17V18h6v28h-6L26 29v17h-6z" fill="#03C75A"/>
+              </svg>
+            </button>
+
+            <!-- Google -->
+            <button class="icon-btn" type="button" aria-label="구글로 로그인">
+              <svg class="icon" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <rect x="6" y="6" width="52" height="52" rx="12" fill="#ffffff"/>
+                <path d="M32 29v6h12c-.8 6-6 10-12 10-7 0-13-6-13-13s6-13 13-13c3.5 0 6 1.5 8 3.3l4-4C41 15 37 13 32 13c-10.5 0-19 8.5-19 19s8.5 19 19 19c11 0 18.5-7.7 18.5-18.5 0-1.3-.2-2.3-.4-3.5H32z" fill="#4285F4"/>
+                <path d="M16.5 24.6l5 3.7C23 24.4 27.2 21 32 21c3.5 0 6 1.5 8 3.3l4-4C41 15 37 13 32 13c-7.3 0-13.7 4.1-16.5 11.6z" fill="#EA4335"/>
+                <path d="M32 51c5.6 0 10.2-2 13.5-5.4l-5.2-4.3C38.3 43.2 35.6 45 32 45c-5.8 0-10.7-3.9-12.4-9.2l-5.2 4C17.2 46.8 24 51 32 51z" fill="#34A853"/>
+                <path d="M19.6 35.8c-.4-1.2-.6-2.5-.6-3.8s.2-2.6.6-3.8l-5.2-4C13.4 26 13 29 13 32s.4 6 1.4 8l5.2-4.2z" fill="#FBBC05"/>
+              </svg>
+            </button>
+
+            <!-- Facebook -->
+            <button class="icon-btn" type="button" aria-label="페이스북으로 로그인">
+              <svg class="icon" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <rect x="6" y="6" width="52" height="52" rx="12" fill="#ffffff"/>
+                <path d="M38 22h5v-8h-5c-6 0-10 4-10 10v5h-7v8h7v17h8V37h7l2-8h-9v-4c0-2 1-3 2-3z" fill="#1877F2"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+      </section>
+    </section>
+
+    <!-- SIGNUP SCREEN -->
+    <section id="screen-signup" class="screen" aria-label="회원가입" hidden>
+      <header class="topbar" aria-label="회원가입 상단바">
+        <button id="backToLogin" class="back" type="button" aria-label="뒤로가기">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M15 18l-6-6 6-6" stroke="var(--brand)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+        <div class="top-title">회원가입</div>
+        <div class="top-spacer" aria-hidden="true"></div>
+      </header>
+
+      <section class="form" aria-label="회원가입 폼">
+        <div class="field">
+          <label class="label" for="suId">아이디</label>
+          <input id="suId" class="underline" type="text" placeholder="아이디를 입력해주세요" autocomplete="username" />
+          <div class="line" aria-hidden="true"></div>
+        </div>
+
+        <div class="field">
+          <label class="label" for="suPw">비밀번호</label>
+          <input id="suPw" class="underline password" type="password" placeholder="비밀번호를 입력해주세요" autocomplete="new-password" />
+          <div class="line" aria-hidden="true"></div>
+        </div>
+
+        <div class="field">
+          <label class="label" for="suPw2">비밀번호 확인</label>
+          <input id="suPw2" class="underline password" type="password" placeholder="비밀번호를 한 번 더 입력해주세요" autocomplete="new-password" />
+          <div class="line" aria-hidden="true"></div>
+        </div>
+
+        <div class="field">
+          <label class="label" for="suName">이름</label>
+          <input id="suName" class="underline" type="text" placeholder="이름을 입력해주세요" autocomplete="name" />
+          <div class="line" aria-hidden="true"></div>
+        </div>
+
+        <div class="field">
+          <label class="label" for="suEmail">이메일</label>
+          <input id="suEmail" class="underline" type="email" placeholder="이메일을 입력해주세요" autocomplete="email" inputmode="email" />
+          <div class="line" aria-hidden="true"></div>
+        </div>
+
+        <div class="field">
+          <label class="label" for="suPhone">휴대폰 번호</label>
+          <input id="suPhone" class="underline" type="tel" placeholder="휴대폰 번호를 입력해주세요" autocomplete="tel" inputmode="tel" />
+          <div class="line" aria-hidden="true"></div>
+        </div>
+
+        <div class="agree">
+          <label class="chk">
+            <input id="agreeAll" type="checkbox" />
+            <span>약관에 모두 동의합니다</span>
+          </label>
+          <div class="agree-sub">
+            <label class="chk">
+              <input class="agreeItem" type="checkbox" />
+              <span>(필수) 서비스 이용약관 동의</span>
+            </label>
+            <label class="chk">
+              <input class="agreeItem" type="checkbox" />
+              <span>(필수) 개인정보 처리방침 동의</span>
+            </label>
+            <label class="chk">
+              <input class="agreeItem" type="checkbox" />
+              <span>(선택) 마케팅 정보 수신 동의</span>
+            </label>
+          </div>
+        </div>
+
+        <button id="signupSubmit" class="btn primary" type="button">가입하기</button>
+      </section>
     </section>
   </main>
 
   <script>
-    // 비밀번호는 기본 password 타입으로 처리되어
-    // 입력 시 자동으로 원형(●)으로 표시됩니다.
+    // 화면 전환(로그인 -> 회원가입)
+    const screenLogin = document.getElementById('screen-login');
+    const screenSignup = document.getElementById('screen-signup');
+    const goSignup = document.getElementById('goSignup');
+    const backToLogin = document.getElementById('backToLogin');
+
+    function show(screen){
+      const isSignup = screen === 'signup';
+      screenLogin.hidden = isSignup;
+      screenSignup.hidden = !isSignup;
+      // 접근성: 화면 전환 시 상단으로
+      window.scrollTo({ top: 0, behavior: 'instant' });
+    }
+
+    goSignup.addEventListener('click', () => show('signup'));
+    backToLogin.addEventListener('click', () => show('login'));
+
+    // 약관 전체 동의
+    const agreeAll = document.getElementById('agreeAll');
+    const agreeItems = Array.from(document.querySelectorAll('.agreeItem'));
+
+    agreeAll.addEventListener('change', () => {
+      agreeItems.forEach(chk => chk.checked = agreeAll.checked);
+    });
+    agreeItems.forEach(chk => {
+      chk.addEventListener('change', () => {
+        const allChecked = agreeItems.every(x => x.checked);
+        agreeAll.checked = allChecked;
+      });
+    });
+
+    // 데모: 가입하기 클릭 시(실서버 연동 전)
+    document.getElementById('signupSubmit').addEventListener('click', () => {
+      alert('가입하기(데모)');
+    });
   </script>
 </body>
 </html>
