@@ -35,6 +35,6 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 
-setTimeout(() => {
-  window.location.href = "index2.html";
-}, 10000);
+// setTimeout(() => {
+//   window.location.href = "index2.html";
+// }, 10000);
