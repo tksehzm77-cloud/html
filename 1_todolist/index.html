@@ -1,0 +1,810 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>오늘 할 일 · Teddy Fall</title>
+  <style>
+    /* ===== Reset ===== */
+    *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+    html,body{height:100%}
+    body{
+      font-family:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Pretendard","Noto Sans KR",sans-serif;
+      color:#2A1F19;
+      overflow-x:hidden;
+      background:
+        radial-gradient(1200px 700px at 10% -10%, rgba(255, 241, 224, .95), rgba(255, 241, 224, 0) 55%),
+        radial-gradient(900px 600px at 110% 0%, rgba(255, 230, 200, .75), rgba(255, 230, 200, 0) 60%),
+        linear-gradient(180deg, #FFF3E1 0%, #F7E6D2 45%, #F3DDC6 100%);
+    }
+    button,input{font-family:inherit}
+
+    :root{
+      /* Warm fall palette */
+      --brand:#8B5A2B;          /* cocoa brown */
+      --brand2:#C47A3A;         /* caramel */
+      --accent:#F2C38B;         /* honey */
+      --ink:#2A1F19;
+      --muted:#7A5A45;
+      --card:#FFFDF9;
+      --line:rgba(138, 104, 76, .22);
+      --shadow:0 12px 28px rgba(60, 33, 12, .12);
+      --radius:18px;
+      --safeB: env(safe-area-inset-bottom, 0px);
+    }
+
+    .wrap{
+      min-height:100vh;
+      padding:18px 16px calc(18px + 82px + var(--safeB));
+      max-width:520px;
+      margin:0 auto;
+    }
+
+    /* ===== Plaid (check) background layer behind cards ===== */
+    .plaid{
+      position:fixed;
+      inset:0;
+      pointer-events:none;
+      opacity:.22;
+      background:
+        /* thick vertical */
+        linear-gradient(90deg, rgba(139,90,43,.18) 0 8px, transparent 8px 56px),
+        /* thick horizontal */
+        linear-gradient(0deg, rgba(139,90,43,.18) 0 8px, transparent 8px 56px),
+        /* thin vertical */
+        linear-gradient(90deg, rgba(196,122,58,.18) 0 2px, transparent 2px 14px),
+        /* thin horizontal */
+        linear-gradient(0deg, rgba(196,122,58,.18) 0 2px, transparent 2px 14px);
+      background-size:64px 64px,64px 64px,16px 16px,16px 16px;
+      filter: blur(.1px);
+    }
+
+    /* ===== Header ===== */
+    .top{
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap:12px;
+      margin-top:6px;
+      margin-bottom:14px;
+    }
+    .title{
+      display:flex;
+      flex-direction:column;
+      gap:8px;
+      min-width:0;
+    }
+
+    .brandline{
+      display:flex;
+      align-items:center;
+      gap:10px;
+    }
+
+    .bear{
+      width:44px;height:44px;
+      flex:0 0 auto;
+      border-radius:16px;
+      background:linear-gradient(180deg, rgba(255, 250, 242, .9), rgba(255, 238, 214, .9));
+      border:1px solid rgba(138, 104, 76, .20);
+      box-shadow:0 10px 22px rgba(60, 33, 12, .10);
+      display:grid;
+      place-items:center;
+      position:relative;
+      overflow:hidden;
+    }
+    .bear:before{
+      content:"";
+      position:absolute;
+      inset:0;
+      opacity:.35;
+      background:
+        linear-gradient(90deg, rgba(139,90,43,.16) 0 6px, transparent 6px 34px),
+        linear-gradient(0deg, rgba(139,90,43,.16) 0 6px, transparent 6px 34px),
+        linear-gradient(90deg, rgba(196,122,58,.16) 0 2px, transparent 2px 12px),
+        linear-gradient(0deg, rgba(196,122,58,.16) 0 2px, transparent 2px 12px);
+      background-size:40px 40px,40px 40px,14px 14px,14px 14px;
+    }
+
+    .title h1{
+      font-size:22px;
+      letter-spacing:-.3px;
+      line-height:1.15;
+      display:flex;
+      align-items:center;
+      gap:8px;
+      flex-wrap:wrap;
+    }
+    .tag{
+      font-size:12px;
+      font-weight:900;
+      color:var(--brand);
+      background:rgba(139,90,43,.10);
+      border:1px solid rgba(138, 104, 76, .22);
+      padding:6px 10px;
+      border-radius:999px;
+      white-space:nowrap;
+    }
+
+    .title .date{
+      font-size:13px;
+      color:var(--muted);
+    }
+
+    .chip{
+      padding:10px 12px;
+      border-radius:999px;
+      background:rgba(139,90,43,.10);
+      color:var(--brand);
+      font-weight:900;
+      font-size:12px;
+      display:flex;
+      align-items:center;
+      gap:8px;
+      user-select:none;
+      border:1px solid rgba(138, 104, 76, .18);
+      box-shadow:0 10px 22px rgba(60, 33, 12, .08);
+    }
+    .dot{
+      width:8px;height:8px;border-radius:999px;
+      background:var(--brand2);
+      box-shadow:0 0 0 4px rgba(196,122,58,.18);
+    }
+
+    /* ===== Card ===== */
+    .card{
+      background:rgba(255, 253, 249, .92);
+      border:1px solid rgba(138, 104, 76, .20);
+      box-shadow:var(--shadow);
+      border-radius:var(--radius);
+      overflow:hidden;
+      position:relative;
+    }
+    .card:before{
+      content:"";
+      position:absolute;
+      inset:0;
+      pointer-events:none;
+      opacity:.22;
+      background:
+        linear-gradient(90deg, rgba(139,90,43,.12) 0 10px, transparent 10px 68px),
+        linear-gradient(0deg, rgba(139,90,43,.12) 0 10px, transparent 10px 68px),
+        linear-gradient(90deg, rgba(242,195,139,.18) 0 3px, transparent 3px 18px),
+        linear-gradient(0deg, rgba(242,195,139,.18) 0 3px, transparent 3px 18px);
+      background-size:76px 76px,76px 76px,22px 22px,22px 22px;
+    }
+
+    /* ===== Add bar ===== */
+    .add{
+      padding:14px;
+      display:flex;
+      align-items:center;
+      gap:10px;
+      border-bottom:1px solid var(--line);
+      position:relative;
+      z-index:1;
+      background:linear-gradient(180deg, rgba(255,253,249,.92), rgba(255,249,240,.92));
+    }
+    .add input{
+      flex:1;
+      height:44px;
+      border-radius:14px;
+      border:1px solid rgba(138, 104, 76, .20);
+      padding:0 14px;
+      font-size:14px;
+      outline:none;
+      background:rgba(255, 255, 255, .65);
+      color:var(--ink);
+    }
+    .add input::placeholder{color:rgba(122, 90, 69, .78)}
+    .add input:focus{
+      border-color:rgba(139,90,43,.55);
+      box-shadow:0 0 0 4px rgba(196,122,58,.14)
+    }
+
+    .btn{
+      height:44px;
+      padding:0 14px;
+      border:none;
+      border-radius:14px;
+      background:linear-gradient(135deg, var(--brand), var(--brand2));
+      color:#fff;
+      font-weight:950;
+      font-size:14px;
+      cursor:pointer;
+      box-shadow:0 12px 26px rgba(139,90,43,.22);
+    }
+    .btn:active{transform:translateY(1px)}
+
+    /* ===== Toolbar ===== */
+    .toolbar{
+      display:flex;
+      gap:10px;
+      align-items:center;
+      justify-content:space-between;
+      padding:12px 14px;
+      border-bottom:1px solid var(--line);
+      position:relative;
+      z-index:1;
+      background:linear-gradient(180deg, rgba(255,253,249,.92) 0%, rgba(255,246,234,.92) 100%);
+    }
+    .seg{
+      display:flex;
+      gap:6px;
+      background:rgba(242,195,139,.26);
+      border:1px solid rgba(138, 104, 76, .20);
+      border-radius:999px;
+      padding:4px;
+      width:max-content;
+    }
+    .seg button{
+      border:none;
+      background:transparent;
+      color:#3B2A20;
+      font-weight:950;
+      font-size:12px;
+      padding:8px 10px;
+      border-radius:999px;
+      cursor:pointer;
+    }
+    .seg button[aria-pressed="true"]{
+      background:rgba(255, 253, 249, .9);
+      color:var(--brand);
+      box-shadow:0 10px 22px rgba(60, 33, 12, .10);
+      border:1px solid rgba(138, 104, 76, .14);
+    }
+
+    .mini{
+      display:flex;
+      gap:8px;
+      align-items:center;
+      flex:0 0 auto;
+    }
+    .ghost{
+      border:1px solid rgba(138, 104, 76, .22);
+      background:rgba(255, 253, 249, .85);
+      color:#2A1F19;
+      font-weight:950;
+      font-size:12px;
+      padding:10px 12px;
+      border-radius:14px;
+      cursor:pointer;
+      box-shadow:0 10px 22px rgba(60, 33, 12, .06);
+    }
+    .ghost:active{transform:translateY(1px)}
+
+    /* ===== List ===== */
+    .list{list-style:none; position:relative; z-index:1}
+    .empty{
+      padding:26px 16px 30px;
+      text-align:center;
+      color:var(--muted);
+      font-size:13px;
+      position:relative;
+      z-index:1;
+    }
+    .empty .ill{
+      width:120px;
+      height:120px;
+      margin:0 auto 10px;
+      filter: drop-shadow(0 10px 18px rgba(60,33,12,.12));
+    }
+
+    .item{
+      display:flex;
+      gap:12px;
+      align-items:center;
+      padding:14px;
+      border-bottom:1px solid var(--line);
+      background:rgba(255, 253, 249, .88);
+      transition:background .15s ease;
+      position:relative;
+      z-index:1;
+    }
+    .item:last-child{border-bottom:none}
+    .item.dragging{opacity:.55; background:rgba(255, 242, 224, .90)}
+
+    .check{
+      width:22px;height:22px;
+      border-radius:8px;
+      border:2px solid rgba(139,90,43,.45);
+      display:grid;
+      place-items:center;
+      flex:0 0 auto;
+      cursor:pointer;
+      background:rgba(255, 255, 255, .85);
+    }
+    .check svg{width:14px;height:14px;opacity:0;transform:scale(.9)}
+    .item.done .check{background:rgba(196,122,58,.16); border-color:rgba(139,90,43,.75)}
+    .item.done .check svg{opacity:1;transform:scale(1)}
+
+    .text{
+      flex:1;
+      min-width:0;
+      display:flex;
+      flex-direction:column;
+      gap:4px;
+    }
+    .text .t{
+      font-size:14px;
+      font-weight:950;
+      letter-spacing:-.2px;
+      line-height:1.25;
+      word-break:keep-all;
+    }
+    .item.done .text .t{color:#B19986; text-decoration:line-through}
+    .text .meta{font-size:12px;color:rgba(122, 90, 69, .92)}
+
+    .actions{display:flex; gap:8px; align-items:center}
+    .icon{
+      width:38px;height:38px;
+      border-radius:14px;
+      border:1px solid rgba(138, 104, 76, .20);
+      background:rgba(255, 253, 249, .85);
+      cursor:pointer;
+      display:grid;
+      place-items:center;
+      box-shadow:0 10px 22px rgba(60, 33, 12, .06);
+    }
+    .icon:active{transform:translateY(1px)}
+    .grip{cursor:grab; user-select:none}
+
+    /* ===== Bottom bar ===== */
+    .bottom{
+      position:fixed;
+      left:0; right:0; bottom:0;
+      padding:10px 14px calc(10px + var(--safeB));
+      background:rgba(255, 244, 228, .72);
+      backdrop-filter: blur(12px);
+      border-top:1px solid rgba(138, 104, 76, .20);
+    }
+    .bottom .inner{
+      max-width:520px;
+      margin:0 auto;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+    }
+    .summary{
+      font-size:13px;
+      color:#3B2A20;
+      display:flex;
+      flex-direction:column;
+      gap:2px;
+      min-width:0;
+    }
+    .summary b{font-size:14px}
+    .hint{font-size:12px;color:var(--muted)}
+
+    .primary{
+      height:44px;
+      padding:0 14px;
+      border:none;
+      border-radius:14px;
+      background:#3B2A20;
+      color:#fff;
+      font-weight:950;
+      cursor:pointer;
+      display:flex;
+      align-items:center;
+      gap:10px;
+      box-shadow:0 12px 26px rgba(60, 33, 12, .18);
+      white-space:nowrap;
+    }
+    .primary:active{transform:translateY(1px)}
+
+    /* ===== Toast ===== */
+    .toast{
+      position:fixed;
+      left:50%;
+      bottom:92px;
+      transform:translateX(-50%);
+      background:#3B2A20;
+      color:#fff;
+      padding:10px 12px;
+      border-radius:999px;
+      font-size:12px;
+      font-weight:950;
+      opacity:0;
+      pointer-events:none;
+      transition:opacity .2s ease, transform .2s ease;
+      box-shadow:0 14px 28px rgba(60, 33, 12, .18);
+    }
+    .toast.show{opacity:1; transform:translateX(-50%) translateY(-6px)}
+
+    /* Accessibility helpers */
+    .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+
+    /* Small screens */
+    @media (max-width: 380px){
+      .mini{gap:6px}
+      .ghost{padding:10px 10px}
+      .tag{display:none}
+    }
+  </style>
+</head>
+<body>
+  <div class="plaid" aria-hidden="true"></div>
+
+  <main class="wrap">
+    <header class="top">
+      <div class="title">
+        <div class="brandline">
+          <div class="bear" aria-hidden="true">
+            <!-- Teddy Bear icon (inline SVG) -->
+            <svg width="30" height="30" viewBox="0 0 64 64" fill="none" aria-hidden="true">
+              <path d="M20 18c0-6 4-10 10-10s10 4 10 10" stroke="#8B5A2B" stroke-width="4" stroke-linecap="round"/>
+              <circle cx="18" cy="22" r="8" fill="#C47A3A" stroke="#8B5A2B" stroke-width="3"/>
+              <circle cx="46" cy="22" r="8" fill="#C47A3A" stroke="#8B5A2B" stroke-width="3"/>
+              <circle cx="32" cy="34" r="18" fill="#D89A5C" stroke="#8B5A2B" stroke-width="3"/>
+              <circle cx="26" cy="32" r="3" fill="#2A1F19"/>
+              <circle cx="38" cy="32" r="3" fill="#2A1F19"/>
+              <path d="M28 40c2 2 6 2 8 0" stroke="#2A1F19" stroke-width="3" stroke-linecap="round"/>
+              <path d="M29 36c2-3 4-3 6 0" stroke="#2A1F19" stroke-width="3" stroke-linecap="round"/>
+              <ellipse cx="32" cy="38" rx="7" ry="6" fill="#F2C38B" stroke="#8B5A2B" stroke-width="2"/>
+              <path d="M22 52c3-6 7-9 10-9s7 3 10 9" stroke="#8B5A2B" stroke-width="3" stroke-linecap="round"/>
+              <path d="M26 49l2 6M38 49l-2 6" stroke="#8B5A2B" stroke-width="3" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <h1>오늘 할 일 <span class="tag">Teddy Fall</span></h1>
+        </div>
+        <div class="date" id="today"></div>
+      </div>
+      <div class="chip" aria-label="진행 상태">
+        <span class="dot" aria-hidden="true"></span>
+        <span id="chipText">0 / 0 완료</span>
+      </div>
+    </header>
+
+    <section class="card" aria-label="할 일 관리">
+      <div class="add">
+        <label class="sr-only" for="taskInput">할 일 입력</label>
+        <input id="taskInput" type="text" placeholder="따뜻한 가을, 오늘 할 일을 적어보세요 🍁" autocomplete="off" />
+        <button class="btn" id="addBtn" type="button">추가</button>
+      </div>
+
+      <div class="toolbar">
+        <div class="seg" role="group" aria-label="필터">
+          <button type="button" class="segBtn" data-filter="all" aria-pressed="true">전체</button>
+          <button type="button" class="segBtn" data-filter="active" aria-pressed="false">진행중</button>
+          <button type="button" class="segBtn" data-filter="done" aria-pressed="false">완료</button>
+        </div>
+        <div class="mini">
+          <button type="button" class="ghost" id="clearDone">완료 삭제</button>
+          <button type="button" class="ghost" id="clearAll">전체 삭제</button>
+        </div>
+      </div>
+
+      <ul class="list" id="list" aria-label="오늘 할 일 목록"></ul>
+      <div class="empty" id="empty" hidden>
+        <svg class="ill" viewBox="0 0 120 120" fill="none" aria-hidden="true">
+          <!-- Teddy + leaves illustration -->
+          <circle cx="60" cy="64" r="32" fill="#D89A5C" stroke="#8B5A2B" stroke-width="3"/>
+          <circle cx="38" cy="46" r="14" fill="#C47A3A" stroke="#8B5A2B" stroke-width="3"/>
+          <circle cx="82" cy="46" r="14" fill="#C47A3A" stroke="#8B5A2B" stroke-width="3"/>
+          <circle cx="50" cy="62" r="4" fill="#2A1F19"/>
+          <circle cx="70" cy="62" r="4" fill="#2A1F19"/>
+          <path d="M52 76c4 4 12 4 16 0" stroke="#2A1F19" stroke-width="3" stroke-linecap="round"/>
+          <ellipse cx="60" cy="72" rx="10" ry="8" fill="#F2C38B" stroke="#8B5A2B" stroke-width="2"/>
+          <path d="M18 92c10-8 16-10 20-8-2 8-6 14-20 8Z" fill="#E38D3D" opacity=".9"/>
+          <path d="M92 90c8-10 14-14 20-12-1 9-6 16-20 12Z" fill="#C15A2B" opacity=".9"/>
+          <path d="M78 96c6-6 10-8 14-7-1 7-4 11-14 7Z" fill="#F2C38B" opacity=".9"/>
+        </svg>
+        아직 할 일이 없어요 🙂<br/>
+        위 입력창에 오늘 할 일을 추가해보세요.
+      </div>
+    </section>
+  </main>
+
+  <nav class="bottom" aria-label="하단 정보">
+    <div class="inner">
+      <div class="summary">
+        <b id="summaryTitle">오늘의 목표</b>
+        <span class="hint" id="summaryHint">드래그로 순서 변경 · 체크로 완료</span>
+      </div>
+      <button class="primary" id="resetToday" type="button" title="오늘 목록 새로 시작">
+        <span aria-hidden="true">↻</span>
+        오늘 새로 시작
+      </button>
+    </div>
+  </nav>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script>
+    /* ===== Utilities ===== */
+    const $ = (sel, el=document) => el.querySelector(sel);
+    const $$ = (sel, el=document) => Array.from(el.querySelectorAll(sel));
+
+    const pad2 = (n) => String(n).padStart(2, '0');
+    const toDateKey = (d = new Date()) => `${d.getFullYear()}-${pad2(d.getMonth()+1)}-${pad2(d.getDate())}`;
+    const nowKorean = () => new Intl.DateTimeFormat('ko-KR', {
+      weekday:'long', year:'numeric', month:'long', day:'numeric'
+    }).format(new Date());
+
+    const STORAGE_PREFIX = 'today_todo_v1:';
+    const getStorageKey = () => STORAGE_PREFIX + toDateKey();
+
+    const toastEl = $('#toast');
+    let toastTimer = null;
+    function toast(msg){
+      toastEl.textContent = msg;
+      toastEl.classList.add('show');
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(()=>toastEl.classList.remove('show'), 1600);
+    }
+
+    /* ===== State ===== */
+    /** @type {{id:string, text:string, done:boolean, createdAt:number}[]} */
+    let tasks = [];
+    let filter = 'all';
+
+    function uid(){
+      return Math.random().toString(16).slice(2) + Date.now().toString(16);
+    }
+
+    function load(){
+      const raw = localStorage.getItem(getStorageKey());
+      if(!raw){ tasks = []; return; }
+      try{
+        const parsed = JSON.parse(raw);
+        if(Array.isArray(parsed)) tasks = parsed;
+        else tasks = [];
+      }catch{
+        tasks = [];
+      }
+    }
+
+    function save(){
+      localStorage.setItem(getStorageKey(), JSON.stringify(tasks));
+    }
+
+    /* ===== Render ===== */
+    const listEl = $('#list');
+    const emptyEl = $('#empty');
+    const chipText = $('#chipText');
+
+    function getVisibleTasks(){
+      if(filter === 'active') return tasks.filter(t=>!t.done);
+      if(filter === 'done') return tasks.filter(t=>t.done);
+      return tasks;
+    }
+
+    function updateHeader(){
+      const done = tasks.filter(t=>t.done).length;
+      const total = tasks.length;
+      chipText.textContent = `${done} / ${total} 완료`;
+      $('#summaryTitle').textContent = total ? `오늘의 목표 · ${total}개` : '오늘의 목표';
+    }
+
+    function taskMeta(ts){
+      const d = new Date(ts);
+      return `${pad2(d.getHours())}:${pad2(d.getMinutes())} 추가`;
+    }
+
+    function render(){
+      updateHeader();
+      const items = getVisibleTasks();
+
+      listEl.innerHTML = '';
+      if(items.length === 0){
+        emptyEl.hidden = tasks.length !== 0;
+      } else {
+        emptyEl.hidden = true;
+      }
+
+      items.forEach((t)=>{
+        const li = document.createElement('li');
+        li.className = 'item' + (t.done ? ' done' : '');
+        li.dataset.id = t.id;
+        li.draggable = true;
+
+        li.innerHTML = `
+          <button class="check" type="button" aria-label="${t.done ? '완료 해제' : '완료'}">
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M20 7L10 17l-5-5" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+          <div class="text">
+            <div class="t"></div>
+            <div class="meta">${taskMeta(t.createdAt)}</div>
+          </div>
+          <div class="actions">
+            <button class="icon edit" type="button" aria-label="수정">
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" aria-hidden="true">
+                <path d="M12 20h9" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                <path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L8 18l-4 1 1-4 11.5-11.5z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </button>
+            <button class="icon del" type="button" aria-label="삭제">
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" aria-hidden="true">
+                <path d="M3 6h18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                <path d="M8 6V4h8v2" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                <path d="M6 6l1 16h10l1-16" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+              </svg>
+            </button>
+            <div class="icon grip" title="드래그로 이동" aria-label="드래그 핸들" role="img">
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" aria-hidden="true">
+                <path d="M9 6h.01M9 12h.01M9 18h.01M15 6h.01M15 12h.01M15 18h.01" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+              </svg>
+            </div>
+          </div>
+        `;
+
+        li.querySelector('.t').textContent = t.text;
+
+        li.querySelector('.check').addEventListener('click', ()=>toggleDone(t.id));
+        li.querySelector('.del').addEventListener('click', ()=>removeTask(t.id));
+        li.querySelector('.edit').addEventListener('click', ()=>editTask(t.id));
+
+        li.addEventListener('dragstart', (e)=>{
+          li.classList.add('dragging');
+          e.dataTransfer.setData('text/plain', t.id);
+          e.dataTransfer.effectAllowed = 'move';
+        });
+        li.addEventListener('dragend', ()=>li.classList.remove('dragging'));
+
+        listEl.appendChild(li);
+      });
+
+      listEl.addEventListener('dragover', onDragOver);
+      listEl.addEventListener('drop', onDrop);
+    }
+
+    function onDragOver(e){
+      e.preventDefault();
+      const dragging = $('.item.dragging');
+      if(!dragging) return;
+
+      const afterEl = getDragAfterElement(listEl, e.clientY);
+      if(afterEl == null){
+        listEl.appendChild(dragging);
+      } else {
+        listEl.insertBefore(dragging, afterEl);
+      }
+    }
+
+    function onDrop(e){
+      e.preventDefault();
+      const visibleIds = $$('.item', listEl).map(el=>el.dataset.id);
+      const remaining = tasks.map(t=>t.id).filter(id=>!visibleIds.includes(id));
+      const newOrder = [...visibleIds, ...remaining];
+      tasks.sort((a,b)=>newOrder.indexOf(a.id) - newOrder.indexOf(b.id));
+      save();
+      toast('순서가 변경됐어요');
+      render();
+    }
+
+    function getDragAfterElement(container, y){
+      const draggableEls = [...container.querySelectorAll('.item:not(.dragging)')];
+      return draggableEls.reduce((closest, child) => {
+        const box = child.getBoundingClientRect();
+        const offset = y - box.top - box.height / 2;
+        if(offset < 0 && offset > closest.offset){
+          return { offset, element: child };
+        } else {
+          return closest;
+        }
+      }, { offset: Number.NEGATIVE_INFINITY, element: null }).element;
+    }
+
+    /* ===== Actions ===== */
+    const inputEl = $('#taskInput');
+
+    function addTask(){
+      const text = inputEl.value.trim();
+      if(!text){
+        toast('할 일을 입력해 주세요');
+        inputEl.focus();
+        return;
+      }
+      tasks.unshift({ id: uid(), text, done:false, createdAt: Date.now() });
+      inputEl.value = '';
+      save();
+      toast('추가했어요');
+      render();
+    }
+
+    function toggleDone(id){
+      const t = tasks.find(x=>x.id===id);
+      if(!t) return;
+      t.done = !t.done;
+      save();
+      render();
+    }
+
+    function removeTask(id){
+      const idx = tasks.findIndex(x=>x.id===id);
+      if(idx < 0) return;
+      tasks.splice(idx, 1);
+      save();
+      toast('삭제했어요');
+      render();
+    }
+
+    function editTask(id){
+      const t = tasks.find(x=>x.id===id);
+      if(!t) return;
+      const next = prompt('할 일을 수정하세요', t.text);
+      if(next == null) return;
+      const text = next.trim();
+      if(!text){ toast('내용이 비어 있어요'); return; }
+      t.text = text;
+      save();
+      toast('수정했어요');
+      render();
+    }
+
+    function clearDone(){
+      const before = tasks.length;
+      tasks = tasks.filter(t=>!t.done);
+      if(tasks.length === before){ toast('삭제할 완료 항목이 없어요'); return; }
+      save();
+      toast('완료 항목을 삭제했어요');
+      render();
+    }
+
+    function clearAll(){
+      if(tasks.length === 0){ toast('삭제할 항목이 없어요'); return; }
+      const ok = confirm('정말 전체 삭제할까요?');
+      if(!ok) return;
+      tasks = [];
+      save();
+      toast('전체 삭제했어요');
+      render();
+    }
+
+    function setFilter(next){
+      filter = next;
+      $$('.segBtn').forEach(btn=>{
+        const on = btn.dataset.filter === next;
+        btn.setAttribute('aria-pressed', String(on));
+      });
+      render();
+    }
+
+    function resetToday(){
+      const ok = confirm('오늘 할 일을 새로 시작할까요?\n(오늘 저장된 목록이 모두 초기화됩니다)');
+      if(!ok) return;
+      tasks = [];
+      save();
+      toast('오늘을 새로 시작해요');
+      render();
+      inputEl.focus();
+    }
+
+    /* ===== Init ===== */
+    function init(){
+      $('#today').textContent = nowKorean();
+
+      load();
+      render();
+
+      $('#addBtn').addEventListener('click', addTask);
+      inputEl.addEventListener('keydown', (e)=>{
+        if(e.key === 'Enter') addTask();
+      });
+
+      $$('.segBtn').forEach(btn=>btn.addEventListener('click', ()=>setFilter(btn.dataset.filter)));
+      $('#clearDone').addEventListener('click', clearDone);
+      $('#clearAll').addEventListener('click', clearAll);
+      $('#resetToday').addEventListener('click', resetToday);
+
+      let lastKey = getStorageKey();
+      setInterval(()=>{
+        const k = getStorageKey();
+        if(k !== lastKey){
+          lastKey = k;
+          $('#today').textContent = nowKorean();
+          load();
+          toast('날짜가 바뀌었어요. 새로운 오늘을 시작합니다');
+          render();
+        }
+      }, 5000);
+    }
+
+    init();
+  </script>
+</body>
+</html>
