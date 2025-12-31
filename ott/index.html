@@ -1,0 +1,185 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>StreamFlix (TMDB)</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;600;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="./css/style.css" />
+</head>
+<body>
+
+<header class="header" id="header">
+    <a class="brand" href="#top" aria-label="StreamFlix">
+    <span class="brand__mark">O</span>
+    <span class="brand__text">OTT</span>
+    </a>
+    <!-- ✅ Nav (추가) -->
+    <nav class="nav" aria-label="주요 메뉴">
+      <a class="nav__link is-active" href="#home" data-nav="home">홈</a>
+      <a class="nav__link" href="#series" data-nav="series">시리즈</a>
+      <a class="nav__link" href="#movies" data-nav="movies">영화</a>
+      <a class="nav__link" href="#games" data-nav="games">게임</a>
+
+      <a class="nav__link nav__link--new" href="#new" data-nav="new">
+        NEW! 요즘 대세 콘텐츠
+      </a>
+
+      <a class="nav__link" href="#mylist" data-nav="mylist">내가 찜한 리스트</a>
+      <a class="nav__link" href="#lang" data-nav="lang">언어별로 찾아보기</a>
+    </nav>
+
+    <!-- (기존 우측 영역이 있다면 그대로 유지) -->
+    <div class="header__right">
+      <!-- 검색/프로필 등 기존 요소 -->
+    </div>
+
+    <!-- ✅ Mobile nav toggle (추가) -->
+    <button class="navToggle" id="navToggle" type="button" aria-label="메뉴 열기">
+      ☰
+    </button>
+  </div>
+
+  <nav class="header__nav" aria-label="Primary">
+    <div class="lang">
+      <button class="lang__btn" id="langBtn" type="button" aria-haspopup="listbox" aria-expanded="false">
+        <span class="lang__icon" aria-hidden="true">🌐</span>
+        <span id="langLabel">한국어</span>
+        <span class="lang__chev" aria-hidden="true">▾</span>
+      </button>
+      <ul class="lang__menu" id="langMenu" role="listbox" aria-label="Language">
+        <li role="option" data-lang="ko" aria-selected="true">한국어</li>
+        <li role="option" data-lang="en" aria-selected="false">English</li>
+      </ul>
+    </div>
+
+    <a class="btn btn--ghost" href="#rowsSection">탐색</a>
+    <a class="btn btn--primary" href="#" id="signInBtn">로그인</a>
+  </nav>
+</header>
+
+<main id="top">
+
+  <!-- ✅ Netflix-style Featured Hero -->
+  <section class="featured" id="featured" aria-label="Featured">
+    <div class="featured__media" aria-hidden="true">
+      <!-- JS가 여기 채움: iframe(트레일러) 또는 배경이미지 -->
+      <div class="featured__fallback" id="featuredFallback"></div>
+      <div class="featured__video" id="featuredVideo"></div>
+
+      <div class="featured__shade"></div>
+      <div class="featured__bottomFade"></div>
+    </div>
+
+    <div class="featured__content">
+      <div class="featured__inner">
+        <p class="featured__tag" id="featuredTag">TMDB · Now Playing</p>
+
+        <h1 class="featured__title" id="featuredTitle">불러오는 중…</h1>
+        <p class="featured__desc" id="featuredDesc">영화 정보를 불러오고 있어요.</p>
+
+        <div class="featured__actions">
+          <button class="btn btn--play" id="playBtn" type="button">
+            ▶ 재생
+          </button>
+          <button class="btn btn--info" id="infoBtn" type="button">
+            i 상세 정보
+          </button>
+        </div>
+
+        <div class="featured__meta" id="featuredMeta"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Rows -->
+  <section class="section" id="rowsSection">
+    <div class="container">
+      <header class="section__head">
+        <h2 class="section__title">지금 뜨는 콘텐츠</h2>
+        <p class="section__desc">TMDB now_playing 기반으로 표시됩니다.</p>
+      </header>
+
+      <div class="rows" id="rows"></div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="footer" aria-label="Footer">
+  <div class="container footer__grid">
+    <div class="footer__col">
+      <div class="footer__title">문의</div>
+      <a class="footer__link" href="#">고객센터</a>
+      <a class="footer__link" href="#">이용약관</a>
+      <a class="footer__link" href="#">개인정보 처리방침</a>
+    </div>
+    <div class="footer__col">
+      <div class="footer__title">서비스</div>
+      <a class="footer__link" href="#">요금제</a>
+      <a class="footer__link" href="#">기기</a>
+      <a class="footer__link" href="#">공지사항</a>
+    </div>
+    <div class="footer__col">
+      <div class="footer__title">회사</div>
+      <a class="footer__link" href="#">회사 소개</a>
+      <a class="footer__link" href="#">채용</a>
+      <a class="footer__link" href="#">투자 정보</a>
+    </div>
+    <div class="footer__col">
+      <div class="footer__title">소셜</div>
+      <a class="footer__link" href="#">Instagram</a>
+      <a class="footer__link" href="#">YouTube</a>
+      <a class="footer__link" href="#">X</a>
+    </div>
+  </div>
+
+  <div class="container footer__bottom">
+    <p class="small">© <span id="year"></span> StreamFlix. Demo UI.</p>
+  </div>
+</footer>
+
+<!-- Modal (상세 정보용) -->
+<div class="modal" id="modal" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Preview">
+  <div class="modal__backdrop" data-close="true"></div>
+  <div class="modal__sheet" role="document">
+    <button class="modal__close" type="button" aria-label="닫기" data-close="true">✕</button>
+
+    <div class="modal__media">
+      <div class="modal__poster" id="modalPoster"></div>
+      <div class="modal__grad" aria-hidden="true"></div>
+      <div class="modal__meta">
+        <h3 class="modal__title" id="modalTitle">제목</h3>
+        <p class="modal__desc" id="modalDesc">설명</p>
+        <div class="modal__tags" id="modalTags"></div>
+        <div class="modal__actions">
+          <button class="btn btn--primary" type="button">재생</button>
+          <button class="btn btn--ghost" type="button">찜하기</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal__detail">
+      <div class="detail__col">
+        <div class="detail__label">개봉일</div>
+        <div class="detail__value" id="modalRelease">-</div>
+      </div>
+      <div class="detail__col">
+        <div class="detail__label">평점</div>
+        <div class="detail__value" id="modalVote">-</div>
+      </div>
+      <div class="detail__col">
+        <div class="detail__label">타입</div>
+        <div class="detail__value">Movie</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="./js/net.js" defer></script>
+</body>
+</html>
