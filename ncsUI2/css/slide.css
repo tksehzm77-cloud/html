@@ -37,7 +37,7 @@ height:auto;
 
 .content{
 position:relative;
-padding:28px 22px 80px;
+padding:24px 24px 24px;
 }
 
 
@@ -59,21 +59,21 @@ color:#3b3f46;
 
 .bike{
 position:absolute;
-right:10px;
-bottom:40px;
+right: 0;
+bottom: 0;
 width:196px;
 }
 
 .jeju{
     position:absolute;
-    right:10px;
-    bottom:40px;
+    right: 0;
+    bottom: 0;
     width:198px;
 }
 .hand{
     position:absolute;
-    right:10px;
-    bottom:40px;
+    right: 5px;
+    bottom: 10px;
     width:214px;
 }
 
