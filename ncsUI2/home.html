@@ -1,152 +1,140 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ko">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title>JEJU LOOP - Home</title>
-
-  <!-- Swiper CDN -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
-
   <link rel="stylesheet" href="./css/home.css" />
 </head>
 <body>
-
   <div class="app">
 
-    <!-- ===== HERO (상단 일러스트 영역) ===== -->
-    <header class="hero">
-      <!-- 배경 이미지는 CSS에서 설정(교체 쉽게) -->
-      <div class="hero__overlay">
-        <div class="hero__greeting">
-          <div class="avatar" aria-hidden="true">
-            <!-- 사용자가 이미지로 교체 가능 -->
-            <img src="avatar.png" alt="" onerror="this.style.display='none'; this.parentElement.classList.add('avatar--fallback')" />
+    <main class="screen" id="screen">
+      <!-- HERO -->
+      <section class="hero">
+        <div class="hero__top">
+          <div class="profile">
+            <img class="profile__img" src="./images/user.png" alt="프로필" />
           </div>
 
-          <p class="greeting-text">
-            <strong>권나영님 안녕하우꽈</strong><br />
+          <p class="hero__greet">
+            권나영님 안녕하우꽈<br />
             즐거운 자전거여행이 되세요.
           </p>
         </div>
 
-        <!-- 시안처럼 하단 카드 2개 -->
-        <div class="hero__cards">
-          <!-- Weather 카드 -->
-          <article class="card weather-card" aria-label="날씨 카드">
-            <div class="weather-card__top">
-              <span class="weather-card__label">Mostly Sunny</span>
-              <span class="weather-card__icon" aria-hidden="true">⛅</span>
+        <!-- ✅ 문구 밑 메인 이미지 영역(사용자가 이미지 삽입) -->
+        <!-- <div class="hero__mainImg" aria-label="메인 이미지 영역"> -->
+          <!-- 이 이미지 파일을 시안의 메인 이미지로 교체하세요 -->
+          <!-- <img src="./img/hero-main.png" alt="메인 이미지" /> -->
+        <!-- </div> -->
+
+        <!-- 오버레이 카드 영역 -->
+        <div class="overlay">
+          <article class="card weather">
+            <div class="weather__left">
+              <p class="weather__status">Mostly Sunny</p>
+              <p class="weather__temp"><span>20</span>°</p>
             </div>
-            <div class="weather-card__temp">
-              <span class="temp">20°</span>
+            <div class="weather__right">
+              <img src="./images/weather.png" alt="weather" class="weather__icon" />
             </div>
           </article>
 
-          <!-- Course stats 카드(완주코스/이동거리) -->
-          <article class="card stats-card" aria-label="코스 카드">
-            <div class="stats-row">
-              <div class="stats-label">완주코스</div>
-              <div class="stats-value">1/10</div>
+          <article class="card course">
+            <div class="course__row">
+              <p class="course__label">완주코스</p>
+              <p class="course__value">1/10</p>
             </div>
-            <div class="stats-row stats-row--split">
-              <div class="stats-label">이동거리</div>
-              <div class="stats-value">15km</div>
+            <div class="course__divider"></div>
+            <div class="course__row">
+              <p class="course__label">이동거리</p>
+              <p class="course__value">15km</p>
             </div>
           </article>
         </div>
-      </div>
-    </header>
+      </section>
 
-    <!-- ===== CONTENT (스크롤 영역) ===== -->
-    <main class="content">
-
-      <!-- 가이드 섹션 (슬라이드) -->
+      <!-- SECTION: Guide slider -->
       <section class="section">
         <div class="section__head">
           <h2 class="section__title">제주도 자전거 여행정보 가이드</h2>
         </div>
 
-        <!-- Swiper -->
-        <div class="swiper guideSwiper" aria-label="여행정보 가이드 슬라이드">
-          <div class="swiper-wrapper">
-            <div class="swiper-slide">
-              <figure class="thumb">
-                <img src="guide1.jpg" alt="제주 자전거 여행 가이드 이미지 1" />
-              </figure>
-            </div>
-            <div class="swiper-slide">
-              <figure class="thumb">
-                <img src="guide2.jpg" alt="제주 자전거 여행 가이드 이미지 2" />
-              </figure>
-            </div>
-            <div class="swiper-slide">
-              <figure class="thumb">
-                <img src="guide3.jpg" alt="제주 자전거 여행 가이드 이미지 3" />
-              </figure>
-            </div>
+        <!-- ✅ 손으로 쓸어넘기는 슬라이드 -->
+        <div class="guideSlider" id="guideSlider" aria-label="가이드 슬라이드">
+          <div class="guideTrack">
+            <button class="guideSlide" type="button">
+              <img src="./images/slide1.jpg" alt="가이드 1" />
+            </button>
+            <button class="guideSlide" type="button">
+              <img src="./images/slide2.jpg" alt="가이드 2" />
+            </button>
+            <button class="guideSlide" type="button">
+              <img src="./images/slide3.jpg" alt="가이드 3" />
+            </button>
           </div>
         </div>
 
         <div class="section__foot">
-          <span class="section__title section__title--sub">제주도 자전거 여행정보 가이드</span>
-          <a class="more" href="#" onclick="return false;">더보기</a>
+          <h3 class="section__subtitle">제주도 자전거 여행정보 가이드</h3>
+          <button class="more" type="button">더보기</button>
         </div>
       </section>
 
-      <!-- 아래 카드형 콘텐츠 (세로 스크롤로 계속 내려가며 확인) -->
+      <!-- Feed -->
       <section class="feed">
-        <article class="feed-card">
-          <img src="feed1.jpg" alt="자전거 여행 패키지 콘텐츠 이미지 1" />
-        </article>
-
-        <article class="feed-card feed-card--overlay">
-          <img src="feed2.jpg" alt="자전거 여행 패키지 두번째 코스 이야기 이미지" />
-          <div class="feed-card__overlay">
-            <p>제주도 자전거 여행 패키지<br><strong>두번째 코스 이야기</strong></p>
+        <article class="feedCard">
+          <div class="feedCard__imgWrap">
+            <img src="./img/feed-1.jpg" alt="자전거 패키지 1" />
           </div>
         </article>
 
-        <article class="feed-card feed-card--overlay">
-          <img src="feed3.jpg" alt="자전거 여행 패키지 세번째 코스 이야기 이미지" />
-          <div class="feed-card__overlay">
-            <p>제주도 자전거 여행 패키지<br><strong>세번째 코스 이야기</strong></p>
+        <article class="feedCard feedCard--withText">
+          <div class="feedCard__imgWrap">
+            <img src="./img/feed-2.jpg" alt="자전거 패키지 2" />
+          </div>
+          <div class="feedCard__overlayText">
+            <p>제주도 자전거 여행 패키지<br />두번째 코스 이야기</p>
+          </div>
+        </article>
+
+        <article class="feedCard feedCard--withText">
+          <div class="feedCard__imgWrap">
+            <img src="./img/feed-3.jpg" alt="자전거 패키지 3" />
+          </div>
+          <div class="feedCard__overlayText">
+            <p>제주도 자전거 여행 패키지<br />세번째 코스 이야기</p>
           </div>
         </article>
       </section>
-
-      <!-- 하단 네비에 가려지지 않도록 여백 -->
-      <div class="bottom-safe" aria-hidden="true"></div>
     </main>
 
-    <!-- ===== BOTTOM NAV (고정) ===== -->
-    <nav class="bottom-nav" aria-label="하단 내비게이션">
-      <a class="nav-item is-active" href="#" onclick="return false;">
-        <span class="nav-ico" aria-hidden="true">🏠</span>
-        <span class="nav-txt">홈</span>
-      </a>
-      <a class="nav-item" href="#" onclick="return false;">
-        <span class="nav-ico" aria-hidden="true">💬</span>
-        <span class="nav-txt">커뮤니티</span>
-      </a>
-      <a class="nav-item" href="#" onclick="return false;">
-        <span class="nav-ico" aria-hidden="true">🗺️</span>
-        <span class="nav-txt">코스</span>
-      </a>
-      <a class="nav-item" href="#" onclick="return false;">
-        <span class="nav-ico" aria-hidden="true">👑</span>
-        <span class="nav-txt">랭킹</span>
-      </a>
-      <a class="nav-item" href="#" onclick="return false;">
-        <span class="nav-ico" aria-hidden="true">👤</span>
-        <span class="nav-txt">마이</span>
-      </a>
+    <!-- Bottom Nav -->
+    <nav class="bottomNav" aria-label="하단 네비게이션">
+      <button class="navItem is-active" data-tab="home" type="button">
+        <span class="navIcon">🏠</span>
+        <span class="navText">홈</span>
+      </button>
+      <button class="navItem" data-tab="community" type="button">
+        <span class="navIcon">📄</span>
+        <span class="navText">커뮤니티</span>
+      </button>
+      <button class="navItem" data-tab="course" type="button">
+        <span class="navIcon">🗺️</span>
+        <span class="navText">코스</span>
+      </button>
+      <button class="navItem" data-tab="ranking" type="button">
+        <span class="navIcon">👑</span>
+        <span class="navText">랭킹</span>
+      </button>
+      <button class="navItem" data-tab="my" type="button">
+        <span class="navIcon">👤</span>
+        <span class="navText">마이</span>
+      </button>
     </nav>
-
   </div>
 
-  <!-- Swiper JS -->
-  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
   <script src="./js/home.js"></script>
 </body>
 </html>
