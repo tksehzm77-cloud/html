@@ -61,20 +61,20 @@ color:#3b3f46;
 position:absolute;
 right: 0;
 bottom: 0;
-width:196px;
+width:160px;
 }
 
 .jeju{
     position:absolute;
     right: 0;
     bottom: 0;
-    width:198px;
+    width: 160px;
 }
 .hand{
     position:absolute;
-    right: 5px;
-    bottom: 10px;
-    width:214px;
+    right: 0px;
+    bottom: 0px;
+    width: 160px;
 }
 
 
