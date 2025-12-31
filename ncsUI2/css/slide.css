@@ -36,62 +36,45 @@ height:auto;
 
 
 .content{
-  position: relative;
-  padding: 28px 22px 220px; 
-  /* 👆 하단에 자전거 공간 확보 */
+position:relative;
+padding:28px 22px 80px;
 }
 
 
 .title{
 color:#F59E0B;
 font-size:24px;
-font-weight:800;
+font-weight:200;
 line-height:1.1;
 margin-bottom:18px;
 }
 
 
 .desc{
-font-size:13px;
+font-size:12px;
 line-height:1.9;
 color:#3b3f46;
 }
 
 
 .bike{
-  position: absolute;
-  right: 12px;
-  bottom: 32px;
-  width: 260px;
-  height: auto;
-  pointer-events: none;
+position:absolute;
+right:10px;
+bottom:40px;
+width:196px;
 }
 
 .jeju{
-    position: absolute;
-    right: 12px;
-    bottom: 32px;
-    width: 260px;
-    height: auto;
-    pointer-events: none;
+    position:absolute;
+    right:10px;
+    bottom:40px;
+    width:198px;
 }
 .hand{
-    position: absolute;
-    right: 0;
-    bottom: 32px;
-    width: 260px;
-    height: auto;
-    pointer-events: none;
-}
-
-/* 모바일 작은 기기 대응 */
-@media (max-width: 380px){
-  .content{
-    padding-bottom: 200px;
-  }
-  .bike{
-    width: 230px;
-  }
+    position:absolute;
+    right:10px;
+    bottom:40px;
+    width:214px;
 }
 
 
@@ -112,15 +95,15 @@ color:#3b3f46;
 
 
 .swiper-pagination-bullet{
-    width: 14px;
-    height: 14px;
-    background: #d1d5db;
-    opacity: 1;
-    border-radius: 999px;
+width:14px;
+height:14px;
+background:#d1d5db;
+opacity:1;
 }
 
 
 .swiper-pagination-bullet-active{
 width:48px;
+border-radius:999px;
 background:#F59E0B;
 }
