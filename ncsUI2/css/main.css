@@ -1,0 +1,72 @@
+/* ===== Reset ===== */
+* { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+html, body { height: 100%; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Pretendard", "Noto Sans KR", sans-serif;
+  background: #000;
+  overflow: hidden; /* 스플래시 화면: 스크롤 방지 */
+}
+
+/* ===== Layout ===== */
+.screen{
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  height: 100svh; /* 모바일 주소창 대응 */
+  overflow: hidden;
+}
+
+/* Background image covers full screen */
+.bg{
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;     /* 이미지 비율 유지하며 꽉 채우기 */
+  object-position: center;
+  user-select: none;
+  pointer-events: none;
+  transform: translateZ(0);
+}
+
+/* Logo placement (이미지 1번처럼 상단 중앙에 떠있는 느낌) */
+.logo-wrap{
+  position: absolute;
+  left: 50%;
+  top: 33%; /* 로고 위치: 화면 상단에서 약 1/3 지점 */
+  transform: translate(-50%, -50%);
+  display: grid;
+  place-items: center;
+  opacity: 0;
+  transform-origin: center;
+}
+
+/* Responsive logo size */
+.logo{
+  width: min(70vw, 360px);
+  height: auto;
+  user-select: none;
+  filter: drop-shadow(0 10px 25px rgba(0,0,0,0.10));
+}
+
+/* Load animation */
+.screen.is-loaded .logo-wrap{
+  animation: fadeUp 700ms ease-out forwards, floaty 2200ms ease-in-out 800ms infinite;
+}
+
+@keyframes fadeUp{
+  from { opacity: 0; transform: translate(-50%, -46%); }
+  to   { opacity: 1; transform: translate(-50%, -50%); }
+}
+
+/* 아주 살짝 둥실(원본 느낌 유지하면서 과하지 않게) */
+@keyframes floaty{
+  0%, 100% { transform: translate(-50%, -50%); }
+  50%      { transform: translate(-50%, -52%); }
+}
+
+/* 작은 화면 대응 */
+@media (max-width: 360px){
+  .logo{ width: 78vw; }
+  .logo-wrap{ top: 32%; }
+}

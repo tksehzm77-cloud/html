@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>JEJU LOOP - Home</title>
+
+  <!-- Swiper CDN -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
+
+  <link rel="stylesheet" href="./css/home.css" />
+</head>
+<body>
+
+  <div class="app">
+
+    <!-- ===== HERO (상단 일러스트 영역) ===== -->
+    <header class="hero">
+      <!-- 배경 이미지는 CSS에서 설정(교체 쉽게) -->
+      <div class="hero__overlay">
+        <div class="hero__greeting">
+          <div class="avatar" aria-hidden="true">
+            <!-- 사용자가 이미지로 교체 가능 -->
+            <img src="avatar.png" alt="" onerror="this.style.display='none'; this.parentElement.classList.add('avatar--fallback')" />
+          </div>
+
+          <p class="greeting-text">
+            <strong>권나영님 안녕하우꽈</strong><br />
+            즐거운 자전거여행이 되세요.
+          </p>
+        </div>
+
+        <!-- 시안처럼 하단 카드 2개 -->
+        <div class="hero__cards">
+          <!-- Weather 카드 -->
+          <article class="card weather-card" aria-label="날씨 카드">
+            <div class="weather-card__top">
+              <span class="weather-card__label">Mostly Sunny</span>
+              <span class="weather-card__icon" aria-hidden="true">⛅</span>
+            </div>
+            <div class="weather-card__temp">
+              <span class="temp">20°</span>
+            </div>
+          </article>
+
+          <!-- Course stats 카드(완주코스/이동거리) -->
+          <article class="card stats-card" aria-label="코스 카드">
+            <div class="stats-row">
+              <div class="stats-label">완주코스</div>
+              <div class="stats-value">1/10</div>
+            </div>
+            <div class="stats-row stats-row--split">
+              <div class="stats-label">이동거리</div>
+              <div class="stats-value">15km</div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </header>
+
+    <!-- ===== CONTENT (스크롤 영역) ===== -->
+    <main class="content">
+
+      <!-- 가이드 섹션 (슬라이드) -->
+      <section class="section">
+        <div class="section__head">
+          <h2 class="section__title">제주도 자전거 여행정보 가이드</h2>
+        </div>
+
+        <!-- Swiper -->
+        <div class="swiper guideSwiper" aria-label="여행정보 가이드 슬라이드">
+          <div class="swiper-wrapper">
+            <div class="swiper-slide">
+              <figure class="thumb">
+                <img src="guide1.jpg" alt="제주 자전거 여행 가이드 이미지 1" />
+              </figure>
+            </div>
+            <div class="swiper-slide">
+              <figure class="thumb">
+                <img src="guide2.jpg" alt="제주 자전거 여행 가이드 이미지 2" />
+              </figure>
+            </div>
+            <div class="swiper-slide">
+              <figure class="thumb">
+                <img src="guide3.jpg" alt="제주 자전거 여행 가이드 이미지 3" />
+              </figure>
+            </div>
+          </div>
+        </div>
+
+        <div class="section__foot">
+          <span class="section__title section__title--sub">제주도 자전거 여행정보 가이드</span>
+          <a class="more" href="#" onclick="return false;">더보기</a>
+        </div>
+      </section>
+
+      <!-- 아래 카드형 콘텐츠 (세로 스크롤로 계속 내려가며 확인) -->
+      <section class="feed">
+        <article class="feed-card">
+          <img src="feed1.jpg" alt="자전거 여행 패키지 콘텐츠 이미지 1" />
+        </article>
+
+        <article class="feed-card feed-card--overlay">
+          <img src="feed2.jpg" alt="자전거 여행 패키지 두번째 코스 이야기 이미지" />
+          <div class="feed-card__overlay">
+            <p>제주도 자전거 여행 패키지<br><strong>두번째 코스 이야기</strong></p>
+          </div>
+        </article>
+
+        <article class="feed-card feed-card--overlay">
+          <img src="feed3.jpg" alt="자전거 여행 패키지 세번째 코스 이야기 이미지" />
+          <div class="feed-card__overlay">
+            <p>제주도 자전거 여행 패키지<br><strong>세번째 코스 이야기</strong></p>
+          </div>
+        </article>
+      </section>
+
+      <!-- 하단 네비에 가려지지 않도록 여백 -->
+      <div class="bottom-safe" aria-hidden="true"></div>
+    </main>
+
+    <!-- ===== BOTTOM NAV (고정) ===== -->
+    <nav class="bottom-nav" aria-label="하단 내비게이션">
+      <a class="nav-item is-active" href="#" onclick="return false;">
+        <span class="nav-ico" aria-hidden="true">🏠</span>
+        <span class="nav-txt">홈</span>
+      </a>
+      <a class="nav-item" href="#" onclick="return false;">
+        <span class="nav-ico" aria-hidden="true">💬</span>
+        <span class="nav-txt">커뮤니티</span>
+      </a>
+      <a class="nav-item" href="#" onclick="return false;">
+        <span class="nav-ico" aria-hidden="true">🗺️</span>
+        <span class="nav-txt">코스</span>
+      </a>
+      <a class="nav-item" href="#" onclick="return false;">
+        <span class="nav-ico" aria-hidden="true">👑</span>
+        <span class="nav-txt">랭킹</span>
+      </a>
+      <a class="nav-item" href="#" onclick="return false;">
+        <span class="nav-ico" aria-hidden="true">👤</span>
+        <span class="nav-txt">마이</span>
+      </a>
+    </nav>
+
+  </div>
+
+  <!-- Swiper JS -->
+  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+  <script src="./js/home.js"></script>
+</body>
+</html>

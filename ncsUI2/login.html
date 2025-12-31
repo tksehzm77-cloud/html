@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>JEJU LOOP - Login</title>
+  <link rel="stylesheet" href="./css/login.css" />
+</head>
+<body>
+  <main class="screen">
+    <!-- Logo -->
+    <header class="logo-wrap" aria-label="JEJU LOOP 로고">
+      <img src="./images/logo.svg" alt="JEJU LOOP" class="logo" />
+    </header>
+
+    <!-- Form -->
+    <section class="form-wrap" aria-label="로그인 폼">
+      <form id="loginForm" class="form" autocomplete="on">
+        <div class="field">
+          <input
+            id="userId"
+            name="userId"
+            type="text"
+            inputmode="email"
+            autocomplete="username"
+            placeholder="아이디 또는 이메일을 입력해주세요."
+          />
+        </div>
+
+        <div class="field">
+          <input
+            id="password"
+            name="password"
+            type="password"
+            autocomplete="current-password"
+            placeholder="비밀번호를 입력해주세요."
+          />
+        </div>
+
+        <!-- Options -->
+        <div class="options">
+          <button type="button" class="opt" id="optAuto" aria-pressed="true">
+            <span class="dot is-checked" aria-hidden="true"></span>
+            <span class="opt-label">자동 로그인</span>
+          </button>
+
+          <button type="button" class="opt" id="optSave" aria-pressed="false">
+            <span class="dot" aria-hidden="true"></span>
+            <span class="opt-label">아이디 저장</span>
+          </button>
+        </div>
+
+        <button type="submit" class="btn-login">로그인</button>
+
+        <!-- Links -->
+        <nav class="links" aria-label="로그인 하단 링크">
+          <a href="#" id="findId">아이디 찾기</a>
+          <span class="sep">|</span>
+          <a href="#" id="findPw">비밀번호 찾기</a>
+          <span class="sep">|</span>
+          <a href="#" id="signup">회원가입</a>
+        </nav>
+      </form>
+
+      <div class="divider" aria-hidden="true"></div>
+
+    <!-- Social -->
+<section class="social" aria-label="소셜 로그인">
+  <button type="button" class="social-btn" id="kakaoBtn" aria-label="카카오로 로그인">
+    <img src="./images/kakao-talk.png" alt="카카오 로그인" />
+  </button>
+
+  <button type="button" class="social-btn" id="naverBtn" aria-label="네이버로 로그인">
+    <img src="./images/naver.png" alt="네이버 로그인" />
+  </button>
+
+  <button type="button" class="social-btn" id="facebookBtn" aria-label="페이스북으로 로그인">
+    <img src="./images/facebook.png" alt="페이스북 로그인" />
+  </button>
+</section>
+
+  </main>
+
+  <script src="./js/login.js"></script>
+</body>
+</html>

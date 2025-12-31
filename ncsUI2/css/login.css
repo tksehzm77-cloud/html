@@ -1,0 +1,236 @@
+/* ========== Reset ========== */
+* { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+html, body { height: 100%; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Pretendard", "Noto Sans KR", sans-serif;
+  background: #ffffff;
+  color: #111;
+}
+
+/* ========== Theme ========== */
+:root{
+  --orange: #F6A300;
+  --orange-border: #F4A000;
+  --input-bg: #E6E6E6;
+  --placeholder: #C6C6C6;
+  --muted: #A8A8A8;
+  --text-muted: #7B7B7B;
+  --divider: #DCDCDC;
+}
+
+/* ========== Layout ========== */
+.screen{
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 56px 22px 40px;
+}
+
+.logo-wrap{
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
+  margin-bottom: 48px;
+}
+
+.logo{
+  width: 220px;
+  height: auto;
+  display: block;
+}
+
+/* Form wrap */
+.form-wrap{
+  width: min(520px, 100%);
+}
+
+/* Inputs */
+.form{
+  width: 100%;
+}
+
+.field{
+  width: 100%;
+  margin-bottom: 18px;
+}
+
+.field input{
+  width: 100%;
+  height: 62px;
+  border-radius: 12px;
+  border: 2px solid var(--orange-border);
+  background: var(--input-bg);
+  padding: 0 18px;
+  outline: none;
+  font-size: 18px;
+  color: #111;
+}
+
+.field input::placeholder{
+  color: var(--placeholder);
+  font-weight: 600;
+}
+
+.field input:focus{
+  box-shadow: 0 0 0 3px rgba(246,163,0,0.18);
+}
+
+/* Options row */
+.options{
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  margin: 6px 0 26px;
+}
+
+.opt{
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: transparent;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+}
+
+.dot{
+  width: 22px;
+  height: 22px;
+  border-radius: 999px;
+  border: 2px solid #CFCFCF;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  background: #F3F3F3;
+}
+
+.dot.is-checked{
+  border-color: var(--orange);
+  background: var(--orange);
+}
+
+/* check mark */
+.dot.is-checked::after{
+  content: "";
+  width: 10px;
+  height: 6px;
+  border-left: 3px solid #fff;
+  border-bottom: 3px solid #fff;
+  transform: rotate(-45deg);
+  position: absolute;
+}
+
+.opt-label{
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--muted);
+}
+
+/* Login button */
+.btn-login{
+  width: 100%;
+  height: 72px;
+  border-radius: 12px;
+  border: 0;
+  background: var(--orange);
+  color: #fff;
+  font-size: 24px;
+  font-weight: 900;
+  letter-spacing: -0.2px;
+  cursor: pointer;
+  box-shadow: 0 6px 18px rgba(246,163,0,0.25);
+}
+
+.btn-login:active{
+  transform: translateY(1px);
+}
+
+/* Links */
+.links{
+  width: 100%;
+  margin-top: 18px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 18px;
+  font-size: 20px;
+  font-weight: 800;
+}
+
+.links a{
+  color: #2A2A2A;
+  text-decoration: none;
+}
+
+.sep{
+  color: #2A2A2A;
+  opacity: 0.85;
+}
+
+/* Divider */
+.divider{
+  width: 100%;
+  height: 2px;
+  background: var(--divider);
+  margin: 44px 0 34px;
+}
+
+/* Social */
+.social{
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  gap: 26px;
+}
+
+.social-btn{
+  width: 62px;
+  height: 62px;
+  border-radius: 999px;
+  border: 0;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.social-btn.kakao{ background: #FEE500; }
+.social-btn.naver{ background: #03C75A; }
+.social-btn.facebook{ background: #1877F2; }
+
+/* Simple icon text mimic (시안 느낌용) */
+.kakao-bubble{
+  font-weight: 900;
+  font-size: 12px;
+  color: #111;
+  background: rgba(0,0,0,0.06);
+  padding: 6px 10px;
+  border-radius: 10px;
+}
+
+.naver-n{
+  font-weight: 1000;
+  font-size: 28px;
+  color: #fff;
+  line-height: 1;
+}
+
+.fb-f{
+  font-weight: 1000;
+  font-size: 34px;
+  color: #fff;
+  transform: translateY(-1px);
+}
+
+/* Safer spacing for small screens */
+@media (max-width: 360px){
+  .screen{ padding: 44px 18px 34px; }
+  .logo{ width: 200px; }
+  .field input{ height: 58px; font-size: 17px; }
+  .btn-login{ height: 68px; font-size: 22px; }
+  .links{ font-size: 18px; gap: 14px; }
+}
