@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>객체 Data</title>
+</head>
+<body>
+    <!-- 하나의 객체에 여러 개를 저장 -->
+    <!-- 1인 -> 홍길동 이름, 성별, 주소, 전화번호... -->
+    <script>
+        // 객체를 선언하는 방법
+        // {}
+        // 객체에 접근해서 data를 출력하는 방법
+        // 객체 변수명.indexkey값
+        // 객체는 indexkey 값을 개발자가 만든다
+        // 서버에 있는 api data하고 통신할 때는 json 파일 형식으로 주고 받는다
+
+        // 배열로 선언
+        let score = [100,90,80,70]
+        document.write(`영어점수 = ${score[0]}<br>국어점수 = ${score[1]}<br>수학점수 = ${score[2]}<br>컴퓨터점수 = ${score[3]}`)
+
+        // 객체로 선언
+        let jumsu = {
+            eng:100,
+            kor:90,
+            mat:80,
+            com:70,
+        }
+        document.write("<hr>")
+        
+        // 객체로 data 접근 출력
+        document.write(`영어점수는 = ${jumsu.eng}<br> 국어점수 = ${jumsu.kor}<br> 수학점수 = ${jumsu.mat}<br>컴퓨터점수 = ${jumsu.com}`)
+        
+        document.write("<hr>")
+        
+        // 책 목록을 출력하는 프로그램(객체) -> 소년이 온다
+        let book = {
+            제목:"소년이 온다",
+            저자:"한강",
+            가격:13500,
+            출간일:'2014년 05월 19일',
+            평점:9.8,
+            preview:"2014년 만해문학상, 2017년 이탈리아 말라파르테 문학상을 수상하고 전세계 20여개국에 번역 출간되며 세계를 사로잡은 우리 시대의 소설 『소년이 온다』"
+        }
+        // {
+            //     제목:"작별하지 않는다",
+            //     저자:"한강",
+            //     가격:13500,
+            //     출간일:'2014년 05월 19일',
+            //     평점:9.8,
+            //     preview:"2014년 만해문학상, 2017년 이탈리아 말라파르테 문학상을 수상하고 전세계 20여개국에 번역 출간되며 세계를 사로잡은 우리 시대의 소설 『소년이 온다』"
+            // }
+            
+            document.write(`책제목 : ${book.제목}<br> 가격 : ${book.가격}<br> 저자 : ${book.저자}<br> 출간일 : ${book.출간일}<br> 평점 : ${book.평점}<br> 미리보기 : ${book.preview}`)
+            
+            document.write("<hr>")
+        // 문제]
+        // 제픔 이름은 마오 유형은 당절임 성분은 망고, 설탕, 치자 원산지 필리핀
+        // 객체 변수로 기억시켜서 출력
+
+        let food = ["마오","당절임","망고,설탕,치자","필리핀"]
+        document.write(`제품 이름은 ${food[0]}이고 유형은 ${food[1]}이며 원재료는 ${food[2]}이고 원산지는 ${food[3]}입니다.<br>`)
+
+        let mao = {
+            name:"마오",
+            type:"당절임",
+            ele:"망고,설탕,치자",
+            country:"필리핀",
+        }
+        document.write(`제품 이름은 ${mao.name}이고 유형은 ${mao.type}이며 원재료는 ${mao.ele}이고 원산지는 ${mao.country}입니다.`)
+
+
+    </script>
+</body>
+</html>
