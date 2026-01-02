@@ -1,109 +1,110 @@
 *{
-margin:0;
-padding:0;
-box-sizing:border-box;
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
 }
-
 
 body{
-font-family: -apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo', 'Pretendard', sans-serif;
-background:#fff;
+  font-family: -apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo', 'Pretendard', sans-serif;
+  background:#fff;
 }
-
 
 .app{
-max-width:430px;
-margin:0 auto;
+  max-width:430px;
+  margin:0 auto;
 }
-
 
 .swiper{
-width:100%;
-height:100vh;
+  width:100%;
+  height:100vh;
 }
-
 
 .swiper-slide{
-display:flex;
-flex-direction:column;
+  display:flex;
+  flex-direction:column;
 }
-
 
 .hero{
-width:100%;
-height:auto;
+  width:100%;
+  height:auto;
 }
-
 
 .content{
-position:relative;
-padding:24px 24px 24px;
+  position:relative;
+  padding:24px 24px 24px;
 }
-
 
 .title{
-color:#F59E0B;
-font-size:24px;
-font-weight:200;
-line-height:1.1;
-margin-bottom:18px;
+  color:#F59E0B;
+  font-size:24px;
+  font-weight:200;
+  line-height:1.1;
+  margin-bottom:18px;
 }
-
 
 .desc{
-font-size:12px;
-line-height:1.9;
-color:#3b3f46;
+  font-size:12px;
+  line-height:1.9;
+  color:#3b3f46;
 }
 
-
-.bike{
-position:absolute;
-right: 0;
-bottom: 0;
-width:160px;
+.bike, .jeju, .hand{
+  position:absolute;
+  right:0;
+  bottom:0;
+  width:160px;
 }
 
-.jeju{
-    position:absolute;
-    right: 0;
-    bottom: 0;
-    width: 160px;
-}
-.hand{
-    position:absolute;
-    right: 0px;
-    bottom: 0px;
-    width: 160px;
+/* Pagination + Skip row (왼쪽 하단 정렬) */
+.pager-row{
+  position:absolute;
+  left:22px;
+  bottom:24px;
+  z-index:10;
+
+  display:flex;
+  align-items:center;
+  gap:12px;
 }
 
-
-/* pagination 전체 위치를 왼쪽 하단으로 */
+/* pagination은 row 안에서 flow로 배치 */
 .swiper-pagination{
-  position: absolute;
-  left: 22px !important;   /* 시안 기준 좌측 여백 */
-  right: auto !important;
-  bottom: 24px !important;
-  width: auto !important;
+  position:static !important;
+  width:auto !important;
 
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  gap: 10px;
+  display:flex;
+  justify-content:flex-start;
+  align-items:center;
+  gap:10px;
 }
-
-
 
 .swiper-pagination-bullet{
-width:14px;
-height:14px;
-background:#d1d5db;
-opacity:1;
+  width:14px;
+  height:14px;
+  background:#d1d5db;
+  opacity:1;
 }
 
-
 .swiper-pagination-bullet-active{
-width:48px;
-border-radius:999px;
-background:#F59E0B;
+  width:48px;
+  border-radius:999px;
+  background:#F59E0B;
+}
+
+/* SKIP 버튼 */
+.btn-skip{
+  border:0;
+  background:transparent;
+  color:#F59E0B;
+  font-size:12px;
+  font-weight:600;
+  letter-spacing:0.3px;
+  padding:6px 8px;
+  border-radius:10px;
+  cursor:pointer;
+  -webkit-tap-highlight-color:transparent;
+}
+
+.btn-skip:active{
+  transform:scale(0.98);
 }

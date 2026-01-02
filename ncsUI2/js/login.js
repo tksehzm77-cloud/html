@@ -57,10 +57,10 @@ form.addEventListener("submit", (e) => {
     localStorage.removeItem("JEJU_LOOP_SAVED_ID");
   }
 
-  // 자동 로그인 옵션(데모)
-  localStorage.setItem("JEJU_LOOP_AUTO_LOGIN", autoLogin ? "1" : "0");
+  // // 자동 로그인 옵션(데모)
+  // localStorage.setItem("JEJU_LOOP_AUTO_LOGIN", autoLogin ? "1" : "0");
 
-  alert("로그인 버튼이 눌렸습니다. (데모)");
+  // alert("로그인 버튼이 눌렸습니다. (데모)");
 
 
 // restore saved id

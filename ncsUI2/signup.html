@@ -4,13 +4,13 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <title>JEJU LOOP - 회원가입</title>
-  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="./css/signup.css" />
 </head>
 <body>
   <main class="screen">
 
-    <!-- 상단 로고 -->
-    <header class="logo-wrap signup-logo">
+    <!-- 상단 로고 (로그인 페이지와 동일) -->
+    <header class="logo-wrap">
       <img src="./images/logo.svg" alt="JEJU LOOP" class="logo" />
     </header>
 
@@ -19,24 +19,54 @@
       <form class="form" id="signupForm">
 
         <div class="field">
-          <input type="text" placeholder="아이디를 입력해주세요." required />
+          <input
+            type="text"
+            placeholder="아이디를 입력해주세요."
+            required
+          />
         </div>
 
         <div class="field">
-          <input type="email" placeholder="이메일을 입력해주세요." required />
+          <input
+            type="email"
+            placeholder="이메일을 입력해주세요."
+            required
+          />
         </div>
 
         <div class="field">
-          <input type="password" placeholder="비밀번호를 입력해주세요." required />
+          <input
+            type="password"
+            placeholder="비밀번호를 입력해주세요."
+            required
+          />
         </div>
 
         <div class="field">
-          <input type="password" placeholder="비밀번호를 다시 입력해주세요." required />
+          <input
+            type="password"
+            placeholder="비밀번호를 다시 입력해주세요."
+            required
+          />
         </div>
 
+        <!-- 약관 동의 -->
+        <div class="options signup-options">
+          <button type="button" class="opt" id="agreeAll">
+            <span class="dot"></span>
+            <span class="opt-label">전체 약관 동의</span>
+          </button>
+        </div>
+
+        <!-- 회원가입 버튼 (로그인 버튼 스타일 재사용) -->
         <button type="submit" class="btn-login">
           회원가입
         </button>
+
+        <!-- 하단 링크 -->
+        <nav class="links">
+          <a href="login.html">이미 계정이 있으신가요? 로그인</a>
+        </nav>
 
       </form>
     </section>
