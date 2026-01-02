@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>코스</title>
+
+  <!-- 기존 커뮤니티와 같은 CSS 사용 -->
+  <link rel="stylesheet" href="./css/community.css" />
+  <!-- 코스 전용 CSS(추가 스타일) -->
+  <link rel="stylesheet" href="./css/course.css" />
+</head>
+<body>
+  <div class="app">
+
+    <!-- Top App Bar -->
+    <header class="topbar">
+      <h1 class="topbar__title">코스</h1>
+      <button class="topbar__profile" aria-label="프로필">
+        <img src="./images/user.png" alt="profile"
+             onerror="this.style.display='none'; this.nextElementSibling.style.display='grid';">
+        <span class="avatar-fallback" style="display:none;">P</span>
+      </button>
+    </header>
+
+    <!-- Search / Filters -->
+    <section class="course-panel">
+      <div class="course-head">
+        <h2 class="course-title">제주 자전거 코스 검색</h2>
+        <p class="course-desc">제주 대표 지역을 선택하고, 키워드로 코스를 찾아보세요.</p>
+      </div>
+
+      <div class="searchbar">
+        <input id="keywordInput" type="text" placeholder="예) 해안도로, 오름, 올레길, 카페, 자전거길" />
+        <button id="searchBtn" class="btn btn--primary" type="button">검색</button>
+      </div>
+
+      <div class="chips" id="regionChips" aria-label="지역 선택">
+        <!-- JS에서 생성 -->
+      </div>
+
+      <div class="course-actions">
+        <button id="useSelectedRegionBtn" class="btn btn--outline" type="button">
+          선택 지역 기준으로 검색
+        </button>
+        <button id="resetBtn" class="btn btn--soft" type="button">
+          초기화
+        </button>
+      </div>
+    </section>
+
+    <!-- Map -->
+    <section class="map-wrap">
+      <div class="map-top">
+        <div class="map-status">
+          <span class="dot"></span>
+          <span id="statusText">지도 준비 중…</span>
+        </div>
+        <button id="locateBtn" class="btn btn--chip" type="button">제주 중심</button>
+      </div>
+
+      <div id="map" class="map"></div>
+      <div class="map-hint">
+        <span>결과를 탭하면 지도에서 위치를 확인할 수 있어요.</span>
+      </div>
+    </section>
+
+    <!-- Results -->
+    <main class="results" id="results">
+      <div class="results-head">
+        <h3>검색 결과</h3>
+        <span class="count" id="resultCount">0</span>
+      </div>
+
+      <div class="result-list" id="resultList">
+        <!-- JS에서 렌더 -->
+      </div>
+
+      <div class="results__spacer"></div>
+    </main>
+
+    <!-- Bottom Nav -->
+    <nav class="bottom-nav" aria-label="하단 네비게이션">
+      <a class="nav-item" href="home.html">
+        <img src="./images/home.svg" alt="홈" class="nav-icon">
+        <span class="nav-label">홈</span>
+      </a>
+
+      <a class="nav-item" href="community.html">
+        <img src="./images/community2.svg" alt="커뮤니티" class="nav-icon">
+        <span class="nav-label">커뮤니티</span>
+      </a>
+
+      <a class="nav-item nav-item--active" href="course.html">
+        <img src="./images/map2.svg" alt="코스" class="nav-icon">
+        <span class="nav-label">코스</span>
+      </a>
+
+      <a class="nav-item" href="#">
+        <img src="./images/rank.svg" alt="랭킹" class="nav-icon">
+        <span class="nav-label">랭킹</span>
+      </a>
+
+      <a class="nav-item" href="#">
+        <img src="./images/user.svg" alt="마이" class="nav-icon">
+        <span class="nav-label">마이</span>
+      </a>
+    </nav>
+
+  </div>
+
+  <!-- ✅ 카카오맵 SDK: 앱키는 권나영님이 넣기 -->
+  <!-- 아래 YOUR_APP_KEY 부분만 교체하세요 -->
+  <script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=48fbd67fa46bf2693d779bf17f684787&libraries=services"></script>
+
+  <script src="./js/course.js"></script>
+</body>
+</html>
