@@ -1,3 +1,54 @@
+/* ===== Topbar with Back ===== */
+.topbar--with-back{
+  position:sticky;
+  top:0;
+  z-index:20;
+  height:56px;
+  background:#fff;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+/* 왼쪽 뒤로가기 */
+.topbar__back{
+  position:absolute;
+  left:14px;
+  width:34px;
+  height:34px;
+  display:grid;
+  place-items:center;
+  border-radius:10px;
+  text-decoration:none;
+}
+
+.topbar__back img{
+  width:22px;
+  height:22px;
+  object-fit:contain;
+}
+
+/* 중앙 타이틀 */
+.topbar--with-back .topbar__title{
+  font-size:18px;
+  font-weight:800;
+  letter-spacing:-0.2px;
+}
+
+/* 오른쪽 프로필 (기존 유지) */
+.topbar__profile{
+  position:absolute;
+  right:14px;
+  width:34px;
+  height:34px;
+  border:none;
+  background:transparent;
+  border-radius:50%;
+  overflow:hidden;
+  display:grid;
+  place-items:center;
+}
+
 :root{
   --brand:#F4A000;
   --line:#E5E7EB;

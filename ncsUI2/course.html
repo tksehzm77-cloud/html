@@ -14,14 +14,23 @@
   <div class="app">
 
     <!-- Top App Bar -->
-    <header class="topbar">
-      <h1 class="topbar__title">코스</h1>
-      <button class="topbar__profile" aria-label="프로필">
-        <img src="./images/user.png" alt="profile"
-             onerror="this.style.display='none'; this.nextElementSibling.style.display='grid';">
-        <span class="avatar-fallback" style="display:none;">P</span>
-      </button>
-    </header>
+    <header class="topbar topbar--with-back">
+  <!-- 뒤로가기 -->
+  <a href="community.html" class="topbar__back" aria-label="뒤로가기">
+    <img src="./images/back.svg" alt="뒤로가기">
+  </a>
+
+  <!-- 타이틀 -->
+  <h1 class="topbar__title">코스</h1>
+
+  <!-- 프로필 -->
+  <button class="topbar__profile" aria-label="프로필">
+    <img src="./images/user.png" alt="profile"
+         onerror="this.style.display='none'; this.nextElementSibling.style.display='grid';">
+    <span class="avatar-fallback" style="display:none;">P</span>
+  </button>
+</header>
+
 
     <!-- Search / Filters -->
     <section class="course-panel">
