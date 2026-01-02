@@ -36,14 +36,18 @@ form.addEventListener("submit", (e) => {
 
   if (!userId) {
     alert("아이디 또는 이메일을 입력해주세요.");
-    document.getElementById("userId").focus();
     return;
   }
   if (!password) {
     alert("비밀번호를 입력해주세요.");
-    document.getElementById("password").focus();
     return;
   }
+
+  // ✅ 로그인 성공 처리 (데모)
+  // 실제 서비스에서는 여기서 서버 인증 후 성공 시 이동
+  location.href = "home.html";
+});
+
 
   // 예시: 실제 프로젝트에서는 서버 인증/API 연결
   // 아이디 저장 옵션(데모)
@@ -57,7 +61,7 @@ form.addEventListener("submit", (e) => {
   localStorage.setItem("JEJU_LOOP_AUTO_LOGIN", autoLogin ? "1" : "0");
 
   alert("로그인 버튼이 눌렸습니다. (데모)");
-});
+
 
 // restore saved id
 (function restore() {

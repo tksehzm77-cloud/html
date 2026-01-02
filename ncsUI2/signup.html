@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>JEJU LOOP - 회원가입</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main class="screen">
+
+    <!-- 상단 로고 -->
+    <header class="logo-wrap signup-logo">
+      <img src="./images/logo.svg" alt="JEJU LOOP" class="logo" />
+    </header>
+
+    <!-- 회원가입 폼 -->
+    <section class="form-wrap">
+      <form class="form" id="signupForm">
+
+        <div class="field">
+          <input type="text" placeholder="아이디를 입력해주세요." required />
+        </div>
+
+        <div class="field">
+          <input type="email" placeholder="이메일을 입력해주세요." required />
+        </div>
+
+        <div class="field">
+          <input type="password" placeholder="비밀번호를 입력해주세요." required />
+        </div>
+
+        <div class="field">
+          <input type="password" placeholder="비밀번호를 다시 입력해주세요." required />
+        </div>
+
+        <button type="submit" class="btn-login">
+          회원가입
+        </button>
+
+      </form>
+    </section>
+
+  </main>
+
+  <script src="signup.js"></script>
+</body>
+</html>

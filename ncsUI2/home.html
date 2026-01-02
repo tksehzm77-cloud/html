@@ -84,55 +84,63 @@
 
       <!-- Feed -->
       <section class="feed">
-        <article class="feedCard">
+        <article class="feedCard feedCard--withText">
           <div class="feedCard__imgWrap">
-            <img src="./img/feed-1.jpg" alt="자전거 패키지 1" />
+            <img src="./images/slide4.jpg" alt="자전거 패키지 1" />
+          </div>
+          <div class="feedCard__overlayText">
+            <p>제주도 자전거 여행 패키지<br />첫 번째 코스 이야기</p>
           </div>
         </article>
 
         <article class="feedCard feedCard--withText">
           <div class="feedCard__imgWrap">
-            <img src="./img/feed-2.jpg" alt="자전거 패키지 2" />
+            <img src="./images/slide5.jpg" alt="자전거 패키지 2" />
           </div>
           <div class="feedCard__overlayText">
-            <p>제주도 자전거 여행 패키지<br />두번째 코스 이야기</p>
+            <p>제주도 자전거 여행 패키지<br />두 번째 코스 이야기</p>
           </div>
         </article>
 
         <article class="feedCard feedCard--withText">
           <div class="feedCard__imgWrap">
-            <img src="./img/feed-3.jpg" alt="자전거 패키지 3" />
+            <img src="./images/slide6.jpg" alt="자전거 패키지 3" />
           </div>
           <div class="feedCard__overlayText">
-            <p>제주도 자전거 여행 패키지<br />세번째 코스 이야기</p>
+            <p>제주도 자전거 여행 패키지<br />세 번째 코스 이야기</p>
           </div>
         </article>
       </section>
     </main>
 
     <!-- Bottom Nav -->
-    <nav class="bottomNav" aria-label="하단 네비게이션">
-      <button class="navItem is-active" data-tab="home" type="button">
-        <span class="navIcon">🏠</span>
-        <span class="navText">홈</span>
-      </button>
-      <button class="navItem" data-tab="community" type="button">
-        <span class="navIcon">📄</span>
-        <span class="navText">커뮤니티</span>
-      </button>
-      <button class="navItem" data-tab="course" type="button">
-        <span class="navIcon">🗺️</span>
-        <span class="navText">코스</span>
-      </button>
-      <button class="navItem" data-tab="ranking" type="button">
-        <span class="navIcon">👑</span>
-        <span class="navText">랭킹</span>
-      </button>
-      <button class="navItem" data-tab="my" type="button">
-        <span class="navIcon">👤</span>
-        <span class="navText">마이</span>
-      </button>
-    </nav>
+    <!-- Bottom Nav (fixed) -->
+<nav class="bottom-nav" aria-label="하단 네비게이션">
+  <a class="nav-item nav-item--active" href="#">
+    <img src="./images/home2.svg" alt="홈" class="nav-icon">
+    <span class="nav-label">홈</span>
+  </a>
+
+  <a class="nav-item" href="community.html">
+    <img src="./images/community2.svg" alt="커뮤니티" class="nav-icon">
+    <span class="nav-label">커뮤니티</span>
+  </a>
+
+  <a class="nav-item" href="#">
+    <img src="./images/map.svg" alt="코스" class="nav-icon">
+    <span class="nav-label">코스</span>
+  </a>
+
+  <a class="nav-item" href="#">
+    <img src="./images/rank.svg" alt="랭킹" class="nav-icon">
+    <span class="nav-label">랭킹</span>
+  </a>
+
+  <a class="nav-item" href="#">
+    <img src="./images/user.svg" alt="마이" class="nav-icon">
+    <span class="nav-label">마이</span>
+  </a>
+</nav>
   </div>
 
   <script src="./js/home.js"></script>

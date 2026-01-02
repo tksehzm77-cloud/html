@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Community</title>
+
+  <!-- Swiper CDN -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+  <link rel="stylesheet" href="./css/community.css" />
+</head>
+<body>
+  <div class="app">
+
+    <!-- Top App Bar -->
+    <header class="topbar">
+      <h1 class="topbar__title">커뮤니티</h1>
+      <button class="topbar__profile" aria-label="프로필">
+        <!-- 프로필 이미지 교체 -->
+        <img src="./images/user.png" alt="profile" onerror="this.style.display='none'; this.nextElementSibling.style.display='grid';">
+        <span class="avatar-fallback" style="display:none;">P</span>
+      </button>
+    </header>
+
+    <!-- Intro -->
+    <section class="intro">
+      <div class="intro__text">
+        <p class="intro__headline">지금의 순간을 공유해 보세요</p>
+      </div>
+      <button class="btn btn--primary" type="button">만들기</button>
+    </section>
+
+    <!-- Stories / Moments (Swiper) -->
+    <section class="stories">
+      <div class="swiper storiesSwiper">
+        <div class="swiper-wrapper">
+          <!-- slide 1 -->
+          <a class="swiper-slide story" href="#">
+            <div class="story__thumb">
+              <img src="./images/jeju1.jpg" alt="story" onerror="this.remove();">
+              <div class="story__ph"></div>
+              <div class="story__avatar">
+                <img src="./images/user2.png" alt="user" onerror="this.remove();">
+                <span class="avatar-mini">U</span>
+              </div>
+            </div>
+          </a>
+
+          <!-- slide 2 -->
+          <a class="swiper-slide story" href="#">
+            <div class="story__thumb">
+              <img src="./images/jeju2.jpg" alt="story" onerror="this.remove();">
+              <div class="story__ph"></div>
+              <div class="story__avatar">
+                <img src="./images/user3.png" alt="user" onerror="this.remove();">
+                <span class="avatar-mini">U</span>
+              </div>
+            </div>
+          </a>
+
+          <!-- slide 3 -->
+          <a class="swiper-slide story" href="#">
+            <div class="story__thumb">
+              <img src="./images/jeju3.jpg" alt="story" onerror="this.remove();">
+              <div class="story__ph"></div>
+              <div class="story__avatar">
+                <img src="./images/user4.png" alt="user" onerror="this.remove();">
+                <span class="avatar-mini">U</span>
+              </div>
+            </div>
+          </a>
+
+          <!-- slide 4 -->
+          <a class="swiper-slide story" href="#">
+            <div class="story__thumb">
+              <img src="./images/jeju4.jpg" alt="story" onerror="this.remove();">
+              <div class="story__ph"></div>
+              <div class="story__avatar">
+                <img src="./images/user5.png" alt="user" onerror="this.remove();">
+                <span class="avatar-mini">U</span>
+              </div>
+            </div>
+          </a>
+
+          <!-- slide 5 -->
+          <a class="swiper-slide story" href="#">
+            <div class="story__thumb">
+              <img src="./images/jeju5.jpg" alt="story" onerror="this.remove();">
+              <div class="story__ph"></div>
+              <div class="story__avatar">
+                <img src="./images/user6.png" alt="user" onerror="this.remove();">
+                <span class="avatar-mini">U</span>
+              </div>
+            </div>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- Feed Title -->
+    <section class="section-title">
+      <h2>내가 추천하는 제주자전거 길</h2>
+    </section>
+
+    <!-- Feed (scroll) -->
+    <main class="feed" id="feed">
+      <!-- 카드 샘플 1 -->
+      <article class="post">
+        <div class="post__header">
+          <div class="post__user">
+            <div class="avatar">
+              <img src="./images/user7.png" alt="김이나" onerror="this.remove();">
+              <span class="avatar-fallback">김</span>
+            </div>
+            <div class="post__meta">
+              <div class="post__name">레이나</div>
+              <div class="post__sub">
+                <span>10min</span>
+                <span class="pill">Lv 30</span>
+              </div>
+            </div>
+          </div>
+          <button class="icon-btn" aria-label="더보기">
+            <span class="dots">⋯</span>
+          </button>
+        </div>
+
+        <div class="post__media">
+          <!-- 이미지 교체 -->
+          <img src="./images/jeju6.jpg" alt="post image" onerror="this.remove(); this.parentElement.classList.add('is-empty');">
+          <div class="media-ph"></div>
+        </div>
+
+        <div class="post__footer">
+  <div class="post__stats">
+
+    <span class="stat">
+      <img src="./images/like.svg" alt="좋아요" class="stat-icon">
+      <span class="num">108</span>
+    </span>
+
+    <span class="stat">
+      <img src="./images/bubble.svg" alt="댓글" class="stat-icon">
+      <span class="num">5</span>
+    </span>
+
+    <span class="stat">
+      <img src="./images/eye.svg" alt="조회수" class="stat-icon">
+      <span class="num">300</span>
+    </span>
+
+  </div>
+  <button class="btn btn--ghost">View Active</button>
+</div>
+      </article>
+
+      <!-- 카드 샘플 2 -->
+      <article class="post">
+        <div class="post__header">
+          <div class="post__user">
+            <div class="avatar">
+              <img src="./images/user5.png" alt="김이나" onerror="this.remove();">
+              <span class="avatar-fallback">김</span>
+            </div>
+            <div class="post__meta">
+              <div class="post__name">마크</div>
+              <div class="post__sub">
+                <span>15min</span>
+                <span class="pill">Lv 40</span>
+              </div>
+            </div>
+          </div>
+          <button class="icon-btn" aria-label="더보기">
+            <span class="dots">⋯</span>
+          </button>
+        </div>
+
+        <div class="post__media">
+          <!-- 이미지 교체 -->
+          <img src="./images/jeju7.jpg" alt="post image" onerror="this.remove(); this.parentElement.classList.add('is-empty');">
+          <div class="media-ph"></div>
+        </div>
+
+        <div class="post__footer">
+  <div class="post__stats">
+
+    <span class="stat">
+      <img src="./images/like.svg" alt="좋아요" class="stat-icon">
+      <span class="num">108</span>
+    </span>
+
+    <span class="stat">
+      <img src="./images/bubble.svg" alt="댓글" class="stat-icon">
+      <span class="num">5</span>
+    </span>
+
+    <span class="stat">
+      <img src="./images/eye.svg" alt="조회수" class="stat-icon">
+      <span class="num">300</span>
+    </span>
+
+  </div>
+  <button class="btn btn--ghost">View Active</button>
+</div>
+      </article>
+
+      <!-- 카드 샘플 3 -->
+      <article class="post">
+        <div class="post__header">
+          <div class="post__user">
+            <div class="avatar">
+              <img src="./images/user3.png" alt="김이나" onerror="this.remove();">
+              <span class="avatar-fallback">김</span>
+            </div>
+            <div class="post__meta">
+              <div class="post__name">조셉</div>
+              <div class="post__sub">
+                <span>10min</span>
+                <span class="pill">Lv 30</span>
+              </div>
+            </div>
+          </div>
+          <button class="icon-btn" aria-label="더보기">
+            <span class="dots">⋯</span>
+          </button>
+        </div>
+
+        <div class="post__media">
+          <!-- 이미지 교체 -->
+          <img src="./images/slide1.jpg" alt="post image" onerror="this.remove(); this.parentElement.classList.add('is-empty');">
+          <div class="media-ph"></div>
+        </div>
+
+        <div class="post__footer">
+  <div class="post__stats">
+
+    <span class="stat">
+      <img src="./images/like.svg" alt="좋아요" class="stat-icon">
+      <span class="num">108</span>
+    </span>
+
+    <span class="stat">
+      <img src="./images/bubble.svg" alt="댓글" class="stat-icon">
+      <span class="num">5</span>
+    </span>
+
+    <span class="stat">
+      <img src="./images/eye.svg" alt="조회수" class="stat-icon">
+      <span class="num">300</span>
+    </span>
+
+  </div>
+  <button class="btn btn--ghost">View Active</button>
+</div>
+
+          
+        </div>
+      </article>
+
+      <!-- 아래로 계속 추가되며 “초과 요소”는 스크롤로 확인 -->
+      <div class="feed__spacer"></div>
+    </main>
+
+    <!-- Bottom Nav (fixed) -->
+<nav class="bottom-nav" aria-label="하단 네비게이션">
+  <a class="nav-item" href="home.html">
+    <img src="./images/home.svg" alt="홈" class="nav-icon">
+    <span class="nav-label">홈</span>
+  </a>
+
+  <a class="nav-item nav-item--active" href="#">
+    <!-- 활성 아이콘 -->
+    <img src="./images/community.svg" alt="커뮤니티" class="nav-icon">
+    <span class="nav-label">커뮤니티</span>
+  </a>
+
+  <a class="nav-item" href="#">
+    <img src="./images/map.svg" alt="코스" class="nav-icon">
+    <span class="nav-label">코스</span>
+  </a>
+
+  <a class="nav-item" href="#">
+    <img src="./images/rank.svg" alt="랭킹" class="nav-icon">
+    <span class="nav-label">랭킹</span>
+  </a>
+
+  <a class="nav-item" href="#">
+    <img src="./images/user.svg" alt="마이" class="nav-icon">
+    <span class="nav-label">마이</span>
+  </a>
+</nav>
+
+
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+  <script src="./js/community.js"></script>
+</body>
+</html>
