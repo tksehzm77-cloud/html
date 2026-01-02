@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>배열 Data</title>
+</head>
+<body>
+    <!-- 배열 -->
+    <script>
+        // 바나나, 포도, 딸기, 수박
+        let fruit = "바나나"
+        let fruit2 = "포도"
+        let fruit3 = "딸기"
+        let fruit4 = "수박"
+
+        document.write("과일의 종류는 " + fruit + ", " + fruit2 + ", " + fruit3 + ", " + fruit4 + "입니다.<br>")
+        
+        document.write(`과일의 종류는 ${fruit}, ${fruit2}, ${fruit3}, ${fruit4}입니다.<br>`)
+
+        // 배열로 처리
+        // 여러 개의 data를 저장 배열로 선언 하여 저장
+        // 배열로 선언 시 []로 선언
+        let product = ['바나나','포도','딸기','수박','키위']
+        // 배열에 기억되어 있는 값을 접근해서 출력
+        // 배열명[key] 배열의 특정값을 출력
+        document.write(`첫 번째 data는 ${product[0]}<br>`)
+        document.write(`두 번째 data는 ${product[1]}<br>`)
+        document.write(`세 번째 data는 ${product[2]}<br>`)
+        document.write(`네 번째 data는 ${product[3]}<br>`)
+
+        // 배열에 기억된 값 모두 출력
+        document.write(`과일의 종류는 ${product} 입니다.<br>`)
+        document.write(`오늘의 추천 과일은 ${product[3]}입니다.<br>`)
+        document.write(`올해의 제철 과일은 ${product}입니다.<br>`)
+
+        // 응용 예시
+        // 월요일, 화요일, 수요일, 목요일, 금요일, 토요일, 일요일
+        let week = ['월요일','화요일','수요일','목요일','금요일','토요일','일요일']
+
+        document.write(`요일은 ${week}이 있습니다.<br>`)
+
+        // 오늘은 금요일 입니다.
+        document.write(`오늘은 ${week[4]}입니다.<br>`)
+
+        // 배열 선언 방식(객체로 선언)
+        let gail = new Array('사과','배','토마토','참외')
+        // 배열에 있는 값 출력
+        document.write(`올해의 제철 과일은 ${gail}입니다.<br>`)
+        // 배열에 있는 key값 출력
+        document.write(`오늘의 추천 과일은 ${gail[2]}입니다.<br><br>`)
+
+        // 동물 data를 여러 개 기억시켜서 얼룩말, 타조, 강아지, 참새, 고양이, 개미, 알파카, 닭
+        // 출력
+        // 1. 동물 data 모두 출력
+        // 2. 동물 data 중에서 조류만 출력
+
+        let animal = ["얼룩말",'타조','강아지','참새','고양이','개미','알파카','닭']
+        
+        document.write(`동물의 종류는 ${animal} 등이 있습니다.<br>`)
+        document.write(`동물의 종류 중 조류는 ${animal[1]},${animal[3]},${animal[7]} 등이 있습니다.`)
+
+
+    </script>
+</body>
+</html>
