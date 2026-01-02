@@ -279,4 +279,9 @@
   justify-content:space-between;
   margin-bottom:10px;
 }
+/* 맛집 리스트가 카드처럼 보이도록(기존 result-card 재사용) */
+#foodList .result-card{
+  cursor:pointer;
+}
+
 

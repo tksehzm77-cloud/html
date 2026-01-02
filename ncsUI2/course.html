@@ -34,6 +34,7 @@
         <input id="keywordInput" type="text" placeholder="예) 해안도로, 오름, 올레길, 카페, 자전거길" />
         <button id="searchBtn" class="btn btn--primary" type="button">검색</button>
       </div>
+      
 
       <div class="chips" id="regionChips" aria-label="지역 선택">
         <!-- JS에서 생성 -->
@@ -108,6 +109,49 @@
     </div>
   </section>
   <!-- ✅ 여기까지 추가 -->
+    <!-- ✅ 추가: 맛집 코스 섹션 -->
+<section class="reco">
+  <div class="reco-head">
+    <div>
+      <h3 class="reco-title">자전거로 갈 수 있는 제주 맛집 코스</h3>
+      <p class="reco-sub">대표 지역별 맛집을 자동으로 묶어 코스로 보여드려요</p>
+    </div>
+    <button id="drawFoodBtn" class="btn btn--primary" type="button">맛집 코스 만들기</button>
+  </div>
+
+  <div class="reco-card">
+    <div class="reco-meta">
+      <span class="tag">#라이딩</span>
+      <span class="tag">#맛집투어</span>
+      <span class="tag">#지역별</span>
+    </div>
+
+    <div class="reco-map-wrap">
+      <div class="reco-map-top">
+        <div class="map-status">
+          <span class="dot"></span>
+          <span id="foodStatusText">맛집 코스 준비 중…</span>
+        </div>
+        <button id="foodResetBtn" class="btn btn--chip" type="button">초기화</button>
+      </div>
+
+      <div id="foodMap" class="map"></div>
+
+      <div class="map-hint">
+        <span>‘맛집 코스 만들기’를 누르면 지역별 맛집(음식점) TOP 후보를 연결해 코스를 그려요.</span>
+      </div>
+
+      <!-- 맛집 리스트 -->
+      <div class="results-head" style="margin-top:12px;">
+        <h3 style="font-size:14px;">맛집 코스 리스트</h3>
+        <span class="count" id="foodCount">0</span>
+      </div>
+      <div class="result-list" id="foodList"></div>
+    </div>
+  </div>
+</section>
+<!-- ✅ 여기까지 -->
+
 
       <div class="results__spacer"></div>
     </main>
@@ -139,6 +183,7 @@
         <span class="nav-label">마이</span>
       </a>
     </nav>
+    
 
   </div>
 
