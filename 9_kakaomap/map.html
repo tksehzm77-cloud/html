@@ -3,22 +3,36 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Kakao Map</title>
+  <title>Kakao Map Search</title>
   <link rel="stylesheet" href="./css/map.css" />
 </head>
 <body>
   <main class="wrap">
-    <h1 class="title">카카오맵 지도</h1>
+    <header class="top">
+      <h1 class="title">카카오맵 검색</h1>
 
-    <!-- 지도가 그려질 영역 -->
-    <div id="map" class="map"></div>
+      <div class="searchBar">
+        <input id="keyword" class="input" type="text" placeholder="예) 제주 성산일출봉, 강남역 카페" />
+        <button id="btnSearch" class="btn" type="button">검색</button>
+      </div>
+    </header>
+
+    <section class="content">
+      <div id="map" class="map"></div>
+
+      <aside class="panel">
+        <div class="panel__head">
+          <span class="panel__title">검색 결과</span>
+          <span id="meta" class="panel__meta"></span>
+        </div>
+        <ul id="results" class="list"></ul>
+      </aside>
+    </section>
   </main>
 
-  <!-- ✅ 카카오맵 SDK (YOUR_APP_KEY 교체) -->
-  <script
-    src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=48fbd67fa46bf2693d779bf17f684787"
-  ></script>
-
+  <!-- ✅ services 라이브러리 포함 필수 -->
+  <script src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=48fbd67fa46bf2693d779bf17f684787&autoload=false&libraries=services"></script>
+  <script type="text/javascript" src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=48fbd67fa46bf2693d779bf17f684787"></script>
   <script src="./js/map.js"></script>
 </body>
 </html>
