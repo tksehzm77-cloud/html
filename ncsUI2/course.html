@@ -75,6 +75,39 @@
       <div class="result-list" id="resultList">
         <!-- JS에서 렌더 -->
       </div>
+      <!-- ✅ 여기부터 추가: 추천 코스 섹션 -->
+  <section class="reco">
+    <div class="reco-head">
+      <div>
+        <h3 class="reco-title">다른 유저가 추천하는 코스</h3>
+        <p class="reco-sub">제주 환상 자전거길 (섬 한 바퀴)</p>
+      </div>
+      <button id="drawFantasyBtn" class="btn btn--primary" type="button">지도에 코스 표시</button>
+    </div>
+
+    <div class="reco-card">
+      <div class="reco-meta">
+        <span class="tag">#해안뷰</span>
+        <span class="tag">#인증코스</span>
+        <span class="tag">#장거리</span>
+      </div>
+
+      <div class="reco-map-wrap">
+        <div class="reco-map-top">
+          <div class="map-status">
+            <span class="dot"></span>
+            <span id="fantasyStatusText">추천 코스 준비 중…</span>
+          </div>
+          <button id="fantasyResetBtn" class="btn btn--chip" type="button">초기화</button>
+        </div>
+        <div id="fantasyMap" class="map"></div>
+        <div class="map-hint">
+          <span>‘지도에 코스 표시’를 누르면 주요 지점을 연결해 경로가 그려집니다.</span>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- ✅ 여기까지 추가 -->
 
       <div class="results__spacer"></div>
     </main>

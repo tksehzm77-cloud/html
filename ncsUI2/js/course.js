@@ -18,6 +18,11 @@ let places;
 let markers = [];
 let selectedRegion = null;
 
+// ✅ 추천 코스 지도/오브젝트
+let fantasyMap;
+let fantasyPolyline = null;
+let fantasyMarkers = [];
+
 /* ========= DOM ========= */
 const regionChipsEl = document.getElementById("regionChips");
 const keywordInput = document.getElementById("keywordInput");
@@ -28,6 +33,11 @@ const locateBtn = document.getElementById("locateBtn");
 const statusText = document.getElementById("statusText");
 const resultList = document.getElementById("resultList");
 const resultCount = document.getElementById("resultCount");
+
+// ✅ 추천 코스 DOM
+const fantasyStatusText = document.getElementById("fantasyStatusText");
+const drawFantasyBtn = document.getElementById("drawFantasyBtn");
+const fantasyResetBtn = document.getElementById("fantasyResetBtn");
 
 /* ========= 유틸 ========= */
 function setStatus(text){
@@ -46,6 +56,21 @@ function escapeHtml(str){
     .replaceAll(">","&gt;")
     .replaceAll('"',"&quot;")
     .replaceAll("'","&#039;");
+}
+
+/* ✅ 추천 코스 유틸 */
+function setFantasyStatus(text){
+  if (!fantasyStatusText) return;
+  fantasyStatusText.textContent = text;
+}
+
+function clearFantasy(){
+  if (fantasyPolyline) {
+    fantasyPolyline.setMap(null);
+    fantasyPolyline = null;
+  }
+  fantasyMarkers.forEach(m => m.setMap(null));
+  fantasyMarkers = [];
 }
 
 /* ========= 칩 렌더 ========= */
@@ -87,9 +112,11 @@ function initKakao(){
   // 카카오 SDK가 없으면(앱키 미입력/로드 실패) 안내
   if (typeof kakao === "undefined" || !kakao.maps) {
     setStatus("카카오맵 SDK가 로드되지 않았어요. appkey를 확인해 주세요.");
+    setFantasyStatus("카카오맵 SDK가 로드되지 않았어요. appkey를 확인해 주세요.");
     return;
   }
 
+  // 메인 검색 지도
   const container = document.getElementById("map");
   map = new kakao.maps.Map(container, {
     center: new kakao.maps.LatLng(JEJU_CENTER.lat, JEJU_CENTER.lng),
@@ -99,6 +126,16 @@ function initKakao(){
   places = new kakao.maps.services.Places();
 
   setStatus("지도 준비 완료");
+
+  // ✅ 추천 코스용 지도(별도)
+  const fantasyContainer = document.getElementById("fantasyMap");
+  if (fantasyContainer) {
+    fantasyMap = new kakao.maps.Map(fantasyContainer, {
+      center: new kakao.maps.LatLng(JEJU_CENTER.lat, JEJU_CENTER.lng),
+      level: DEFAULT_LEVEL
+    });
+    setFantasyStatus("추천 코스 준비 완료");
+  }
 }
 
 /* ========= 검색 =========
@@ -194,8 +231,113 @@ function searchCourses(){
   });
 }
 
+/* =========================
+   ✅ 추천 코스: 제주 환상 자전거길
+   - Places 검색으로 주요 지점 좌표를 얻고
+   - Polyline으로 연결해 지도에 표시
+========================= */
+
+// 환상 자전거길 주요 지점(원형 코스처럼 마지막에 시작점 반복)
+const FANTASY_WAYPOINTS = [
+  "용두암",
+  "다락쉼터 인증부스",
+  "해거름마을공원 인증센터",
+  "송악산",
+  "법환바당 인증부스",
+  "쇠소깍",
+  "표선해수욕장",
+  "성산일출봉",
+  "김녕성세기해변",
+  "함덕서우봉해변",
+  "용두암"
+];
+
+function keywordSearchOne(query){
+  return new Promise((resolve, reject) => {
+    places.keywordSearch(query, (data, status) => {
+      if (status !== kakao.maps.services.Status.OK || !data || data.length === 0) {
+        reject(new Error(`No result: ${query}`));
+        return;
+      }
+      const p = data[0];
+      resolve({
+        name: p.place_name,
+        lat: parseFloat(p.y),
+        lng: parseFloat(p.x),
+        address: p.road_address_name || p.address_name || ""
+      });
+    });
+  });
+}
+
+async function drawFantasyRoute(){
+  if (!fantasyMap || !places) {
+    setFantasyStatus("추천 코스 지도를 사용할 수 없어요. (SDK/지도 로드 확인)");
+    return;
+  }
+
+  clearFantasy();
+  setFantasyStatus("지점 좌표를 찾는 중…");
+
+  const queries = FANTASY_WAYPOINTS.map(k => `제주 ${k}`);
+  const points = [];
+
+  for (let i = 0; i < queries.length; i++){
+    setFantasyStatus(`지점 찾는 중… (${i+1}/${queries.length})`);
+    try{
+      const res = await keywordSearchOne(queries[i]);
+      points.push(res);
+    }catch(e){
+      // 한 지점 실패해도 계속 진행
+      console.warn(e);
+    }
+  }
+
+  if (points.length < 3){
+    setFantasyStatus("코스를 그리기엔 지점이 부족해요. (검색 실패) 키워드를 바꿔 다시 시도해주세요.");
+    return;
+  }
+
+  setFantasyStatus("코스 그리는 중…");
+
+  const linePath = [];
+  const bounds = new kakao.maps.LatLngBounds();
+
+  points.forEach((p, idx) => {
+    const pos = new kakao.maps.LatLng(p.lat, p.lng);
+    linePath.push(pos);
+    bounds.extend(pos);
+
+    const marker = new kakao.maps.Marker({
+      map: fantasyMap,
+      position: pos
+    });
+    fantasyMarkers.push(marker);
+
+    kakao.maps.event.addListener(marker, "click", () => {
+      fantasyMap.panTo(pos);
+      fantasyMap.setLevel(7);
+      setFantasyStatus(`지점 ${idx+1}: ${p.name}`);
+    });
+  });
+
+  fantasyPolyline = new kakao.maps.Polyline({
+    path: linePath,
+    strokeWeight: 5,
+    strokeColor: "#F4A000",    // 커뮤니티와 동일 포인트 컬러
+    strokeOpacity: 0.85,
+    strokeStyle: "solid"
+  });
+
+  fantasyPolyline.setMap(fantasyMap);
+  fantasyMap.setBounds(bounds);
+
+  setFantasyStatus(`제주 환상 자전거길 표시 완료 (지점 ${points.length}개 연결)`);
+}
+
 /* ========= 이벤트 ========= */
 searchBtn.addEventListener("click", searchCourses);
+
 keywordInput.addEventListener("keydown", (e) => {
   if (e.key === "Enter") searchCourses();
 });
@@ -232,9 +374,22 @@ locateBtn.addEventListener("click", () => {
   setStatus("제주 중심으로 이동");
 });
 
+/* ✅ 추천 코스 버튼 이벤트 */
+if (drawFantasyBtn) {
+  drawFantasyBtn.addEventListener("click", drawFantasyRoute);
+}
+
+if (fantasyResetBtn) {
+  fantasyResetBtn.addEventListener("click", () => {
+    clearFantasy();
+    if (fantasyMap) {
+      fantasyMap.setLevel(DEFAULT_LEVEL);
+      fantasyMap.panTo(new kakao.maps.LatLng(JEJU_CENTER.lat, JEJU_CENTER.lng));
+    }
+    setFantasyStatus("초기화 완료");
+  });
+}
+
 /* ========= 시작 ========= */
 renderChips();
-
-// 카카오 SDK는 스크립트 로드 후 바로 사용 가능
-// (appkey 입력 전이면 init 실패 안내문이 보임)
 window.addEventListener("load", initKakao);

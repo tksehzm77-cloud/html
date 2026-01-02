@@ -216,3 +216,67 @@
 }
 
 .results__spacer{height:14px;}
+
+/* ===== Recommended Course Section ===== */
+.reco{
+  margin-top:14px;
+  padding-top:6px;
+}
+
+.reco-head{
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:12px;
+  margin-bottom:10px;
+}
+
+.reco-title{
+  font-size:16px;
+  font-weight:900;
+  letter-spacing:-0.2px;
+}
+
+.reco-sub{
+  margin-top:4px;
+  color:var(--muted);
+  font-size:12px;
+}
+
+.reco-card{
+  border:1px solid var(--line);
+  border-radius:18px;
+  background:#fff;
+  overflow:hidden;
+}
+
+.reco-meta{
+  display:flex;
+  gap:8px;
+  padding:12px 12px 0;
+  flex-wrap:wrap;
+}
+
+.tag{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  padding:6px 10px;
+  border-radius:999px;
+  font-weight:900;
+  font-size:12px;
+  color:var(--brand);
+  border:1px solid rgba(244,160,0,.35);
+  background:rgba(244,160,0,.10);
+}
+
+.reco-map-wrap{
+  padding:12px;
+}
+.reco-map-top{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  margin-bottom:10px;
+}
+
