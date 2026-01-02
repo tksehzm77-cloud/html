@@ -51,7 +51,7 @@ body{
 .bike, .jeju, .hand{
   position:absolute;
   right:0;
-  bottom:0;
+  bottom:-24px;
   width:160px;
 }
 
