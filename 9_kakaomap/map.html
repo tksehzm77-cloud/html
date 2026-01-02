@@ -3,22 +3,23 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Kakao Map Address Search</title>
+  <title>카카오 지도 검색</title>
   <link rel="stylesheet" href="./css/map.css" />
 </head>
 <body>
+  <div class="wrap">
+    <div class="search">
+      <input id="keyword" type="text" placeholder="예) 강남역, 서울시청, 성산일출봉, 서울 강남구" />
+      <button id="searchBtn" type="button">검색</button>
+    </div>
 
-<div class="wrap">
-  <div class="search">
-    <input id="keyword" type="text" placeholder="지역을 입력하세요 (예: 서울 강남구)" />
-    <button id="searchBtn">검색</button>
+    <div id="map"></div>
+
+    <ul id="results" class="results"></ul>
   </div>
 
-  <div id="map"></div>
-</div>
-
-<!-- ✅ services 포함 -->
-<script src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=48fbd67fa46bf2693d779bf17f684787&libraries=services"></script>
-<script src="./js/map.js"></script>
+  <!-- ✅ services 필수 -->
+  <script src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=48fbd67fa46bf2693d779bf17f684787&autoload=false&libraries=services"></script>
+  <script src="./js/map.js"></script>
 </body>
 </html>
