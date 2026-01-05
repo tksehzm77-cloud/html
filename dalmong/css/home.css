@@ -286,8 +286,8 @@ body{
   border-radius: var(--radius-md);
   overflow: hidden;
   background: var(--card);
-  border: 2px solid rgba(108,113,181,0.55);
-  height: 340px;
+  border: 1px solid #6C71B5;
+  height: 240px;
 }
 
 .recImg{
