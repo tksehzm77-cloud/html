@@ -1,0 +1,320 @@
+@font-face {
+  font-family: 'GangwonEducationSaeum';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2201-2@1.0/GangwonEduSaeeum_OTFMediumA.woff') format('woff');
+  font-weight: normal;
+  font-display: swap;
+}
+
+/* ===== Reset ===== */
+* { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+html, body { height: 100%; }
+body {
+  font-family: "Noto Sans KR", system-ui, -apple-system, Segoe UI, Roboto, "Apple SD Gothic Neo", sans-serif;
+  background: #DDE7E7; /* 시안의 연한 민트/그레이톤 */
+  color: #111;
+}
+
+/* ===== Tokens ===== */
+:root{
+  --bg: #DDE7E7;
+  --card: #ffffff;
+  --lav: #6C71B5;      /* 탭/포인트 퍼플 */
+  --lav-2: #7E84C6;
+  --lav-soft: rgba(108,113,181,.14);
+  --line: rgba(108,113,181,.35);
+  --text-dim: rgba(17,17,17,.65);
+
+  --r-lg: 22px;
+  --r-md: 16px;
+
+  --nav-h: 78px;     /* 하단 네비 높이 */
+  --top-h: 56px;     /* 상단바 높이 */
+  --page-pad: 16px;
+}
+
+/* ===== App wrapper ===== */
+.app{
+  width: 100%;
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ===== Topbar ===== */
+.topbar{
+  height: var(--top-h);
+  padding: 0 var(--page-pad);
+  display: grid;
+  grid-template-columns: 44px 1fr 44px;
+  align-items: center;
+}
+
+.icon-btn{
+  width: 44px; height: 44px;
+  border: 0;
+  background: transparent;
+  display: grid;
+  place-items: center;
+  border-radius: 12px;
+}
+
+.icon-btn:active{
+  background: rgba(0,0,0,.06);
+}
+
+.icon{
+  width: 22px;
+  height: 22px;
+  object-fit: contain;
+  display: block;
+}
+
+.topbar-title{
+  text-align: center;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--lav);
+  font-size: 22px;
+}
+
+/* ===== Scroll content area ===== */
+.content{
+  flex: 1;
+  overflow-y: auto;
+  padding: 10px var(--page-pad) calc(var(--nav-h) + 18px);
+}
+
+/* ===== Preview card ===== */
+.preview-card{
+  position: relative;
+  background: #f6fbfb;
+  border-radius: var(--r-lg);
+  overflow: hidden;
+  box-shadow: 0 10px 26px rgba(0,0,0,.08);
+}
+
+.preview-media{
+  width: 100%;
+  height: 388px;
+  aspect-ratio: 16/10; /* 시안 상단 큰 이미지 비율 느낌 */
+  background: linear-gradient(180deg, rgba(108,113,181,.10), rgba(255,255,255,.8));
+  display: grid;
+  place-items: center;
+}
+
+.preview-img{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* 저장 버튼 (우하단 둥근 라운드) */
+.save-btn{
+  position: absolute;
+  right: 14px;
+  bottom: 14px;
+  border: 0;
+  background: var(--lav);
+  color: #fff;
+  font-weight: 700;
+  font-size: 16px;
+  padding: 10px 16px;
+  border-radius: 14px;
+  box-shadow: 0 10px 18px rgba(108,113,181,.35);
+}
+
+.save-btn:active{ transform: translateY(1px); }
+
+/* ===== Tabs ===== */
+.tabs{
+  margin-top: 14px;
+  background: var(--lav);
+  border-radius: 18px 18px 0 0;
+  padding: 10px 8px 0;
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.tabs::-webkit-scrollbar{ display: none; }
+
+.tab{
+  flex:0 0 auto;
+  text-decoration:none;        /* a 태그용 */
+  border:0;
+  background:transparent;
+  color:rgba(255,255,255,.88);
+  padding:10px 14px;
+  border-radius:14px 14px 0 0;
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  font-size:17px;
+  font-weight:800;
+  line-height:1;
+  cursor:pointer;
+}
+
+
+.tab-icon{
+  width: 22px;
+  height: 22px;
+  display: grid;
+  place-items: center;
+}
+
+.tab-moon{
+  width: 22px;
+  height: 22px;
+  object-fit: contain;
+  display: block;
+}
+
+/* 활성 탭: 시안처럼 밝은 배경 + 퍼플 텍스트 */
+.tab.is-active{
+  background: var(--bg);
+  color: var(--lav);
+  border: 1px solid rgba(255,255,255,.55);
+  box-shadow: 0 -6px 14px rgba(0,0,0,.08);
+}
+
+/* ===== Grid ===== */
+.grid{
+  background: #fff;
+  border-left: 1px solid rgba(0,0,0,.05);
+  border-right: 1px solid rgba(0,0,0,.05);
+  border-bottom: 1px solid rgba(0,0,0,.05);
+
+  padding: 16px 10px 18px;
+  border-radius: 0 0 18px 18px;
+
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+/* 아이템 카드 */
+.item-card{
+  border: 1px solid #6C71B5;
+  border-radius: 18px;
+  background: #DDE7E7;
+  overflow: hidden;
+  padding: 0;
+  cursor: pointer;
+}
+
+.item-card:active{ transform: translateY(1px); }
+
+.check{
+  border: 1px solid #6C71B5;
+  border-radius: 18px;
+  background: rgba(108,113,181,0.3);
+  overflow: hidden;
+  padding: 0;
+  cursor: pointer;
+}
+
+
+.item-thumb{
+  position: relative;
+  width: 100%;
+  height: 135px;
+  aspect-ratio: 1 / 1; /* 시안의 정사각형 카드 */
+  background: transparent;
+  display: grid;
+  place-items: center;
+}
+
+.item-img{
+  width: 163px;
+  height: 130px;
+  object-fit: contain; /* 한복/의상 느낌 살리기 */
+  display: block;
+  padding: 8px;
+  justify-content: center;
+  align-items: center;
+}
+
+/* 잠금 카드 오버레이 */
+.item-card.is-locked .item-thumb{
+  filter: saturate(.85);
+}
+
+.lock-overlay{
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,.26);
+  display: grid;
+  place-items: center;
+}
+
+.lock-icon{
+  width: 54px;
+  height: 54px;
+  object-fit: contain;
+  display: block;
+  opacity: .95;
+}
+
+/* ===== Bottom Nav (fixed) ===== */
+.bottom-nav{
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: var(--nav-h);
+  background: rgba(255,255,255,.86);
+  backdrop-filter: blur(12px);
+  border-top: 1px solid rgba(0,0,0,.08);
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  padding: 8px 10px 10px;
+  z-index: 50;
+}
+
+.nav-item{
+  text-decoration: none;
+  color: #111;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  border-radius: 14px;
+}
+
+.nav-item:active{
+  background: rgba(0,0,0,.05);
+}
+
+.nav-icon{
+  width: 26px;
+  height: 26px;
+  object-fit: contain;
+  display: block;
+}
+
+/* 하단 네비 텍스트만 강원교육새음체 */
+.nav-text{
+  font-family: 'GangwonEducationSaeum', "Noto Sans KR", sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: rgba(17,17,17,.75);
+}
+
+.nav-item.is-active .nav-text{
+  color: var(--lav);
+}
+
+/* 안전 영역(아이폰 홈바) 대응 */
+@supports (padding-bottom: env(safe-area-inset-bottom)) {
+  .bottom-nav{
+    padding-bottom: calc(10px + env(safe-area-inset-bottom));
+    height: calc(var(--nav-h) + env(safe-area-inset-bottom));
+  }
+  .content{
+    padding-bottom: calc(var(--nav-h) + env(safe-area-inset-bottom) + 18px);
+  }
+}

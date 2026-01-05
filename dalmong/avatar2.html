@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>나의 아바타 - 노리개</title>
+
+  <!-- Noto Sans (기본 폰트) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="./css/avatar2.css" />
+</head>
+<body>
+  <div class="app">
+    <!-- 상단 헤더 -->
+    <header class="topbar">
+      <button class="icon-btn" type="button" aria-label="뒤로가기">
+        <!-- 사용자가 직접 아이콘 넣기 -->
+        <img class="icon" src="./images/back.png" alt="" />
+      </button>
+
+      <h1 class="topbar-title">나의 아바타</h1>
+
+      <button class="icon-btn" type="button" aria-label="설정">
+        <!-- 사용자가 직접 아이콘 넣기 -->
+        <img class="icon" src="./images/set.png" alt="" />
+      </button>
+    </header>
+
+    <!-- 스크롤 영역 -->
+    <main class="content" role="main">
+      <!-- 메인 프리뷰 카드 -->
+      <section class="preview-card" aria-label="아바타 프리뷰">
+        <div class="preview-media">
+          <!-- 사용자가 직접 이미지 삽입 -->
+          <img class="preview-img" src="./images/avatar_on_img.jpg" alt="아바타 배경/캐릭터 이미지" />
+        </div>
+        <button class="save-btn" type="button">저장</button>
+      </section>
+
+      <!-- 탭 바 (시안: 노리개 활성) -->
+      <nav class="tabs" aria-label="아바타 카테고리 탭">
+        <a class="tab" href="avatar.html">
+          <span class="tab-text">한복</span>
+        </a>
+
+        <button class="tab is-active" type="button" data-tab="norigae">
+          <span class="tab-icon" aria-hidden="true">
+            <!-- 노리개 옆 달 이미지: 사용자가 직접 넣기 -->
+            <img class="tab-moon" src="./images/avatar_moon.png" alt="" />
+          </span>
+          <span class="tab-text">노리개</span>
+        </button>
+
+        <button class="tab" type="button" data-tab="prop"><span class="tab-text">소품</span></button>
+        <button class="tab" type="button" data-tab="hair"><span class="tab-text">헤어</span></button>
+        <button class="tab" type="button" data-tab="face"><span class="tab-text">얼굴</span></button>
+        <button class="tab" type="button" data-tab="bg"><span class="tab-text">배경</span></button>
+      </nav>
+
+      <!-- 노리개 리스트 (2열 + 세로로 긴 카드, 스크롤로 초과 요소 표시) -->
+      <section class="grid" aria-label="노리개 목록">
+        <!-- 1 -->
+        <button class="item-card check" type="button" aria-label="노리개 1">
+          <div class="item-thumb tall">
+            <img class="item-img" src="./images/norigae_1.png" alt="노리개 1 이미지" />
+          </div>
+        </button>
+
+        <!-- 2 -->
+        <button class="item-card" type="button" aria-label="노리개 2">
+          <div class="item-thumb tall">
+            <img class="item-img" src="./images/norigae_2.png" alt="노리개 2 이미지" />
+          </div>
+        </button>
+
+        <!-- 3 -->
+        <button class="item-card" type="button" aria-label="노리개 3">
+          <div class="item-thumb tall">
+            <img class="item-img" src="./images/norigae_3.png" alt="노리개 3 이미지" />
+          </div>
+        </button>
+
+        <!-- 4 -->
+        <button class="item-card" type="button" aria-label="노리개 4">
+          <div class="item-thumb tall">
+            <img class="item-img" src="./images/norigae_4.png" alt="노리개 4 이미지" />
+          </div>
+        </button>
+
+        <!-- 5 -->
+        <button class="item-card" type="button" aria-label="노리개 5">
+          <div class="item-thumb tall">
+            <img class="item-img" src="./images/norigae_5.png" alt="노리개 5 이미지" />
+          </div>
+        </button>
+
+        <!-- 6 (잠금) -->
+        <button class="item-card is-locked" type="button" aria-label="잠금된 노리개 6">
+          <div class="item-thumb tall">
+            <img class="item-img" src="./images/norigae_6.png" alt="노리개 6 이미지" />
+            <div class="lock-overlay" aria-hidden="true">
+              <!-- 자물쇠 아이콘: 사용자가 직접 넣기 -->
+              <img class="lock-icon" src="./images/lock.png" alt="" />
+            </div>
+          </div>
+        </button>
+      </section>
+    </main>
+
+    <!-- 하단 네비 (고정) -->
+    <nav class="bottom-nav" aria-label="하단 네비게이션">
+      <a class="nav-item" href="#">
+        <img class="nav-icon" src="./images/home_icon.svg" alt="" />
+        <span class="nav-text">홈</span>
+      </a>
+
+      <a class="nav-item" href="#">
+        <img class="nav-icon" src="./images/order_icon.svg" alt="" />
+        <span class="nav-text">주문/배송</span>
+      </a>
+
+      <a class="nav-item" href="#">
+        <img class="nav-icon" src="./images/community_icon.svg" alt="" />
+        <span class="nav-text">커뮤니티</span>
+      </a>
+
+      <a class="nav-item" href="#">
+        <img class="nav-icon" src="./images/search_icon.svg" alt="" />
+        <span class="nav-text">검색</span>
+      </a>
+
+      <a class="nav-item is-active" href="#">
+        <img class="nav-icon" src="./images/my_icon_2.svg" alt="" />
+        <span class="nav-text">마이</span>
+      </a>
+    </nav>
+  </div>
+
+  <script src="./js/avatar2.js"></script>
+</body>
+</html>

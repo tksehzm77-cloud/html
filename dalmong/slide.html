@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Walkthrough</title>
+
+  <!-- Swiper CDN -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="./css/slide.css" />
+</head>
+<body>
+
+  <main class="app">
+    <!-- Swiper -->
+    <div class="swiper walkthroughSwiper" aria-label="워크스루 슬라이드">
+      <div class="swiper-wrapper">
+
+        <!-- Slide 1 -->
+        <section class="swiper-slide">
+          <div class="slide">
+            <div class="hero">
+              <!-- ✅ 사용자가 이미지 교체 -->
+              <img class="hero__img" src="./images/walk_through_img1.png" alt="워크스루 1 메인 이미지" />
+            </div>
+
+            <div class="content">
+              <h2 class="title">당신만의 수공예 일상</h2>
+
+              <p class="desc">
+                고즈넉한 전통의 숨결이 살아 숨 쉬고,<br>
+                세련된 현대의 감각이 조화롭게 어우러진 곳.<br>
+                여기, 전통의 아름다움과 현대의 감성을 담은 수공예 작품을 만나보세요.<br>
+                오래된 멋과 새로운 감각이 만나는 특별한 경험이 당신을 기다립니다.
+              </p>
+
+              <!-- ✅ 사용자가 스티커 이미지 교체 -->
+              <img class="sticker" src="./images/walk_sticker_1.png" alt="워크스루 1 스티커 이미지" />
+            </div>
+          </div>
+        </section>
+
+        <!-- Slide 2 -->
+        <section class="swiper-slide">
+          <div class="slide">
+            <div class="hero">
+              <img class="hero__img" src="./images/walk_through_img2.png" alt="워크스루 2 메인 이미지" />
+            </div>
+
+            <div class="content">
+              <h2 class="title">함께 이어나가는 전통</h2>
+
+              <p class="desc">
+                당신의 취향과 지식을 나누고,<br>
+                새로운 인연을 만들며,<br>
+                아름다운 전통 문화를 함께 꽃피우는 특별한 소통의 장에 참여하세요.<br>
+                우리의 전통은 혼자가 아닌, 우리 모두가 함께할 때 더욱 빛납니다.
+              </p>
+
+              <img class="sticker" src="./images/walk_sticker_2.png" alt="워크스루 2 스티커 이미지" />
+            </div>
+          </div>
+        </section>
+
+        <!-- Slide 3 -->
+        <section class="swiper-slide">
+          <div class="slide">
+            <div class="hero">
+              <img class="hero__img" src="./images/walk_through_img3.png" alt="워크스루 3 메인 이미지" />
+            </div>
+
+            <div class="content">
+              <h2 class="title">수공예로 꾸미는,<br>나만의 아바타 세계</h2>
+
+              <p class="desc">
+                전통의 멋과 현대적인 감각이 어우러진<br>
+                다채로운 작품들로 개성 넘치는 나만의 공간을 연출하고,<br>
+                세상에 단 하나뿐인 아바타를 탄생시키는 즐거움을 경험해 보세요.
+              </p>
+
+              <img class="sticker" src="./images/walk_sticker_3.png" alt="워크스루 3 스티커 이미지" />
+            </div>
+          </div>
+        </section>
+
+      </div>
+    </div>
+
+    <!-- Footer: Indicator + Button -->
+    <footer class="footer" aria-label="워크스루 하단 영역">
+      <div class="pager" role="tablist" aria-label="페이지 인디케이터">
+        <!-- 커스텀 인디케이터(원/원/막대 스타일) -->
+        <span class="dot" data-dot="0" aria-label="1페이지"></span>
+        <span class="dot" data-dot="1" aria-label="2페이지"></span>
+        <span class="dot" data-dot="2" aria-label="3페이지"></span>
+      </div>
+
+      <!-- ✅ 마지막 슬라이드에서 이동할 링크를 data-href로 바꿔주세요 -->
+      <button class="nextBtn" type="button" data-href="./next.html">
+        다음
+      </button>
+    </footer>
+  </main>
+
+  <!-- Swiper JS -->
+  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
+  <!-- JS -->
+  <script src="./js/slide.js"></script>
+</body>
+</html>

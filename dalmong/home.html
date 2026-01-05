@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+  <title>Home</title>
+
+  <!-- Swiper CDN -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+
+  <link rel="stylesheet" href="./css/home.css" />
+</head>
+<body>
+  <div class="page">
+    <main class="app" role="main">
+
+      <!-- ===== TOP BANNER (Swiper) ===== -->
+      <section class="banner">
+        <div class="swiper bannerSwiper">
+          <div class="swiper-wrapper">
+
+            <!-- Slide 1 -->
+            <div class="swiper-slide">
+              <!-- 상단 배너 이미지: 사용자가 삽입 -->
+              <img class="banner__img" src="./images/home_banner_img1.png" alt="배너 이미지 1" />
+              <div class="banner__overlay">
+                <div class="banner__text">
+                  <p class="banner__title">
+                    달몽 민화 특별전
+                    <span class="moonIcon">
+                      <!-- 달 아이콘 이미지: 사용자가 삽입 -->
+                      <img src="./images/home_banner_moon.png" alt="달 아이콘" />
+                    </span>
+                  </p>
+
+                  <p class="banner__desc">아름다운 궁궐 속에서 펼쳐지는<br/>우리 민화의 아름다움</p>
+                </div>
+
+                <!-- 카트 아이콘: 사용자가 삽입 -->
+                <button class="cart" type="button" aria-label="장바구니">
+                  <img class="cart__icon" src="./images/cart.png" alt="카트" />
+                  <span class="cart__badge" aria-label="장바구니 개수">26</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Slide 2 (필요시 추가/복사) -->
+            <div class="swiper-slide">
+              <img class="banner__img" src="" alt="배너 이미지 2" />
+              <div class="banner__overlay">
+                <div class="banner__text">
+                  <p class="banner__title">배너 타이틀</p>
+                  <p class="banner__desc">배너 설명을 넣어주세요</p>
+                </div>
+                <button class="cart" type="button" aria-label="장바구니">
+                  <img class="cart__icon" src="" alt="카트" />
+                  <span class="cart__badge">26</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Slide 3 (필요시 추가/복사) -->
+            <div class="swiper-slide">
+              <img class="banner__img" src="" alt="배너 이미지 3" />
+              <div class="banner__overlay">
+                <div class="banner__text">
+                  <p class="banner__title">배너 타이틀</p>
+                  <p class="banner__desc">배너 설명을 넣어주세요</p>
+                </div>
+                <button class="cart" type="button" aria-label="장바구니">
+                  <img class="cart__icon" src="" alt="카트" />
+                  <span class="cart__badge">26</span>
+                </button>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- pagination (우측 하단 점) -->
+          <div class="swiper-pagination bannerPagination"></div>
+        </div>
+      </section>
+
+      <!-- ===== CONTENT WRAP (스크롤 영역) ===== -->
+      <section class="content">
+
+        <!-- ===== CATEGORY ===== -->
+        <h2 class="sectionTitle">카테고리</h2>
+
+        <div class="card categoryCard">
+          <div class="categoryGrid">
+            <!-- 카테고리 아이콘: 사용자가 삽입 -->
+            <button class="catItem" type="button">
+              <span class="catIcon">
+                <img src="./images/norigae_icon.png" alt="노리개" />
+              </span>
+              <span class="catLabel">노리개</span>
+            </button>
+
+            <button class="catItem" type="button">
+              <span class="catIcon">
+                <img src="./images/jewellery_icon.png" alt="주얼리" />
+              </span>
+              <span class="catLabel">주얼리</span>
+            </button>
+
+            <button class="catItem" type="button">
+              <span class="catIcon">
+                <img src="./images/custom_icon.png" alt="커스텀" />
+              </span>
+              <span class="catLabel">커스텀</span>
+            </button>
+
+            <button class="catItem" type="button">
+              <span class="catIcon">
+                <img src="./images/keyring_icon.png" alt="키링" />
+              </span>
+              <span class="catLabel">키링</span>
+            </button>
+
+            <button class="catItem" type="button">
+              <span class="catIcon">
+                <img src="./images/hanbok_icon.png" alt="한복" />
+              </span>
+              <span class="catLabel">한복</span>
+            </button>
+
+            <button class="catItem" type="button">
+              <span class="catIcon">
+                <img src="./images/sopum_icon.png" alt="소품" />
+              </span>
+              <span class="catLabel">소품</span>
+            </button>
+
+            <button class="catItem" type="button">
+              <span class="catIcon">
+                <img src="./images/case_icon.png" alt="케이스" />
+              </span>
+              <span class="catLabel">케이스</span>
+            </button>
+
+            <button class="catItem" type="button">
+              <span class="catIcon">
+                <img src="./images/digital_icon.png" alt="디지털 악세사리" />
+              </span>
+              <span class="catLabel">디지털<br/>악세사리</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- ===== RECENT CLICKED (가로 스와이프) ===== -->
+        <h2 class="sectionTitle sectionTitle--spaced">나영 님이 최근 클릭한 상품</h2>
+
+        <div class="swiper recentSwiper">
+          <div class="swiper-wrapper">
+
+            <!-- 최근 클릭 상품 이미지: 사용자가 삽입 -->
+            <div class="swiper-slide recentSlide">
+              <div class="thumb">
+                <img src="./images/home_horizontal_img1.png" alt="최근상품 1" />
+              </div>
+            </div>
+
+            <div class="swiper-slide recentSlide">
+              <div class="thumb">
+                <img src="./images/home_horizontal_img2.png" alt="최근상품 2" />
+              </div>
+            </div>
+
+            <div class="swiper-slide recentSlide">
+              <div class="thumb">
+                <img src="./images/home_horizontal_img3.png" alt="최근상품 3" />
+              </div>
+            </div>
+
+            <div class="swiper-slide recentSlide">
+              <div class="thumb">
+                <img src="./images/home_horizontal_img4.png" alt="최근상품 4" />
+              </div>
+            </div>
+
+            <div class="swiper-slide recentSlide">
+              <div class="thumb">
+                <img src="./images/home_horizontal_img5.png" alt="최근상품 5" />
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- ===== RECOMMENDED GRID (세로 스크롤로 초과 요소 보기) ===== -->
+        <h2 class="sectionTitle sectionTitle--spaced">나영 님을 위한 추천 상품</h2>
+
+        <div class="recommendGrid">
+          <!-- 추천 상품 이미지: 사용자가 삽입 (필요 개수만큼 복사) -->
+          <article class="recCard">
+            <div class="recImg">
+              <img src="./images/home_vertical_img1.png" alt="추천상품 1" />
+            </div>
+          </article>
+
+          <article class="recCard">
+            <div class="recImg">
+              <img src="./images/home_vertical_img2.png" alt="추천상품 2" />
+            </div>
+          </article>
+
+          <article class="recCard">
+            <div class="recImg">
+              <img src="./images/home_vertical_img3.png" alt="추천상품 3" />
+            </div>
+          </article>
+
+          <article class="recCard">
+            <div class="recImg">
+              <img src="./images/home_vertical_img4.png" alt="추천상품 4" />
+            </div>
+          </article>
+
+          <article class="recCard">
+            <div class="recImg">
+              <img src="./images/home_vertical_img5.png" alt="추천상품 5" />
+            </div>
+          </article>
+
+          <article class="recCard">
+            <div class="recImg">
+              <img src="./images/home_vertical_img6.png" alt="추천상품 6" />
+            </div>
+          </article>
+        </div>
+
+        <!-- 하단 네비 고정 영역 때문에 마지막 여백 -->
+        <div class="bottomSpacer" aria-hidden="true"></div>
+      </section>
+
+      <!-- ===== BOTTOM NAV (fixed) ===== -->
+      <nav class="bottomNav" aria-label="하단 메뉴">
+        <!-- 하단 네비 아이콘: 사용자가 삽입 -->
+        <button class="navItem is-active" type="button">
+          <img src="./images/home_icon_2.svg" alt="홈" class="navIcon" />
+          <span class="navLabel">홈</span>
+        </button>
+
+        <button class="navItem" type="button">
+          <img src="./images/order_icon.svg" alt="주문/배송" class="navIcon" />
+          <span class="navLabel">주문/배송</span>
+        </button>
+
+        <button class="navItem" type="button">
+          <img src="./images/community_icon.svg" alt="커뮤니티" class="navIcon" />
+          <span class="navLabel">커뮤니티</span>
+        </button>
+
+        <button class="navItem" type="button">
+          <img src="./images/search_icon.svg" alt="검색" class="navIcon" />
+          <span class="navLabel">검색</span>
+        </button>
+
+        <button class="navItem" type="button">
+          <img src="./images/my_icon.svg" alt="마이" class="navIcon" />
+          <span class="navLabel">마이</span>
+        </button>
+      </nav>
+
+    </main>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+  <script src="./js/home.js"></script>
+</body>
+</html>

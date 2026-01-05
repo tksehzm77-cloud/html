@@ -1,0 +1,268 @@
+@font-face {
+  font-family: 'GangwonEducationSaeum';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2201-2@1.0/GangwonEduSaeeum_OTFMediumA.woff') format('woff');
+  font-weight: normal;
+  font-display: swap;
+}
+
+/* ===== Reset ===== */
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{height:100%}
+img{display:block}
+a{text-decoration:none;color:inherit}
+button{border:0;background:none;color:inherit;font:inherit}
+
+/* ===== Theme ===== */
+:root{
+  --bg:#DCE6E4;          /* 전체 배경(연한 민트/그레이) */
+  --brand:#6C71B5;       /* 포인트 보라(시안 느낌) */
+  --card:#F6EDE2;        /* 카드 베이지 */
+  --cardEdge:#E9D9C7;    /* 카드 테두리 느낌 */
+  --text:#1D1E23;
+  --muted:#8A8FA1;
+  --line:#6C71B5;        /* 리스트 구분선 (보라 라인) */
+  --white:#ffffff;
+  --navH:86px;           /* 하단 네비 높이 */
+  --topH:72px;           /* 상단 바 높이 */
+}
+
+body{
+  background:var(--bg);
+  color:var(--text);
+  font-family:"Noto Sans KR", system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+  overflow-x:hidden;
+}
+
+/* 전체 폭 100% 모바일 */
+.app{
+  width:100%;
+  min-height:100vh;
+  padding-bottom: calc(var(--navH) + env(safe-area-inset-bottom));
+}
+
+/* ===== Topbar ===== */
+.topbar{
+  height: calc(var(--topH) + env(safe-area-inset-top));
+  padding-top: env(safe-area-inset-top);
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding-left:16px;
+  padding-right:16px;
+}
+
+.icon-btn{
+  width:44px;height:44px;
+  display:flex;align-items:center;justify-content:center;
+  border-radius:12px;
+}
+
+.icon-img{
+  width:24px;height:24px;
+  object-fit:contain;
+}
+
+/* 타이틀(시안의 보라톤) */
+.topbar-title{
+  font-size:22px;
+  font-weight:700;
+  color:var(--brand);
+  letter-spacing:-0.02em;
+}
+
+/* ===== Content ===== */
+.content{
+  padding: 6px 16px 18px;
+}
+
+/* ===== 중앙 이미지 카드 ===== */
+.avatar-card{
+  border-radius:22px;
+  background: var(--card);
+  margin-bottom:14px;
+}
+
+.avatar-illust{
+  border-radius:18px;
+  overflow:hidden;
+}
+
+.avatar-img{
+  width:100%;
+  height:388px;
+  object-fit:cover;
+  border-radius:18px;
+  background:rgba(255,255,255,0.3);
+}
+
+/* ===== 나의 아바타 꾸미기 버튼 (독립 박스) ===== */
+.avatar-cta{
+  width:100%;
+  height:64px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:10px;
+
+  background: var(--brand);
+  border-radius:18px;
+  margin-bottom:20px;
+
+  color:#fff;
+  font-family:'GangwonEducationSaeum', sans-serif;
+  font-size:22px;
+}
+
+.cta-icon{
+  width:30px;
+  height:30px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.cta-icon-img{
+  width:30px;
+  height:30px;
+  object-fit:contain;
+}
+
+
+/* ===== List ===== */
+.list{
+  margin-top: 16px;
+  background: transparent;
+  border-radius:14px;
+}
+
+/* 시안처럼 보라 라인으로 구분 */
+.list-item{
+  height:68px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding: 0 14px;
+  background: transparent;
+  border-top: 2px solid rgba(108,113,181,0.9);
+}
+
+.list-item:last-child{
+  border-bottom: 2px solid rgba(108,113,181,0.9);
+}
+
+.li-left{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  min-width:0;
+}
+
+.li-icon{
+  width:26px;height:26px;
+  object-fit:contain;
+}
+
+/* 리스트 텍스트는 Noto Sans */
+.li-title{
+  font-size:20px;
+  font-weight:800;
+  letter-spacing:-0.02em;
+  white-space:nowrap;
+}
+
+.li-badge{
+  margin-left: 0;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+
+  width:22px;height:22px;
+  border-radius:999px;
+  background: rgba(108,113,181,0.18);
+  color: var(--brand);
+  font-size:13px;
+  font-weight:800;
+}
+
+.li-meta{
+  margin-left: 0;
+  font-size:20px;
+  font-weight:800;
+  color: var(--brand);
+}
+
+.li-right{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.li-chevron{
+  width:18px;height:18px;
+  object-fit:contain;
+  opacity:0.9;
+}
+
+/* ===== Bottom Nav ===== */
+.bottom-nav{
+  position:fixed;
+  left:0;right:0;bottom:0;
+  height: calc(var(--navH) + env(safe-area-inset-bottom));
+  padding-bottom: env(safe-area-inset-bottom);
+  background: var(--white);
+  border-top: 1px solid rgba(0,0,0,0.06);
+
+  display:flex;
+  align-items:center;
+  justify-content:space-around;
+  z-index:50;
+}
+
+.nav-item{
+  width:20%;
+  height: var(--navH);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:6px;
+  color: #111;
+}
+
+.nav-icon{
+  width:28px;height:28px;
+  object-fit:contain;
+}
+
+/* 요청: 하단 네비 텍스트 = 강원교육새음체 */
+.nav-text{
+  font-family: 'GangwonEducationSaeum', "Noto Sans KR", sans-serif;
+  font-size:20px;
+  font-weight:400;
+  letter-spacing:-0.01em;
+}
+
+/* 활성화(마이) */
+.nav-item.is-active{
+  color: var(--brand);
+}
+
+.nav-item.is-active .nav-text{
+  color: var(--brand);
+}
+
+/* 터치 피드백 */
+.icon-btn:active,
+.list-item:active,
+.nav-item:active,
+.avatar-cta:active{
+  transform: translateY(1px);
+  opacity: 0.98;
+}
+
+/* 아주 작은 폰에서 안전 */
+@media (max-width: 360px){
+  .avatar-img{ height: 380px; }
+  .li-title,.li-meta{ font-size:18px; }
+  .avatar-cta{ font-size:20px; }
+}
