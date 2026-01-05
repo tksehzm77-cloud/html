@@ -14,7 +14,7 @@ button{font:inherit;border:0;background:none;cursor:pointer}
   --bg:#DDE7E7;       /* 하단 연한 민트/그레이 배경 */
   --primary:#6C71B5;  /* 버튼/타이틀/인디케이터 컬러 */
   --text:#111827;
-  --radius:18px;
+  --radius:8px;
   --footerH:190px;
 }
 
@@ -40,7 +40,7 @@ body{
 
 .swiper-slide{
   width:100%;
-  height: 470px;
+  height: 100%;
 }
 
 /* Slide layout */

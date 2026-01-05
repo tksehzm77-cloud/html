@@ -15,7 +15,7 @@ img{display:block;max-width:100%}
 /* ===== Theme ===== */
 :root{
   --bg: #DDE7E7;          /* 시안의 연한 그레이-민트 배경 */
-  --ink: #2b2e35;
+  --ink: #1D1E23;
   --muted: rgba(43,46,53,.55);
   --line: rgba(88,107,185,.55);
   --brand: #6C71B5;       /* 시안의 보라 버튼/라인 톤 */
@@ -23,8 +23,8 @@ img{display:block;max-width:100%}
   --inputBg: rgba(255,255,255,.18);
   --white: #ffffff;
 
-  --radius: 18px;
-  --btnRadius: 18px;
+  --radius: 8px;
+  --btnRadius: 8px;
   --fieldH: 62px;
 }
 
@@ -48,8 +48,8 @@ body{
   width:100%;
   display:flex;
   justify-content:center;
-  padding-top: 110px;  /* 시안 상단 여백 */
-  padding-bottom: 26px;
+  padding-top: 72px;  /* 시안 상단 여백 */
+  padding-bottom: 48px;
 }
 
 .logo{
@@ -97,7 +97,7 @@ body{
   border: 2px solid var(--line);
   background: var(--inputBg);
   padding: 0 18px;
-  font-size: 18px;
+  font-size: 20px;
   color: var(--ink);
   outline:none;
 }
@@ -156,15 +156,14 @@ body{
 
 .btn-login{
   width:100%;
-  height: 74px;
+  height: 64px;
   border:none;
   border-radius: var(--btnRadius);
   background: var(--brand);
   color: #fff;
-  font-size: 22px;
+  font-size: 20px;
   letter-spacing: .5px;
   cursor:pointer;
-  box-shadow: 0 6px 0 rgba(0,0,0,.06);
 }
 
 .btn-login:active{
@@ -230,8 +229,8 @@ body{
 
 /* 사용자가 넣을 아이콘 이미지 */
 .sns-ico{
-  width: 62px;
-  height: 62px;
+  width: 32px;
+  height: 32px;
   border-radius: 999px;
   object-fit: cover;
   display:none; /* src 들어오면 JS가 보이게 처리 */

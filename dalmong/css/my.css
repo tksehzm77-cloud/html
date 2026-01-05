@@ -64,7 +64,7 @@ body{
 
 /* 타이틀(시안의 보라톤) */
 .topbar-title{
-  font-size:22px;
+  font-size: 16px;
   font-weight:700;
   color:var(--brand);
   letter-spacing:-0.02em;
@@ -89,7 +89,7 @@ body{
 
 .avatar-img{
   width:100%;
-  height:388px;
+  height: 302px;
   object-fit:cover;
   border-radius:18px;
   background:rgba(255,255,255,0.3);
@@ -105,25 +105,25 @@ body{
   gap:10px;
 
   background: var(--brand);
-  border-radius:18px;
+  border-radius:8px;
   margin-bottom:20px;
 
-  color:#fff;
+  color:#DDE7E7;
   font-family:'GangwonEducationSaeum', sans-serif;
-  font-size:22px;
+  font-size:24px;
 }
 
 .cta-icon{
-  width:30px;
-  height:30px;
+  width:32px;
+  height:32px;
   display:flex;
   align-items:center;
   justify-content:center;
 }
 
 .cta-icon-img{
-  width:30px;
-  height:30px;
+  width:32px;
+  height:32px;
   object-fit:contain;
 }
 
@@ -146,6 +146,7 @@ body{
   border-top: 2px solid rgba(108,113,181,0.9);
 }
 
+
 .list-item:last-child{
   border-bottom: 2px solid rgba(108,113,181,0.9);
 }
@@ -158,13 +159,13 @@ body{
 }
 
 .li-icon{
-  width:26px;height:26px;
+  width:24px;height:24px;
   object-fit:contain;
 }
 
 /* 리스트 텍스트는 Noto Sans */
 .li-title{
-  font-size:20px;
+  font-size: 15px;
   font-weight:800;
   letter-spacing:-0.02em;
   white-space:nowrap;
@@ -176,17 +177,17 @@ body{
   align-items:center;
   justify-content:center;
 
-  width:22px;height:22px;
+  width:16px;height:16px;
   border-radius:999px;
-  background: rgba(108,113,181,0.18);
-  color: var(--brand);
-  font-size:13px;
+  background: #6C71B5;
+  color: #DDE7E7;
+  font-size:10px;
   font-weight:800;
 }
 
 .li-meta{
   margin-left: 0;
-  font-size:20px;
+  font-size: 15px;
   font-weight:800;
   color: var(--brand);
 }
@@ -226,18 +227,18 @@ body{
   align-items:center;
   justify-content:center;
   gap:6px;
-  color: #111;
+  color: #1D1E23;
 }
 
 .nav-icon{
-  width:28px;height:28px;
+  width:24px;height:24px;
   object-fit:contain;
 }
 
 /* 요청: 하단 네비 텍스트 = 강원교육새음체 */
 .nav-text{
   font-family: 'GangwonEducationSaeum', "Noto Sans KR", sans-serif;
-  font-size:20px;
+  font-size: 20px;
   font-weight:400;
   letter-spacing:-0.01em;
 }
