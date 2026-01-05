@@ -95,7 +95,7 @@ body {
 
 .preview-media{
   width: 100%;
-  height: 388px;
+  height: 302px;
   aspect-ratio: 16/10; /* 시안 상단 큰 이미지 비율 느낌 */
   background: linear-gradient(180deg, rgba(108,113,181,.10), rgba(255,255,255,.8));
   display: grid;
