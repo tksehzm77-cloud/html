@@ -27,7 +27,7 @@ body {
   --r-lg: 22px;
   --r-md: 16px;
 
-  --nav-h: 78px;     /* 하단 네비 높이 */
+  --nav-h: 80px;     /* 하단 네비 높이 */
   --top-h: 56px;     /* 상단바 높이 */
   --page-pad: 16px;
 }

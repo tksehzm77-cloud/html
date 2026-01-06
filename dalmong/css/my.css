@@ -22,7 +22,7 @@ button{border:0;background:none;color:inherit;font:inherit}
   --muted:#8A8FA1;
   --line:#6C71B5;        /* 리스트 구분선 (보라 라인) */
   --white:#ffffff;
-  --navH:86px;           /* 하단 네비 높이 */
+  --navH: 80px;           /* 하단 네비 높이 */
   --topH:72px;           /* 상단 바 높이 */
 }
 

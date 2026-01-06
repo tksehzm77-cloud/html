@@ -69,21 +69,20 @@ body{
   flex:1;
   background:var(--bg);
   padding: 24px 24px 0;
-  z-index: 99;
 }
 
 .title{
   color:var(--primary);
-  font-size:clamp(32px, 5.2vw, 40px);
-  line-height:1.15;
+  font-size:clamp(30px, 5.2vw, 40px);
+  line-height:1.0;
   letter-spacing:-0.2px;
-  margin-bottom:14px;
+  margin-bottom: 8px;
 }
 
 .desc{
   font-family:'GangwonEducationSaeum', system-ui, -apple-system, "Noto Sans KR", sans-serif;
   font-size:clamp(17px, 3.6vw, 20px);
-  line-height:1.55;
+  line-height:1.35;
   color: #1D1E23;
   padding-right:110px; /* 오른쪽 스티커 공간 확보(시안 느낌) */
   word-break:keep-all;

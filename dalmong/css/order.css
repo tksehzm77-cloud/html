@@ -30,7 +30,7 @@ button, input, select { font-family: inherit; }
   --radius-md: 14px;
 
   --appbar-h: 56px;
-  --nav-h: 86px;
+  --nav-h: 80px;
 
   /* 배경 100% + 스테이지 중앙 */
   --stage: 420px;
