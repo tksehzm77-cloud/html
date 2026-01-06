@@ -48,13 +48,13 @@ body{
   width:100%;
   display:flex;
   justify-content:center;
-  padding-top: 72px;  /* 시안 상단 여백 */
+  padding-top: 56px;  /* 시안 상단 여백 */
   padding-bottom: 48px;
 }
 
 .logo{
-  width: 220px;
-  height: 220px;
+  width: 200px;
+  height: 200px;
   object-fit: contain;
   display:none; /* src가 들어오면 JS에서 보이게 처리 */
 }
@@ -211,12 +211,12 @@ body{
   width:100%;
   display:flex;
   justify-content:center;
-  gap: 26px;
+  gap: 16px;
 }
 
 .sns-btn{
-  width: 68px;
-  height: 68px;
+  width: 32px;
+  height: 32px;
   border-radius: 999px;
   border:none;
   background: transparent;

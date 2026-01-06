@@ -74,7 +74,7 @@ body {
   font-weight: 700;
   letter-spacing: -0.02em;
   color: var(--lav);
-  font-size: 22px;
+  font-size: 16px;
 }
 
 /* ===== Scroll content area ===== */
@@ -118,10 +118,10 @@ body {
   background: var(--lav);
   color: #fff;
   font-weight: 700;
-  font-size: 16px;
-  padding: 10px 16px;
-  border-radius: 14px;
-  box-shadow: 0 10px 18px rgba(108,113,181,.35);
+  font-size: 12px;
+  width: 39px;
+  height: 20px;
+  border-radius: 4px;
 }
 
 .save-btn:active{ transform: translateY(1px); }
@@ -150,8 +150,8 @@ body {
   display:inline-flex;
   align-items:center;
   gap:8px;
-  font-size:17px;
-  font-weight:800;
+  font-size:16px;
+  font-weight:400;
   line-height:1;
   cursor:pointer;
 }

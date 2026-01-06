@@ -68,7 +68,7 @@ body{
   position:relative;
   flex:1;
   background:var(--bg);
-  padding:67px 24px 0;
+  padding: 24px 24px 0;
 }
 
 .title{
