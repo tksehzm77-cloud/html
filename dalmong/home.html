@@ -49,8 +49,8 @@
               <img class="banner__img" src="./images/home_banner_img2.png" alt="배너 이미지 2" />
               <div class="banner__overlay">
                 <div class="banner__text">
-                  <p class="banner__title">배너 타이틀</p>
-                  <p class="banner__desc">배너 설명을 넣어주세요</p>
+                  <p class="banner__title"></p>
+                  <p class="banner__desc"></p>
                 </div>
                 <button class="cart" type="button" aria-label="장바구니">
                   <img class="cart__icon" src="./images/cart.png" alt="카트" />
@@ -64,8 +64,8 @@
               <img class="banner__img" src="./images/home_banner_img3.png" alt="배너 이미지 3" />
               <div class="banner__overlay">
                 <div class="banner__text">
-                  <p class="banner__title">배너 타이틀</p>
-                  <p class="banner__desc">배너 설명을 넣어주세요</p>
+                  <p class="banner__title"></p>
+                  <p class="banner__desc"></p>
                 </div>
                 <button class="cart" type="button" aria-label="장바구니">
                   <img class="cart__icon" src="./images/cart.png" alt="카트" />
@@ -234,34 +234,33 @@
         <div class="bottomSpacer" aria-hidden="true"></div>
       </section>
 
-      <!-- ===== BOTTOM NAV (fixed) ===== -->
-      <nav class="bottomNav" aria-label="하단 메뉴">
-        <!-- 하단 네비 아이콘: 사용자가 삽입 -->
-        <button class="navItem is-active" type="button">
-          <img src="./images/home_icon_2.svg" alt="홈" class="navIcon" />
-          <span class="navLabel">홈</span>
-        </button>
+      <!-- Bottom Nav -->
+    <nav class="bottom-nav" role="navigation" aria-label="하단 내비게이션">
+      <a class="nav-item is-active" href="home.html" data-href="home.html">
+        <img class="nav-icon" src="./images/home_icon_2.svg" alt="홈" data-placeholder="nav-home-icon" />
+        <span class="nav-text">홈</span>
+      </a>
 
-        <button class="navItem" type="button">
-          <img src="./images/order_icon.svg" alt="주문/배송" class="navIcon" />
-          <span class="navLabel">주문/배송</span>
-        </button>
+      <a class="nav-item" href="order.html" data-href="orders.html">
+        <img class="nav-icon" src="./images/order_icon.svg" alt="주문/배송" data-placeholder="nav-orders-icon" />
+        <span class="nav-text">주문/배송</span>
+      </a>
 
-        <button class="navItem" type="button">
-          <img src="./images/community_icon.svg" alt="커뮤니티" class="navIcon" />
-          <span class="navLabel">커뮤니티</span>
-        </button>
+      <a class="nav-item" href="#" data-href="community.html">
+        <img class="nav-icon" src="./images/community_icon.svg" alt="커뮤니티" data-placeholder="nav-community-icon" />
+        <span class="nav-text">커뮤니티</span>
+      </a>
 
-        <button class="navItem" type="button">
-          <img src="./images/search_icon.svg" alt="검색" class="navIcon" />
-          <span class="navLabel">검색</span>
-        </button>
+      <a class="nav-item" href="#" data-href="search.html">
+        <img class="nav-icon" src="./images/search_icon.svg" alt="검색" data-placeholder="nav-search-icon" />
+        <span class="nav-text">검색</span>
+      </a>
 
-        <button class="navItem" type="button">
-          <img src="./images/my_icon.svg" alt="마이" class="navIcon" />
-          <span class="navLabel">마이</span>
-        </button>
-      </nav>
+      <a class="nav-item" href="my.html" data-href="my.html" aria-current="page">
+        <img class="nav-icon" src="./images/my_icon.svg" alt="마이" data-placeholder="nav-my-icon" />
+        <span class="nav-text">마이</span>
+      </a>
+    </nav>
 
     </main>
   </div>

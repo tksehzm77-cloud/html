@@ -28,7 +28,7 @@ html, body { height: 100%; }
   letter-spacing: -0.2px;
 }
 
-
+a{text-decoration: none;}
 
 /* ===== Theme ===== */
 :root{
@@ -42,7 +42,7 @@ html, body { height: 100%; }
   --radius-lg: 18px;
   --radius-md: 14px;
 
-  --navH: 78px;
+  --navH: 86px;
   --maxW: 430px;         /* PC에서 앱처럼 보이게 */
 }
 
@@ -301,52 +301,51 @@ body{
 }
 
 /* ===== Bottom Nav ===== */
-.bottomNav{
-  position: fixed;
-  left: 0;
-  bottom: 0;
-  width: 100%;
-  height: var(--navH);
-  background: #fff;
+.bottom-nav{
+  position:fixed;
+  left:0;right:0;bottom:0;
+  height: calc(var(--navH) + env(safe-area-inset-bottom));
+  padding-bottom: env(safe-area-inset-bottom);
+  background: #FFFFFF;
   border-top: 1px solid rgba(0,0,0,0.06);
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  padding: 10px 6px 12px;
-  z-index: 50;
+
+  display:flex;
+  align-items:center;
+  justify-content:space-around;
+  z-index:50;
 }
 
-
-.navItem{
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 6px;
+.nav-item{
+  width:20%;
+  height: var(--navH);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:6px;
   color: #1D1E23;
 }
 
-.navIcon{
-  width: 24px;
-  height: 24px;
-  object-fit: contain;
-  opacity: 0.8;
+.nav-icon{
+  width:24px;height:24px;
+  object-fit:contain;
 }
 
-.navLabel{
+/* 요청: 하단 네비 텍스트 = 강원교육새음체 */
+.nav-text{
+  font-family: 'GangwonEducationSaeum', "Noto Sans KR", sans-serif;
   font-size: 20px;
-  font-weight: 800;
+  font-weight:400;
+  letter-spacing:-0.01em;
 }
 
-.navItem.is-active{
+/* 활성화(마이) */
+.nav-item.is-active{
+  color: #6C71B5;
+}
+
+.nav-item.is-active .nav-text{
   color: var(--brand);
-}
-
-.navItem.is-active .navIcon{
-  opacity: 1;
-}
-
-/* 하단 고정 네비에 가려지지 않도록 스크롤 여백 */
-.bottomSpacer{
-  height: calc(var(--navH) + 14px);
 }
 
 /* ===== PC에서 너무 커 보이지 않게 ===== */

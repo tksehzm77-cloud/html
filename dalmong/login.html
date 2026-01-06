@@ -10,12 +10,8 @@
   <main class="app">
     <!-- 상단 로고(사용자 이미지 삽입) -->
     <section class="hero" aria-label="logo area">
-      <!-- 로고를 이미지로 넣고 싶으면 src만 교체하세요 -->
       <img class="logo" src="./images/logo.png" alt="로고" />
-      <!-- 로고 이미지가 없을 때를 위한 안전장치(자동 숨김/표시: JS) -->
-      <div class="logo-fallback" aria-hidden="true">
-        <!-- 여기는 비워둬도 됩니다(시안처럼 중앙 아이콘 영역) -->
-      </div>
+      <div class="logo-fallback" aria-hidden="true"></div>
     </section>
 
     <!-- 입력 폼 -->
@@ -56,13 +52,13 @@
 
         <button type="submit" class="btn-login">로그인</button>
 
-        <!-- 하단 링크 -->
+        <!-- 하단 링크 (페이지 이동) -->
         <nav class="links" aria-label="login links">
-          <a href="#" class="link">아이디 찾기</a>
+          <a href="find-id.html" class="link">아이디 찾기</a>
           <span class="sep">|</span>
-          <a href="#" class="link">비밀번호 찾기</a>
+          <a href="find-password.html" class="link">비밀번호 찾기</a>
           <span class="sep">|</span>
-          <a href="#" class="link">회원가입</a>
+          <a href="signup.html" class="link">회원가입</a>
         </nav>
       </form>
 
@@ -73,23 +69,22 @@
         <p class="sns-title">SNS 간편로그인</p>
 
         <div class="sns-row">
-          <!-- 아이콘은 사용자가 직접 넣기: src 교체 -->
-          <button type="button" class="sns-btn" aria-label="네이버 로그인">
+          <button type="button" class="sns-btn" data-provider="naver" aria-label="네이버 로그인">
             <img class="sns-ico" src="./images/naver.png" alt="네이버" />
             <span class="sns-fallback">N</span>
           </button>
 
-          <button type="button" class="sns-btn" aria-label="카카오 로그인">
+          <button type="button" class="sns-btn" data-provider="kakao" aria-label="카카오 로그인">
             <img class="sns-ico" src="./images/kakao.png" alt="카카오" />
             <span class="sns-fallback">K</span>
           </button>
 
-          <button type="button" class="sns-btn" aria-label="페이스북 로그인">
+          <button type="button" class="sns-btn" data-provider="facebook" aria-label="페이스북 로그인">
             <img class="sns-ico" src="./images/facebook.png" alt="페이스북" />
             <span class="sns-fallback">f</span>
           </button>
 
-          <button type="button" class="sns-btn" aria-label="애플 로그인">
+          <button type="button" class="sns-btn" data-provider="apple" aria-label="애플 로그인">
             <img class="sns-ico" src="./images/apple.png" alt="애플" />
             <span class="sns-fallback">a</span>
           </button>

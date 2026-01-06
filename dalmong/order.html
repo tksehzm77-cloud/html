@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+  />
+  <title>주문/배송</title>
+
+  <!-- Noto Sans KR -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="./css/order.css" />
+</head>
+<body>
+  <div class="app" id="app">
+
+    <!-- Top App Bar -->
+    <header class="appbar">
+      <button class="icon-btn" type="button" aria-label="뒤로가기" id="backBtn">
+        <!-- ✅ 상단 아이콘을 HTML에서 직접 넣기 -->
+        <!-- 예: ./images/icon-back.svg -->
+        <img class="icon-img" src="./images/back.png" alt="뒤로가기">
+      </button>
+
+      <h1 class="appbar-title">주문/배송</h1>
+
+      <button class="icon-btn" type="button" aria-label="메뉴" id="menuBtn">
+        <!-- ✅ 상단 아이콘을 HTML에서 직접 넣기 -->
+        <!-- 예: ./images/icon-menu.svg -->
+        <img class="icon-img" src="./images/menu.png" alt="메뉴">
+      </button>
+    </header>
+
+    <!-- Content -->
+    <main class="content">
+      <!-- Summary Card -->
+      <section class="card summary">
+        <div class="summary-head">
+          <div class="summary-title">
+            <span class="pill-dot" aria-hidden="true"></span>
+            <span>최근 3개월</span>
+          </div>
+
+          <div class="summary-actions">
+            <button class="ghost-btn" type="button" id="dateFilterBtn">기간 설정</button>
+          </div>
+        </div>
+
+        <div class="summary-grid">
+          <button class="stat" type="button" data-status="PAYED">
+            <span class="stat-num" id="statPayed">0</span>
+            <span class="stat-label">결제완료</span>
+          </button>
+          <button class="stat" type="button" data-status="PREP">
+            <span class="stat-num" id="statPrep">0</span>
+            <span class="stat-label">상품준비</span>
+          </button>
+          <button class="stat" type="button" data-status="SHIPPING">
+            <span class="stat-num" id="statShipping">0</span>
+            <span class="stat-label">배송중</span>
+          </button>
+          <button class="stat" type="button" data-status="DONE">
+            <span class="stat-num" id="statDone">0</span>
+            <span class="stat-label">배송완료</span>
+          </button>
+        </div>
+      </section>
+
+      <!-- Tabs + Filters -->
+      <section class="section">
+        <div class="tabs">
+          <button class="tab is-active" type="button" data-tab="orders">주문내역</button>
+          <button class="tab" type="button" data-tab="delivery">배송조회</button>
+        </div>
+
+        <div class="filters">
+          <div class="select-wrap">
+            <label class="sr-only" for="statusSelect">상태 필터</label>
+            <select id="statusSelect" class="select">
+              <option value="ALL">전체</option>
+              <option value="PAYED">결제완료</option>
+              <option value="PREP">상품준비</option>
+              <option value="SHIPPING">배송중</option>
+              <option value="DONE">배송완료</option>
+              <option value="CANCEL">취소/환불</option>
+            </select>
+          </div>
+
+          <button class="ghost-btn" type="button" id="resetBtn">초기화</button>
+        </div>
+      </section>
+
+      <!-- List (✅ 이미지 포함: HTML에서 직접 수정/교체) -->
+      <section class="list" id="orderList" aria-label="주문 목록">
+
+        <!-- ===== 주문 카드 1 ===== -->
+        <article class="card order-card" data-status="SHIPPING">
+          <div class="order-top">
+            <div class="order-meta">
+              <div class="order-date">2026.01.06</div>
+              <div class="order-id">주문번호 2026-0106-00124</div>
+            </div>
+            <div class="status-chip">
+              <span class="status-dot" aria-hidden="true"></span>
+              <span class="status-text">배송중</span>
+            </div>
+          </div>
+
+          <div class="order-body">
+            <div class="product">
+              <div class="thumb">
+                <!-- ✅ 상품 이미지 경로만 교체 -->
+                <img src="./images/home_horizontal_img3.png" alt="민화 아이폰 케이스">
+              </div>
+              <div class="pinfo">
+                <div class="ptitle">민화 아이폰 케이스</div>
+                <div class="popt">아이폰 13 mini · 유광</div>
+                <div class="pprice" data-price="21900">21,900원</div>
+              </div>
+            </div>
+
+            <div class="product">
+              <div class="thumb">
+                <img src="./images/home_vertical_img2.png" alt="우주 테마 노리개">
+              </div>
+              <div class="pinfo">
+                <div class="ptitle">바다 노리개</div>
+                <div class="popt">블루 · 기본</div>
+                <div class="pprice" data-price="48900">48,900원</div>
+              </div>
+            </div>
+
+            <!-- 배송조회 탭에서만 보이도록 JS가 토글 -->
+            <div class="delivery-box" data-delivery hidden>
+              <div class="delivery-row"><span>택배사</span><span>CJ대한통운</span></div>
+              <div class="delivery-row"><span>운송장</span><span>1234-5678-9012</span></div>
+              <div class="delivery-row"><span>배송지</span><span>제주특별자치도 제주시 (상세주소)</span></div>
+            </div>
+
+            <div class="order-actions">
+              <button class="btn" type="button" data-action="detail">주문 상세</button>
+              <button class="btn primary" type="button" data-action="track">배송 조회</button>
+            </div>
+          </div>
+        </article>
+
+        <!-- ===== 주문 카드 2 ===== -->
+        <article class="card order-card" data-status="PREP">
+          <div class="order-top">
+            <div class="order-meta">
+              <div class="order-date">2026.01.04</div>
+              <div class="order-id">주문번호 2026-0104-00087</div>
+            </div>
+            <div class="status-chip">
+              <span class="status-dot" aria-hidden="true"></span>
+              <span class="status-text">상품준비</span>
+            </div>
+          </div>
+
+          <div class="order-body">
+            <div class="product">
+              <div class="thumb">
+                <img src="./images/home_horizontal_img2.png" alt="한복 저고리 셔츠">
+              </div>
+              <div class="pinfo">
+                <div class="ptitle">한복 저고리 셔츠</div>
+                <div class="popt">오프화이트 · M</div>
+                <div class="pprice" data-price="65000">65,000원</div>
+              </div>
+            </div>
+
+            <div class="delivery-box" data-delivery hidden>
+              <div class="delivery-row"><span>택배사</span><span>-</span></div>
+              <div class="delivery-row"><span>운송장</span><span>-</span></div>
+              <div class="delivery-row"><span>배송지</span><span>서울특별시 (상세주소)</span></div>
+            </div>
+
+            <div class="order-actions">
+              <button class="btn" type="button" data-action="detail">주문 상세</button>
+              <button class="btn primary" type="button" data-action="track">배송 조회</button>
+            </div>
+          </div>
+        </article>
+
+        <!-- ===== 주문 카드 3 ===== -->
+        <article class="card order-card" data-status="DONE">
+          <div class="order-top">
+            <div class="order-meta">
+              <div class="order-date">2025.12.29</div>
+              <div class="order-id">주문번호 2025-1229-00411</div>
+            </div>
+            <div class="status-chip">
+              <span class="status-dot" aria-hidden="true"></span>
+              <span class="status-text">배송완료</span>
+            </div>
+          </div>
+
+          <div class="order-body">
+            <div class="product">
+              <div class="thumb">
+                <img src="./images/home_horizontal_img4.png" alt="숲 테마 노리개">
+              </div>
+              <div class="pinfo">
+                <div class="ptitle">마스코트 얼굴 쿠션</div>
+                <div class="popt">백호 · 기본</div>
+                <div class="pprice" data-price="45900">45,900원</div>
+              </div>
+            </div>
+
+            <div class="delivery-box" data-delivery hidden>
+              <div class="delivery-row"><span>택배사</span><span>한진택배</span></div>
+              <div class="delivery-row"><span>운송장</span><span>9988-7766-5544</span></div>
+              <div class="delivery-row"><span>배송지</span><span>부산광역시 (상세주소)</span></div>
+            </div>
+
+            <div class="order-actions">
+              <button class="btn" type="button" data-action="detail">주문 상세</button>
+              <button class="btn primary" type="button" data-action="track">배송 조회</button>
+            </div>
+          </div>
+        </article>
+
+      </section>
+
+      <!-- Empty -->
+      <section class="empty card" id="emptyState" hidden>
+        <div class="empty-illust">
+          <!-- ✅ 빈 상태 이미지도 HTML에서 직접 -->
+          <img src="./images/empty_order.png" alt="주문 없음" class="empty-img">
+        </div>
+        <p class="empty-title">주문 내역이 없어요</p>
+        <p class="empty-desc">원하시는 작품을 둘러보고 주문해보세요.</p>
+        <button class="primary-btn" type="button" id="goShopBtn">쇼핑하러 가기</button>
+      </section>
+    </main>
+
+    <!-- Bottom Nav -->
+    <nav class="bottom-nav" role="navigation" aria-label="하단 내비게이션">
+      <a class="nav-item" href="home.html" data-href="home.html">
+        <img class="nav-icon" src="./images/home_icon.svg" alt="홈" data-placeholder="nav-home-icon" />
+        <span class="nav-text">홈</span>
+      </a>
+
+      <a class="nav-item is-active" href="#" data-href="orders.html">
+        <img class="nav-icon" src="./images/order_icon_2.svg" alt="주문/배송" data-placeholder="nav-orders-icon" />
+        <span class="nav-text">주문/배송</span>
+      </a>
+
+      <a class="nav-item" href="#" data-href="community.html">
+        <img class="nav-icon" src="./images/community_icon.svg" alt="커뮤니티" data-placeholder="nav-community-icon" />
+        <span class="nav-text">커뮤니티</span>
+      </a>
+
+      <a class="nav-item" href="#" data-href="search.html">
+        <img class="nav-icon" src="./images/search_icon.svg" alt="검색" data-placeholder="nav-search-icon" />
+        <span class="nav-text">검색</span>
+      </a>
+
+      <a class="nav-item" href="my.html" data-href="my.html" aria-current="page">
+        <img class="nav-icon" src="./images/my_icon.svg" alt="마이" data-placeholder="nav-my-icon" />
+        <span class="nav-text">마이</span>
+      </a>
+    </nav>
+
+    <!-- Toast -->
+    <div class="toast" id="toast" role="status" aria-live="polite" aria-atomic="true" hidden></div>
+  </div>
+
+  <script src="./js/order.js"></script>
+</body>
+</html>

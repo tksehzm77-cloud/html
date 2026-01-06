@@ -18,14 +18,14 @@
     console.log('menu click');
   });
 
-  // "나의 아바타 꾸미기" 버튼 링크
-  const avatarDecorateLink = document.getElementById('avatarDecorateLink');
-  avatarDecorateLink?.addEventListener('click', (e) => {
-    e.preventDefault();
-    // 원하는 페이지로 교체:
-    // location.href = 'avatar.html';
-    console.log('go avatar decorate');
-  });
+  // 나의 아바타 꾸미기 버튼 이동
+const avatarDecorateLink = document.getElementById('avatarDecorateLink');
+
+avatarDecorateLink?.addEventListener('click', (e) => {
+  e.preventDefault();
+  location.href = 'avatar.html'; // 아바타 페이지 경로
+});
+
 
   // 리스트/하단네비 공통 링크 처리
   const goByDataHref = (el) => {

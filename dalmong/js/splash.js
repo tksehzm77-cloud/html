@@ -10,6 +10,6 @@ setVH();
 
 // 3초 후 워크스루 화면으로 이동
 // ✅ 아래 경로를 실제 워크스루 파일명으로 바꿔주세요 (예: ./walkthrough.html)
-// setTimeout(() => {
-//   window.location.href = "slide.html";
-// }, 3000);
+setTimeout(() => {
+  window.location.href = "slide.html";
+}, 3000);

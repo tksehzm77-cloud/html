@@ -15,7 +15,7 @@ button{font:inherit;border:0;background:none;cursor:pointer}
   --primary:#6C71B5;  /* 버튼/타이틀/인디케이터 컬러 */
   --text:#111827;
   --radius:8px;
-  --footerH:190px;
+  --footerH:160px;
 }
 
 body{
@@ -69,6 +69,7 @@ body{
   flex:1;
   background:var(--bg);
   padding: 24px 24px 0;
+  z-index: 99;
 }
 
 .title{
@@ -95,19 +96,18 @@ body{
   top:-52px;          /* 상단 경계 살짝 걸치게 */
   width:120px;
   height:auto;
-  filter: drop-shadow(0 8px 14px rgba(0,0,0,0.12));
 }
 
 /* Footer */
 .footer{
   width:100%;
   height:var(--footerH);
-  background:var(--bg);
+  background: #DDE7E7;
   display:flex;
   flex-direction:column;
   align-items:center;
   justify-content:flex-start;
-  padding:56px 24px 8px;
+  padding: 24px 24px 0;
   gap: 24px;
 }
 
@@ -117,7 +117,7 @@ body{
   align-items:center;
   justify-content:center;
   gap:8px;
-  margin-top:4px;
+  margin-top: 0;
 }
 
 .dot{
@@ -149,7 +149,6 @@ body{
   color:#fff;
   font-size:24px;
   letter-spacing:-0.2px;
-  box-shadow:0 14px 26px rgba(33, 45, 120, 0.18);
 }
 
 .nextBtn:active{
