@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+  />
+  <title>검색</title>
+
+  <!-- Noto Sans KR -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="./css/search.css" />
+</head>
+<body>
+  <div class="app" id="app">
+
+    <!-- Top App Bar -->
+    <header class="appbar">
+      <button class="icon-btn" type="button" aria-label="뒤로가기" id="backBtn">
+        <!-- ✅ 아이콘 src만 교체 -->
+        <img class="icon-img" src="./images/back.png" alt="뒤로가기">
+      </button>
+
+      <h1 class="appbar-title">검색</h1>
+
+      <button class="icon-btn" type="button" aria-label="필터" id="filterBtn">
+        <!-- ✅ 아이콘 src만 교체 -->
+        <img class="icon-img" src="./images/menu.png" alt="필터">
+      </button>
+    </header>
+
+    <main class="content">
+
+      <!-- Search Bar -->
+      <section class="card search-bar" aria-label="검색창">
+        <div class="search-input-wrap">
+          <span class="search-ico">
+            <!-- ✅ 아이콘 src만 교체 -->
+            <img class="icon-img" src="./images/home_banner_moon.png" alt="검색">
+          </span>
+
+          <label class="sr-only" for="q">검색어</label>
+          <input
+            id="q"
+            class="search-input"
+            type="search"
+            placeholder="한복, 노리개, 키링, 민화…"
+            autocomplete="off"
+          />
+
+          <button class="clear-btn" id="clearBtn" type="button" aria-label="검색어 지우기" hidden>
+            <!-- ✅ 아이콘 src만 교체 -->
+            <img class="icon-img" src="./images/close.png" alt="지우기">
+          </button>
+        </div>
+
+        <div class="search-actions">
+          <button class="ghost-btn" type="button" id="voiceBtn">
+            <!-- ✅ 아이콘 src만 교체 -->
+            <img class="mini-ico" src="./images/sound.png" alt="">
+            <span>음성</span>
+          </button>
+          <button class="ghost-btn" type="button" id="imageBtn">
+            <!-- ✅ 아이콘 src만 교체 -->
+            <img class="mini-ico" src="./images/picture.png" alt="">
+            <span>이미지</span>
+          </button>
+          <button class="primary-ghost-btn" type="button" id="searchBtn">
+            검색
+          </button>
+        </div>
+      </section>
+
+      <!-- Quick Categories -->
+      <section class="section" aria-label="빠른 카테고리">
+        <div class="section-head">
+          <h2 class="section-title">빠른 카테고리</h2>
+          <button class="ghost-btn small" type="button" id="resetChipsBtn">초기화</button>
+        </div>
+
+        <div class="chips" id="chipWrap">
+          <button class="chip" type="button" data-chip="한복">#한복</button>
+          <button class="chip" type="button" data-chip="노리개">#노리개</button>
+          <button class="chip" type="button" data-chip="케이스">#케이스</button>
+          <button class="chip" type="button" data-chip="키링">#키링</button>
+          <button class="chip" type="button" data-chip="디지털 악세사리">#디지털 악세사리</button>
+          <button class="chip" type="button" data-chip="소품">#소품</button>
+          <button class="chip" type="button" data-chip="주얼리">#주얼리</button>
+          <button class="chip" type="button" data-chip="커스텀">#커스텀</button>
+        </div>
+      </section>
+
+      <!-- Recent Searches -->
+      <section class="card recent" aria-label="최근 검색어">
+        <div class="row-head">
+          <h2 class="row-title">최근 검색어</h2>
+          <button class="ghost-btn small" type="button" id="clearRecentBtn">전체 삭제</button>
+        </div>
+
+        <ul class="recent-list" id="recentList">
+          <!-- JS 렌더링 -->
+        </ul>
+      </section>
+
+      <!-- Results -->
+      <section class="section" aria-label="검색 결과">
+        <div class="section-head">
+          <h2 class="section-title">검색 결과</h2>
+
+          <div class="sort-wrap">
+            <label class="sr-only" for="sortSelect">정렬</label>
+            <select id="sortSelect" class="select">
+              <option value="RECOMMEND">추천순</option>
+              <option value="POPULAR">인기순</option>
+              <option value="NEW">최신순</option>
+              <option value="PRICE_LOW">가격 낮은 순</option>
+              <option value="PRICE_HIGH">가격 높은 순</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="result-grid" id="resultGrid">
+          <!-- JS 렌더링 -->
+        </div>
+
+        <!-- Empty Result -->
+        <div class="card empty" id="emptyResult" hidden>
+          <div class="empty-illust">
+            <!-- ✅ 이미지 src 교체 -->
+            <img src="./images/walk_sticker_1.png" alt="검색 결과 없음" class="empty-img">
+          </div>
+          <p class="empty-title">검색 결과가 없어요</p>
+          <p class="empty-desc">다른 키워드로 검색해보거나, 카테고리를 선택해보세요.</p>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Bottom Nav -->
+    <nav class="bottom-nav" role="navigation" aria-label="하단 내비게이션">
+      <a class="nav-item" href="https://tksehzm77-cloud.github.io/html/dalmong/home.html" data-href="home.html">
+        <img class="nav-icon" src="./images/home_icon.svg" alt="홈" data-placeholder="nav-home-icon" />
+        <span class="nav-text">홈</span>
+      </a>
+
+      <a class="nav-item" href="https://tksehzm77-cloud.github.io/html/dalmong/order.html" data-href="orders.html">
+        <img class="nav-icon" src="./images/order_icon.svg" alt="주문/배송" data-placeholder="nav-orders-icon" />
+        <span class="nav-text">주문/배송</span>
+      </a>
+
+      <a class="nav-item" href="#" data-href="community.html">
+        <img class="nav-icon" src="./images/community_icon.svg" alt="커뮤니티" data-placeholder="nav-community-icon" />
+        <span class="nav-text">커뮤니티</span>
+      </a>
+
+      <a class="nav-item is-active" href="search.html" data-href="search.html">
+        <img class="nav-icon" src="./images/search_icon_2.svg" alt="검색" data-placeholder="nav-search-icon" />
+        <span class="nav-text">검색</span>
+      </a>
+
+      <a class="nav-item" href="https://tksehzm77-cloud.github.io/html/dalmong/my.html" data-href="my.html" aria-current="page">
+        <img class="nav-icon" src="./images/my_icon.svg" alt="마이" data-placeholder="nav-my-icon" />
+        <span class="nav-text">마이</span>
+      </a>
+    </nav>
+
+    <!-- Toast -->
+    <div class="toast" id="toast" role="status" aria-live="polite" aria-atomic="true" hidden></div>
+  </div>
+
+  <script src="./js/search.js"></script>
+</body>
+</html>
