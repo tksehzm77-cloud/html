@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>부산 맛집</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="./css/busan.css" />
+
+  <!-- Kakao Maps (아래 appkey를 본인 키로 교체) -->
+  <script defer src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=48fbd67fa46bf2693d779bf17f684787&libraries=services"></script>
+  <script defer src="./js/busan.js"></script>
+</head>
+<body>
+  <div class="app">
+
+    <!-- Top Bar -->
+    <header class="topbar">
+      <div class="topbar__left">
+        <h1 class="topbar__title">부산 맛집</h1>
+        <p class="topbar__sub">공공데이터 기반 추천 리스트</p>
+      </div>
+      <button class="iconbtn" id="btnRefresh" aria-label="새로고침" title="새로고침">⟳</button>
+    </header>
+
+    <!-- Search -->
+    <section class="search">
+      <div class="search__box">
+        <span class="search__icon" aria-hidden="true">⌕</span>
+        <input id="q" type="search" placeholder="상호명/메뉴/구 검색" autocomplete="off" />
+        <button class="search__clear" id="btnClear" aria-label="검색어 지우기" title="지우기">×</button>
+      </div>
+
+      <div class="chips" id="chips">
+        <button class="chip is-active" data-gu="">전체</button>
+        <button class="chip" data-gu="중구">중구</button>
+        <button class="chip" data-gu="서구">서구</button>
+        <button class="chip" data-gu="동구">동구</button>
+        <button class="chip" data-gu="영도구">영도구</button>
+        <button class="chip" data-gu="부산진구">부산진구</button>
+        <button class="chip" data-gu="동래구">동래구</button>
+        <button class="chip" data-gu="남구">남구</button>
+        <button class="chip" data-gu="북구">북구</button>
+        <button class="chip" data-gu="해운대구">해운대구</button>
+        <button class="chip" data-gu="사하구">사하구</button>
+        <button class="chip" data-gu="금정구">금정구</button>
+        <button class="chip" data-gu="강서구">강서구</button>
+        <button class="chip" data-gu="연제구">연제구</button>
+        <button class="chip" data-gu="수영구">수영구</button>
+        <button class="chip" data-gu="사상구">사상구</button>
+        <button class="chip" data-gu="기장군">기장군</button>
+      </div>
+    </section>
+
+    <!-- List View -->
+    <main class="screen" id="screenList" aria-label="맛집 리스트">
+      <div class="meta">
+        <span class="meta__count" id="count">0</span>
+        <span class="meta__hint" id="hint">데이터를 불러오는 중…</span>
+      </div>
+
+      <ul class="list" id="list" aria-label="맛집 목록"></ul>
+
+      <div class="empty" id="empty" hidden>
+        <p class="empty__title">검색 결과가 없어요</p>
+        <p class="empty__desc">다른 키워드로 다시 검색해보세요.</p>
+      </div>
+
+      <div class="loader" id="loader" aria-live="polite">
+        <div class="spinner"></div>
+        <p>불러오는 중…</p>
+      </div>
+
+      <button class="fab" id="btnTop" aria-label="맨 위로">↑</button>
+    </main>
+
+    <!-- Detail View -->
+    <main class="screen" id="screenDetail" aria-label="맛집 상세" hidden>
+      <header class="detailTop">
+        <button class="back" id="btnBack" aria-label="뒤로가기">←</button>
+        <div class="detailTop__spacer"></div>
+        <button class="iconbtn" id="btnFav" aria-label="즐겨찾기" title="즐겨찾기">♡</button>
+      </header>
+
+      <section class="hero" id="hero">
+        <img id="heroImg" src="" alt="대표 이미지" />
+      </section>
+
+      <section class="card detailCard">
+        <div class="detailGrid">
+          <div class="kv"><span class="kv__k">상호명</span><span class="kv__v" id="dName">-</span></div>
+          <div class="kv"><span class="kv__k">주소</span><span class="kv__v" id="dAddr">-</span></div>
+          <div class="kv"><span class="kv__k">소개</span><span class="kv__v" id="dIntro">-</span></div>
+          <div class="kv"><span class="kv__k">대표메뉴</span><span class="kv__v" id="dMenu">-</span></div>
+          <div class="kv"><span class="kv__k">문의</span><span class="kv__v" id="dTel">-</span></div>
+          <div class="kv"><span class="kv__k">운영시간</span><span class="kv__v" id="dTime">-</span></div>
+        </div>
+
+        <div class="detailActions">
+          <button class="primary" id="btnCall">전화하기</button>
+          <button class="ghost" id="btnCopy">주소 복사</button>
+        </div>
+
+        <div class="banner" id="homeBanner" hidden>
+          <span class="badge">공식 홈페이지</span>
+          <a id="dHome" href="#" target="_blank" rel="noopener noreferrer">열기</a>
+        </div>
+      </section>
+
+      <section class="card mapCard">
+        <div class="mapHeader">
+          <h2 class="mapTitle">지도</h2>
+          <div class="mapBtns">
+            <button class="tiny" id="btnRoad">길찾기</button>
+            <button class="tiny" id="btnZoomIn">+</button>
+            <button class="tiny" id="btnZoomOut">−</button>
+          </div>
+        </div>
+        <div id="map" class="map" aria-label="카카오 지도"></div>
+      </section>
+
+      <footer class="safeBottom"></footer>
+    </main>
+
+  </div>
+</body>
+</html>
