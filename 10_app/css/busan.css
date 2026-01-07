@@ -15,7 +15,6 @@ body{
   color:var(--text);
 }
 
-/* Page */
 .page{
   max-width:520px;
   margin:0 auto;
@@ -23,7 +22,7 @@ body{
   min-height:100vh;
 }
 
-/* ===== LIST (시안: 심플 화이트 리스트 + 우측 아이콘) ===== */
+/* ===== LIST ===== */
 .listHeader{
   padding:14px 14px 6px;
   border-bottom:1px solid var(--line);
@@ -62,7 +61,6 @@ body{
   margin:0;
   padding:0;
 }
-
 .item{
   display:flex;
   gap:10px;
@@ -88,7 +86,7 @@ body{
 }
 .item__right{
   display:flex;
-  gap:8px;
+  gap:10px;
   align-items:center;
 }
 
@@ -136,7 +134,7 @@ body{
   cursor:pointer;
 }
 
-/* ===== DETAIL (시안: 이미지 + 우측 검정 라벨, 아래 지도) ===== */
+/* ===== DETAIL ===== */
 .detailHeader{
   padding:10px 10px;
   border-bottom:1px solid var(--line);
@@ -153,27 +151,10 @@ body{
 }
 .detailHeader__spacer{flex:1}
 
-/* 768px 이상이면 시안처럼 좌/우 배치, 모바일은 세로로 */
-.detailTopGrid{
-  display:grid;
-  grid-template-columns: 1fr;
-  gap:0;
-}
-@media (min-width: 768px){
-  .detailTopGrid{
-    grid-template-columns: 1.15fr .85fr;
-    gap:0;
-  }
-}
-
 .photoBox{
   position:relative;
   border-bottom:1px solid var(--line);
 }
-@media (min-width: 768px){
-  .photoBox{border-right:1px solid var(--line); border-bottom:none;}
-}
-
 .photoBox img{
   width:100%;
   height:260px;
@@ -181,10 +162,6 @@ body{
   display:block;
   background:#f2f2f2;
 }
-@media (min-width: 768px){
-  .photoBox img{height:320px;}
-}
-
 .heartOverlay{
   position:absolute;
   top:10px; left:10px;
@@ -224,9 +201,7 @@ body{
   line-height:1.4;
   color:#111;
 }
-.kv__v--multiline{
-  white-space:pre-line;
-}
+.kv__v--multiline{white-space:pre-line}
 
 .homeBar{
   width:100%;
@@ -259,11 +234,30 @@ body{
   cursor:not-allowed;
 }
 
+/* ===== MAP (상세 정보 밑) ===== */
 .mapSection{
   border-top:1px solid var(--line);
+  padding:12px 12px 0;
+}
+.mapTitleRow{
+  display:flex;
+  align-items:baseline;
+  justify-content:space-between;
+  gap:10px;
+  margin-bottom:8px;
+}
+.mapTitle{
+  margin:0;
+  font-size:14px;
+  font-weight:900;
+}
+.mapHint{
+  font-size:12px;
+  color:var(--muted);
 }
 .map{
   width:100%;
   height:320px;
   background:#f2f2f2;
+  border:1px solid var(--line);
 }

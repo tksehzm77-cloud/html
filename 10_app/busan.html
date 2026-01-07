@@ -11,21 +11,17 @@
 
   <link rel="stylesheet" href="./css/busan.css" />
 
-  <!-- Kakao Maps (본인 키로 교체) -->
+  <!-- ✅ Kakao Maps: 반드시 app.js 보다 먼저 (appkey 교체) -->
   <script defer src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=48fbd67fa46bf2693d779bf17f684787&libraries=services"></script>
   <script defer src="./js/busan.js"></script>
 </head>
 <body>
-  <!-- LIST -->
+  <!-- ================= LIST ================= -->
   <main class="page page--list" id="pageList" aria-label="맛집 리스트">
-    <!-- 상단(시안은 거의 비어있어서 최소만) -->
     <header class="listHeader">
       <div class="listHeader__row">
         <input id="q" class="searchInput" type="search" placeholder="검색 (상호/메뉴/구)" autocomplete="off" />
-        <button class="iconBtn" id="btnRefresh" aria-label="새로고침" title="새로고침">
-          <!-- 새로고침 아이콘 대체 가능 -->
-          ⟳
-        </button>
+        <button class="iconBtn" id="btnRefresh" aria-label="새로고침" title="새로고침">⟳</button>
       </div>
       <p class="status" id="status">불러오는 중…</p>
     </header>
@@ -33,87 +29,57 @@
     <section class="listWrap">
       <ul class="list" id="list"></ul>
 
-      <div class="empty" id="empty" hidden>
-        검색 결과가 없어요.
-      </div>
+      <div class="empty" id="empty" hidden>검색 결과가 없어요.</div>
 
-      <div class="loading" id="loading" aria-live="polite">
-        불러오는 중…
-      </div>
+      <div class="loading" id="loading" aria-live="polite">불러오는 중…</div>
 
       <div class="error" id="error" hidden>
         <p class="error__title">데이터를 불러오지 못했어요.</p>
         <p class="error__desc">
-          1) API 서비스키 / 2) 호출 URL / 3) (가능성) CORS 차단을 확인해주세요.
+          1) API 서비스키 / 2) 호출 URL(/getFoodKr) / 3) (가능성) CORS 차단을 확인해주세요.
         </p>
         <button class="retryBtn" id="btnRetry">다시 시도</button>
       </div>
     </section>
   </main>
 
-  <!-- DETAIL -->
+  <!-- ================= DETAIL ================= -->
   <main class="page page--detail" id="pageDetail" hidden aria-label="맛집 상세">
     <header class="detailHeader">
       <button class="backBtn" id="btnBack" aria-label="뒤로가기">←</button>
       <div class="detailHeader__spacer"></div>
     </header>
 
-    <!-- 상단 이미지 + 좌측 하트 오버레이(시안처럼) -->
-    <section class="detailTopGrid">
-      <div class="photoBox">
-        <button class="heartOverlay" id="btnFav" aria-label="즐겨찾기" title="즐겨찾기">
-          <!-- 아이콘 교체 가능 -->
-          ♡
-        </button>
-        <img id="heroImg" alt="대표 이미지" />
-      </div>
+    <!-- 상단 이미지 -->
+    <section class="photoBox">
+      <button class="heartOverlay" id="btnFav" aria-label="즐겨찾기" title="즐겨찾기">♡</button>
+      <img id="heroImg" alt="대표 이미지" />
+    </section>
 
-      <div class="infoBox">
-        <div class="kv">
-          <span class="kv__k">상호명</span>
-          <span class="kv__v" id="dName">-</span>
-        </div>
+    <!-- 상세 정보 -->
+    <section class="infoBox">
+      <div class="kv"><span class="kv__k">상호명</span><span class="kv__v" id="dName">-</span></div>
+      <div class="kv"><span class="kv__k">주소</span><span class="kv__v" id="dAddr">-</span></div>
+      <div class="kv"><span class="kv__k">소개</span><span class="kv__v kv__v--multiline" id="dIntro">-</span></div>
+      <div class="kv"><span class="kv__k">대표메뉴</span><span class="kv__v" id="dMenu">-</span></div>
+      <div class="kv"><span class="kv__k">문의</span><span class="kv__v" id="dTel">-</span></div>
+      <div class="kv"><span class="kv__k">운영시간</span><span class="kv__v" id="dTime">-</span></div>
 
-        <div class="kv">
-          <span class="kv__k">주소</span>
-          <span class="kv__v" id="dAddr">-</span>
-        </div>
+      <button class="homeBar" id="homeBar" type="button">공식 홈페이지 없음</button>
 
-        <div class="kv">
-          <span class="kv__k">소개</span>
-          <span class="kv__v kv__v--multiline" id="dIntro">-</span>
-        </div>
-
-        <div class="kv">
-          <span class="kv__k">대표메뉴</span>
-          <span class="kv__v" id="dMenu">-</span>
-        </div>
-
-        <div class="kv">
-          <span class="kv__k">문의</span>
-          <span class="kv__v" id="dTel">-</span>
-        </div>
-
-        <div class="kv">
-          <span class="kv__k">운영시간</span>
-          <span class="kv__v" id="dTime">-</span>
-        </div>
-
-        <!-- 시안의 검정 바(홈페이지 없음/있음) -->
-        <button class="homeBar" id="homeBar" type="button">
-          공식 홈페이지 없음
-        </button>
-
-        <div class="actionsRow">
-          <button class="actionBtn" id="btnCall">전화</button>
-          <button class="actionBtn" id="btnCopy">주소복사</button>
-          <button class="actionBtn" id="btnRoad">길찾기</button>
-        </div>
+      <div class="actionsRow">
+        <button class="actionBtn" id="btnCall">전화</button>
+        <button class="actionBtn" id="btnCopy">주소복사</button>
+        <button class="actionBtn" id="btnRoad">길찾기</button>
       </div>
     </section>
 
-    <!-- MAP -->
+    <!-- ✅ 상세 정보 밑 지도 -->
     <section class="mapSection">
+      <div class="mapTitleRow">
+        <h3 class="mapTitle">지도</h3>
+        <div class="mapHint" id="mapHint">위치를 불러오는 중…</div>
+      </div>
       <div id="map" class="map" aria-label="카카오 지도"></div>
     </section>
   </main>

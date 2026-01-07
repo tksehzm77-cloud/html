@@ -1,14 +1,17 @@
 /**
  * 부산광역시_부산맛집정보 서비스
- * - 문서 기준 요청주소: http://apis.data.go.kr/6260000/FoodService/getFoodKr
- * - resultType=json, pageNo, numOfRows, (옵션) UC_SEQ
- * 출처: 공공데이터포털 ‘부산광역시_부산맛집정보 서비스’ 문서에 명시된 요청주소/파라미터. 
+ * ✅ 올바른 엔드포인트:
+ * https://apis.data.go.kr/6260000/FoodService/getFoodKr
+ *
+ * ⚠️ 주의:
+ * - data.go.kr API는 환경에 따라 브라우저 CORS가 막힐 수 있음
+ * - 지도는 hidden 상태에서 생성하면 흰 화면이 될 수 있어 resize 트리거 포함
  */
 
 const API_ENDPOINT = "https://apis.data.go.kr/6260000/FoodService/getFoodKr";
-const SERVICE_KEY = "45ba9fe435f41f46e91024695eb4fbdaaef824f3561da33fb4105a7ecb3eea21"; // 본인 키로 교체 (일반적으로 이미 URL 인코딩된 키 사용)
+const SERVICE_KEY = "45ba9fe435f41f46e91024695eb4fbdaaef824f3561da33fb4105a7ecb3eea21"; // 본인 키로 교체
 
-// 비짓부산 이미지가 상대경로로 내려오는 경우가 많아 보정
+// 비짓부산 이미지가 상대경로로 내려올 때 보정
 const VISITBUSAN_BASE = "https://www.visitbusan.net";
 
 // DOM
@@ -43,6 +46,8 @@ const btnCall = $("#btnCall");
 const btnCopy = $("#btnCopy");
 const btnRoad = $("#btnRoad");
 
+const mapHint = $("#mapHint");
+
 // state
 let allItems = [];
 let filtered = [];
@@ -55,7 +60,7 @@ let map = null;
 let marker = null;
 let geocoder = null;
 
-// --------- utils
+// ---------- utils ----------
 function escapeHTML(s){
   return String(s ?? "")
     .replaceAll("&","&amp;")
@@ -78,14 +83,35 @@ function toggleFav(id){
   localStorage.setItem(FAV_KEY, JSON.stringify(favs));
 }
 
-// API 스키마(공식 문서 기준) 매핑
+function fixImageUrl(url){
+  if(!url) return "";
+  const u = String(url).trim();
+  if(!u) return "";
+  if(u.startsWith("http://") || u.startsWith("https://")) return u;
+  if(u.startsWith("/")) return VISITBUSAN_BASE + u;
+  return u;
+}
+
+function placeholderImage(title){
+  return "data:image/svg+xml;charset=utf-8," + encodeURIComponent(`
+    <svg xmlns='http://www.w3.org/2000/svg' width='1200' height='700'>
+      <rect width='1200' height='700' fill='#f2f2f2'/>
+      <text x='50%' y='50%' dominant-baseline='middle' text-anchor='middle'
+        font-family='Noto Sans KR, sans-serif' font-size='42' fill='#111'>대표 이미지 없음</text>
+      <text x='50%' y='58%' dominant-baseline='middle' text-anchor='middle'
+        font-family='Noto Sans KR, sans-serif' font-size='22' fill='#555'>${escapeHTML(title || "")}</text>
+    </svg>
+  `);
+}
+
+// ---------- api mapping ----------
 function normalize(raw){
   const id = raw?.UC_SEQ ? String(raw.UC_SEQ) : `${raw?.MAIN_TITLE || ""}__${raw?.ADDR1 || ""}`;
 
   const name = (raw?.MAIN_TITLE || "").trim();
   const addr = (raw?.ADDR1 || "").trim();
   const intro = (raw?.ITEMCNTNTS || "").trim();
-  const menu = (raw?.RPRSNTV_MENU || raw?.MAIN_MENU || "").trim();
+  const menu = (raw?.RPRSNTV_MENU || raw?.MAIN_MENU || raw?.MAIN_MENU || "").trim();
   const tel  = (raw?.CNTCT_TEL || "").trim();
   const time = (raw?.USAGE_DAY_WEEK_AND_TIME || "").trim();
   const home = (raw?.HOMEPAGE_URL || "").trim();
@@ -99,22 +125,7 @@ function normalize(raw){
   return { id, name, addr, intro, menu, tel, time, home, lat, lng, img, thumb, _raw: raw };
 }
 
-function fixImageUrl(url){
-  if(!url) return "";
-  const u = String(url).trim();
-  if(!u) return "";
-  if(u.startsWith("http://") || u.startsWith("https://")) return u;
-  // "/uploadImgs/..." 형태면 비짓부산 도메인 prefix
-  if(u.startsWith("/")) return VISITBUSAN_BASE + u;
-  return u;
-}
-
-// 공공데이터 응답 파싱(환경별로 wrapper가 달라서 방어적으로)
 function extractItems(data){
-  // 흔한 형태:
-  // data.getFoodKr.item
-  // data.getFoodKr
-  // data.response.body.items.item
   const cands = [
     data?.getFoodKr?.item,
     data?.getFoodKr,
@@ -131,7 +142,7 @@ function extractItems(data){
   return [];
 }
 
-// --------- fetch
+// ---------- fetch ----------
 async function loadFoods(){
   loadingEl.hidden = false;
   emptyEl.hidden = true;
@@ -140,7 +151,7 @@ async function loadFoods(){
   statusEl.textContent = "불러오는 중…";
 
   const url = new URL(API_ENDPOINT);
-  // 문서에는 ServiceKey지만 예제들은 serviceKey도 동작. 둘 다 세팅(호환용)
+  // 호환성 위해 둘 다 세팅
   url.searchParams.set("serviceKey", SERVICE_KEY);
   url.searchParams.set("ServiceKey", SERVICE_KEY);
   url.searchParams.set("pageNo", "1");
@@ -150,13 +161,11 @@ async function loadFoods(){
   try{
     const res = await fetch(url.toString());
     if(!res.ok) throw new Error(`HTTP ${res.status}`);
-
     const data = await res.json();
-    const items = extractItems(data).map(normalize).filter(x => x.name);
 
-    allItems = items;
+    allItems = extractItems(data).map(normalize).filter(x => x.name);
+
     applyFilter();
-
     statusEl.textContent = `${filtered.length}개`;
     loadingEl.hidden = true;
 
@@ -164,13 +173,11 @@ async function loadFoods(){
     console.error(err);
     loadingEl.hidden = true;
     errorEl.hidden = false;
-
-    // CORS면 대개 "TypeError: Failed to fetch" 형태로 떨어짐
     statusEl.textContent = "로딩 실패 (키/CORS/URL 확인)";
   }
 }
 
-// --------- list
+// ---------- list ----------
 function applyFilter(){
   const q = (qEl.value || "").trim().toLowerCase();
   filtered = allItems.filter(it => {
@@ -201,7 +208,6 @@ function renderList(items){
     const right = document.createElement("div");
     right.className = "item__right";
 
-    // 시안의 우측 "검색" 아이콘(상세보기)
     const btnDetail = document.createElement("button");
     btnDetail.className = "rowIcon";
     btnDetail.type = "button";
@@ -214,7 +220,6 @@ function renderList(items){
     `;
     btnDetail.addEventListener("click", (e)=>{ e.stopPropagation(); openDetail(it); });
 
-    // 시안의 우측 "하트" 아이콘
     const btnHeart = document.createElement("button");
     btnHeart.className = "rowIcon" + (isFav(it.id) ? " is-on" : "");
     btnHeart.type = "button";
@@ -241,11 +246,15 @@ function renderList(items){
   });
 }
 
-// --------- detail
+// ---------- detail ----------
+function syncFavButton(){
+  const on = current && isFav(current.id);
+  btnFav.textContent = on ? "♥" : "♡";
+}
+
 function openDetail(it){
   current = it;
 
-  // 이미지: API 제공 이미지가 있으면 사용, 없으면 플레이스홀더
   heroImg.src = it.img || it.thumb || placeholderImage(it.name);
 
   dName.textContent = it.name || "-";
@@ -255,7 +264,6 @@ function openDetail(it){
   dTel.textContent = it.tel || "-";
   dTime.textContent = it.time || "-";
 
-  // 홈페이지 바(시안처럼 검정바)
   if(it.home){
     homeBar.textContent = "공식 홈페이지 열기";
     homeBar.onclick = () => window.open(it.home, "_blank");
@@ -264,10 +272,8 @@ function openDetail(it){
     homeBar.onclick = null;
   }
 
-  // 즐겨찾기 오버레이 하트
   syncFavButton();
 
-  // 액션 버튼
   btnCall.disabled = !it.tel;
   btnCall.onclick = () => {
     if(!it.tel) return;
@@ -286,22 +292,19 @@ function openDetail(it){
 
   btnRoad.onclick = () => {
     if(it.lat && it.lng){
-      const url = `https://map.kakao.com/link/to/${encodeURIComponent(it.name)},${it.lat},${it.lng}`;
-      window.open(url, "_blank");
+      window.open(`https://map.kakao.com/link/to/${encodeURIComponent(it.name)},${it.lat},${it.lng}`, "_blank");
     }else if(it.addr){
-      const url = `https://map.kakao.com/link/search/${encodeURIComponent(it.addr)}`;
-      window.open(url, "_blank");
+      window.open(`https://map.kakao.com/link/search/${encodeURIComponent(it.addr)}`, "_blank");
     }
   };
 
-  // 페이지 전환
+  // ✅ 페이지 전환
   pageList.hidden = true;
   pageDetail.hidden = false;
   window.scrollTo({top:0, behavior:"instant"});
 
-  // 지도
-  initMapIfNeeded();
-  locateOnMap(it);
+  // ✅ 지도 + 마커 표시
+  showRestaurantOnMap(it);
 }
 
 function closeDetail(){
@@ -309,65 +312,104 @@ function closeDetail(){
   pageList.hidden = false;
 }
 
-function syncFavButton(){
-  const on = current && isFav(current.id);
-  btnFav.textContent = on ? "♥" : "♡";
-}
-
-function placeholderImage(title){
-  return "data:image/svg+xml;charset=utf-8," + encodeURIComponent(`
-    <svg xmlns='http://www.w3.org/2000/svg' width='1200' height='700'>
-      <rect width='1200' height='700' fill='#f2f2f2'/>
-      <text x='50%' y='50%' dominant-baseline='middle' text-anchor='middle'
-        font-family='Noto Sans KR, sans-serif' font-size='42' fill='#111'>대표 이미지 없음</text>
-      <text x='50%' y='58%' dominant-baseline='middle' text-anchor='middle'
-        font-family='Noto Sans KR, sans-serif' font-size='22' fill='#555'>${escapeHTML(title || "")}</text>
-    </svg>
-  `);
-}
-
-// --------- kakao map
-function initMapIfNeeded(){
-  if(map) return;
-  const center = new kakao.maps.LatLng(35.1796, 129.0756);
-  map = new kakao.maps.Map(document.getElementById("map"), { center, level: 6 });
-  marker = new kakao.maps.Marker({ position: center });
-  marker.setMap(map);
-  geocoder = new kakao.maps.services.Geocoder();
-}
-
-function locateOnMap(it){
-  const setPos = (lat, lng) => {
-    const pos = new kakao.maps.LatLng(lat, lng);
-    map.setCenter(pos);
-    marker.setPosition(pos);
-  };
-
-  if(it.lat && it.lng){
-    setPos(it.lat, it.lng);
-    return;
-  }
-
-  if(!it.addr) return;
-  geocoder.addressSearch(it.addr, (result, status) => {
-    if(status === kakao.maps.services.Status.OK && result?.[0]){
-      const lat = parseFloat(result[0].y);
-      const lng = parseFloat(result[0].x);
-      it.lat = lat; it.lng = lng;
-      setPos(lat, lng);
-    }
+// ---------- kakao map (안정화) ----------
+function waitForKakaoMaps(timeoutMs = 8000) {
+  return new Promise((resolve, reject) => {
+    const start = Date.now();
+    const timer = setInterval(() => {
+      if (window.kakao && kakao.maps && kakao.maps.services) {
+        clearInterval(timer);
+        resolve(true);
+        return;
+      }
+      if (Date.now() - start > timeoutMs) {
+        clearInterval(timer);
+        reject(new Error("Kakao Maps SDK 로드 실패"));
+      }
+    }, 50);
   });
 }
 
-// --------- events
+async function initMapIfNeeded() {
+  await waitForKakaoMaps();
+
+  if (map) return;
+
+  const mapEl = document.getElementById("map");
+  const center = new kakao.maps.LatLng(35.1796, 129.0756);
+
+  map = new kakao.maps.Map(mapEl, { center, level: 5 });
+
+  marker = new kakao.maps.Marker({ position: center });
+  marker.setMap(map);
+
+  geocoder = new kakao.maps.services.Geocoder();
+}
+
+function refreshMapLayout() {
+  if (!map) return;
+  kakao.maps.event.trigger(map, "resize");
+}
+
+async function showRestaurantOnMap(it) {
+  try {
+    mapHint.textContent = "위치를 불러오는 중…";
+
+    await initMapIfNeeded();
+
+    // ✅ hidden -> visible 직후 렌더 안정화
+    setTimeout(() => {
+      refreshMapLayout();
+    }, 0);
+
+    const setPos = (lat, lng) => {
+      const pos = new kakao.maps.LatLng(lat, lng);
+      map.setCenter(pos);
+      marker.setPosition(pos);
+      map.setLevel(3);
+      mapHint.textContent = "마커로 표시했어요.";
+    };
+
+    // 1) 좌표가 있으면 바로
+    if (it.lat && it.lng) {
+      setPos(it.lat, it.lng);
+      return;
+    }
+
+    // 2) 없으면 주소로 지오코딩
+    if (!it.addr) {
+      mapHint.textContent = "주소 정보가 없어 위치를 표시할 수 없어요.";
+      return;
+    }
+
+    geocoder.addressSearch(it.addr, (result, status) => {
+      if (status === kakao.maps.services.Status.OK && result?.[0]) {
+        const lat = parseFloat(result[0].y);
+        const lng = parseFloat(result[0].x);
+        it.lat = lat; it.lng = lng; // 캐시
+        setPos(lat, lng);
+      } else {
+        mapHint.textContent = "지오코딩 실패: 주소를 찾지 못했어요.";
+      }
+    });
+
+  } catch (e) {
+    console.error(e);
+    mapHint.textContent = "지도 로드 실패 (카카오 키/도메인 설정 확인)";
+  }
+}
+
+// ---------- events ----------
 qEl.addEventListener("input", ()=>{
   applyFilter();
   statusEl.textContent = `${filtered.length}개`;
 });
+
 btnRefresh.addEventListener("click", loadFoods);
 btnRetry.addEventListener("click", loadFoods);
 
 btnBack.addEventListener("click", closeDetail);
+
 btnFav.addEventListener("click", ()=>{
   if(!current) return;
   toggleFav(current.id);
@@ -377,10 +419,3 @@ btnFav.addEventListener("click", ()=>{
 
 // init
 window.addEventListener("load", loadFoods);
-
-/**
- * ✅ CORS가 계속 막히면?
- * - 프론트만으로는 해결이 안 되는 환경이 있어요.
- * - 이 경우, 로컬에서 간단 프록시(서버)로 우회해야 합니다.
- * (원하면 내가 server.js(Express)까지 같이 만들어 줄게)
- */
