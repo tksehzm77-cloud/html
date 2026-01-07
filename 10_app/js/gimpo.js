@@ -1,15 +1,12 @@
 /**
- * 따숨 | 완성본
- * - 데이터 호출 안정화(2단계 시도)
- * - 검색: 전체 데이터 로딩 후 필터링
- * - empty 섹션: "검색하지 않았을 때만" 표시
- * - 클릭 시 상세 -> 상세 하단 지도 표시
- * - 커스텀 마커(불꽃 SVG / marker.png / mascot.png)
+ * 따숨 | 최종 완성본
+ * - 마커: assets/mascot.png로 고정 (커스텀 MarkerImage)
+ * - 검색 시 empty 섹션 가려짐 방지
+ * - 정류장 클릭 -> 상세 -> 상세 하단 지도에 마커 표시
  */
 
-/** ✅ 서비스키들 */
+/** ✅ 키 입력 */
 const OD_SERVICE_KEY = "45ba9fe435f41f46e91024695eb4fbdaaef824f3561da33fb4105a7ecb3eea21";
-const KAKAO_READY_CHECK = () => typeof kakao !== "undefined" && kakao.maps && kakao.maps.services;
 
 /** ✅ 오픈API */
 const OD_BASE = "https://api.odcloud.kr/api";
@@ -20,9 +17,8 @@ const RETURN_TYPE = "JSON";
 const MAX_ALL = 5000;
 const BULK_SIZE = 1000;
 
-/** ✅ 마커 자원(있으면 자동 사용) */
-const MARKER_ASSET = "./assets/marker.png";
-const MASCOT_ASSET = "./assets/mascot.png";
+/** ✅ 마커 이미지(첨부 마스코트) */
+const MARKER_SRC = "./assets/mascot.png";
 
 /** DOM */
 const $q = document.querySelector("#q");
@@ -59,21 +55,19 @@ let activeIndex = -1;
 let pageData = [];
 let rawData = [];
 
-let allData = null;         // 전체 데이터 캐시
-let searchResultFull = null; // 검색 결과 전체(페이지네이션용)
+let allData = null;
+let searchResultFull = null;
 
 let geocoder;
 const geoCache = new Map();
 
-/** 상세 지도 */
+/** Detail map */
 let detailMap = null;
 let detailMarker = null;
 
-/** 커스텀 마커 스타일 */
-let markerStyle = { type: "svg", src: null };
-
 /* ---------------- Utils ---------------- */
 function setStatus(msg) { $status.textContent = msg || ""; }
+function hasQuery() { return String(query || "").trim().length > 0; }
 
 function escapeHtml(str) {
   return String(str ?? "")
@@ -82,10 +76,6 @@ function escapeHtml(str) {
     .replaceAll(">", "&gt;")
     .replaceAll('"', "&quot;")
     .replaceAll("'", "&#039;");
-}
-
-function hasQuery() {
-  return String(query || "").trim().length > 0;
 }
 
 function showPanel() {
@@ -112,19 +102,14 @@ async function fetchJsonOrThrow(url, options = {}) {
   const res = await fetch(url, options);
   const text = await res.text();
   if (!res.ok) throw new Error(`HTTP ${res.status} ${res.statusText}\n${text.slice(0, 400)}`);
-  try {
-    return JSON.parse(text);
-  } catch {
-    throw new Error(`JSON 파싱 실패\n${text.slice(0, 400)}`);
-  }
+  try { return JSON.parse(text); }
+  catch { throw new Error(`JSON 파싱 실패\n${text.slice(0, 400)}`); }
 }
 
 async function fetchStopsSafe({ page, perPage }) {
-  // 1차: serviceKey 쿼리 방식
   try {
     return await fetchJsonOrThrow(buildUrl({ page, perPage }));
   } catch (e1) {
-    // 2차: Authorization 헤더 방식(일부 환경에서 이게 더 안정적)
     try {
       const url = new URL(OD_BASE + OD_PATH);
       url.searchParams.set("page", String(page));
@@ -136,13 +121,13 @@ async function fetchStopsSafe({ page, perPage }) {
     } catch (e2) {
       throw new Error(
         `데이터 호출 실패\n\n[1차]\n${e1.message}\n\n[2차]\n${e2.message}\n\n` +
-        `※ 콘솔에 CORS 관련 에러가 보이면 프론트 단독 호출이 막힌 케이스입니다.`
+        `※ 콘솔에 CORS 에러가 보이면 프론트 단독 호출이 막힌 케이스입니다.`
       );
     }
   }
 }
 
-/* ---------------- Kakao Geocoder ---------------- */
+/* ---------------- Kakao Services ---------------- */
 function initKakaoServices() {
   geocoder = new kakao.maps.services.Geocoder();
 }
@@ -166,65 +151,17 @@ function geocodeAddress(address) {
   });
 }
 
-/* ---------------- Marker (custom) ---------------- */
-function flameSvgDataUrl() {
-  const svg = `
-  <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64">
-    <defs>
-      <linearGradient id="g" x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0" stop-color="#FFB15A"/>
-        <stop offset="0.55" stop-color="#FF8A2A"/>
-        <stop offset="1" stop-color="#FF6A00"/>
-      </linearGradient>
-      <filter id="s" x="-30%" y="-30%" width="160%" height="160%">
-        <feDropShadow dx="0" dy="4" stdDeviation="3" flood-color="#FF6A00" flood-opacity="0.35"/>
-      </filter>
-    </defs>
-    <g filter="url(#s)">
-      <path d="M32 4c3 10-2 14-2 20 0 4 3 7 7 7 6 0 9-6 8-12 7 6 11 14 11 22 0 14-11 23-24 23S8 55 8 41c0-10 6-18 14-24-1 7 2 10 6 10 5 0 8-4 8-9 0-5-2-9-4-14z"
-        fill="url(#g)"/>
-      <path d="M28 36c0 6 5 10 10 10 6 0 10-5 10-11 3 4 4 7 4 11 0 10-8 18-18 18S16 56 16 46c0-6 3-10 6-13 0 3 2 6 6 6s6-2 6-3z"
-        fill="rgba(255,255,255,0.35)"/>
-    </g>
-  </svg>`;
-  return "data:image/svg+xml;charset=utf-8," + encodeURIComponent(svg.trim());
-}
+/* ---------------- Marker (mascot.png) ---------------- */
+function makeMascotMarkerImage() {
+  // ✅ 추천 값 (너 마스코트 비율 기준)
+  const w = 56;
+  const h = 56;
 
-function loadableImage(src) {
-  return new Promise((resolve) => {
-    const img = new Image();
-    img.onload = () => resolve(true);
-    img.onerror = () => resolve(false);
-    img.src = src + `?v=${Date.now()}`; // 캐시 회피
-  });
-}
-
-async function resolveMarkerStyle() {
-  // marker.png -> mascot.png -> svg
-  if (await loadableImage(MARKER_ASSET)) {
-    markerStyle = { type: "img", src: MARKER_ASSET };
-    return;
-  }
-  if (await loadableImage(MASCOT_ASSET)) {
-    markerStyle = { type: "img", src: MASCOT_ASSET };
-    return;
-  }
-  markerStyle = { type: "svg", src: flameSvgDataUrl() };
-}
-
-function makeMarkerImage() {
-  // 상세 지도에서 1개만 쓰므로 크기 고정
-  const size = 52;
-  const offsetY = 46;
-
-  const src = markerStyle.type === "img"
-    ? markerStyle.src
-    : (markerStyle.src || flameSvgDataUrl());
-
+  // ✅ 아래 중앙을 좌표로 찍기(마스코트 앉은 이미지에 자연스러움)
   return new kakao.maps.MarkerImage(
-    src,
-    new kakao.maps.Size(size, size),
-    { offset: new kakao.maps.Point(size / 2, offsetY) }
+    MARKER_SRC,
+    new kakao.maps.Size(w, h),
+    { offset: new kakao.maps.Point(w / 2, h) }
   );
 }
 
@@ -232,7 +169,6 @@ function makeMarkerImage() {
 function ensureDetailMap(lat, lng) {
   const center = new kakao.maps.LatLng(lat, lng);
 
-  // 지도 컨테이너가 hidden 상태였다가 보여지면 relayout이 필요할 수 있음
   if (!detailMap) {
     detailMap = new kakao.maps.Map($detailMapEl, { center, level: 4 });
   } else {
@@ -243,30 +179,26 @@ function ensureDetailMap(lat, lng) {
 
   detailMarker = new kakao.maps.Marker({
     position: center,
-    image: makeMarkerImage(),
+    image: makeMascotMarkerImage(),
     zIndex: 10
   });
   detailMarker.setMap(detailMap);
 
-  // 표시 안정화
   requestAnimationFrame(() => detailMap.relayout());
 }
 
+/* ---------------- Render ---------------- */
 function renderList(items) {
   $list.innerHTML = "";
 
-  const qOn = hasQuery(); // query.trim().length > 0
-
   // ✅ 검색어가 있으면 empty(마스코트 섹션)는 무조건 숨김
-  if (qOn) $empty.hidden = true;
+  if (hasQuery()) $empty.hidden = true;
 
-  // 목록이 비어있는 경우
   if (!items || items.length === 0) {
-    if (!qOn) {
-      // ✅ 검색어가 없을 때만 empty 표시
-      $empty.hidden = false;
+    if (!hasQuery()) {
+      $empty.hidden = false; // 검색 안 했을 때만 empty
     } else {
-      // ✅ 검색어가 있을 때는 "검색 결과 없음"만 표시
+      $empty.hidden = true;
       $list.innerHTML =
         `<div style="padding:14px;color:#6b7280;">
           검색 결과가 없습니다. 다른 키워드로 다시 검색해보세요.
@@ -275,7 +207,6 @@ function renderList(items) {
     return;
   }
 
-  // 목록이 있는 경우
   $empty.hidden = true;
 
   const frag = document.createDocumentFragment();
@@ -310,7 +241,6 @@ function renderList(items) {
 
   $list.appendChild(frag);
 }
-
 
 function renderPages(total) {
   const totalPages = Math.max(1, Math.ceil(total / perPage));
@@ -358,7 +288,6 @@ async function loadPage() {
     renderPages(totalCount);
     renderList(rawData);
     setStatus("완료");
-
   } catch (e) {
     console.error(e);
     setStatus(e.message);
@@ -367,7 +296,7 @@ async function loadPage() {
   }
 }
 
-/* ---------------- Search Mode (All data) ---------------- */
+/* ---------------- Search Mode ---------------- */
 function filterByQuery(data, q) {
   const s = String(q || "").trim().toLowerCase();
   if (!s) return data;
@@ -392,9 +321,7 @@ async function loadAllDataForSearch() {
     const chunk = Array.isArray(json.data) ? json.data : [];
     const tc = Number(json.totalCount ?? 0);
 
-    totalCount = tc;
     merged = merged.concat(chunk);
-
     if (chunk.length === 0) break;
     if (merged.length >= tc) break;
 
@@ -403,14 +330,15 @@ async function loadAllDataForSearch() {
 
   if (merged.length > MAX_ALL) merged = merged.slice(0, MAX_ALL);
   allData = merged;
-
   return allData;
 }
 
 async function runSearch() {
+  // ✅ 검색 시작 시 empty 무조건 숨김(가려짐 방지)
+  $empty.hidden = true;
+
   query = $q.value.trim();
 
-  // 검색어 비었으면 페이지 모드로 복귀
   if (!hasQuery()) {
     showPanel();
     page = 1;
@@ -426,7 +354,6 @@ async function runSearch() {
 
     page = 1;
     applySearchPage();
-
   } catch (e) {
     console.error(e);
     setStatus(e.message);
@@ -448,7 +375,7 @@ function applySearchPage() {
   setStatus("완료");
 }
 
-/* ---------------- Select -> Detail (detail + map below) ---------------- */
+/* ---------------- Select -> Detail ---------------- */
 async function onSelect(idx) {
   activeIndex = idx;
   renderList(rawData);
@@ -484,7 +411,6 @@ async function onSelect(idx) {
     return;
   }
 
-  // 지도 생성/갱신 + 커스텀 마커
   ensureDetailMap(geo.lat, geo.lng);
   setStatus("상세 위치 지도를 표시했습니다.");
 }
@@ -502,8 +428,6 @@ $btnClear.addEventListener("click", () => {
 });
 
 $btnReload.addEventListener("click", () => {
-  // 새로고침 시 전체검색 캐시는 유지해도 되지만, 데이터 최신성 원하면 초기화
-  // allData = null;
   page = 1;
   showPanel();
   if (mode === "search" && hasQuery()) runSearch();
@@ -538,13 +462,11 @@ $btnBack.addEventListener("click", () => {
 });
 
 /* ---------------- Start ---------------- */
-window.addEventListener("load", async () => {
-  if (!KAKAO_READY_CHECK()) {
+window.addEventListener("load", () => {
+  if (typeof kakao === "undefined") {
     setStatus("카카오맵 로드 실패: 카카오 JS 키/도메인 설정을 확인하세요.");
     return;
   }
-
   initKakaoServices();
-  await resolveMarkerStyle();
   loadPage();
 });
