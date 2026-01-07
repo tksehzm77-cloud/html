@@ -90,6 +90,7 @@ body{
   align-items:center;
 }
 
+/* ✅ 리스트 우측 아이콘: 이미지로 교체 가능 */
 .rowIcon{
   width:28px;height:28px;
   display:grid;
@@ -98,11 +99,13 @@ body{
   background:transparent;
   cursor:pointer;
   padding:0;
-  color:#111;
-  opacity:.9;
 }
-.rowIcon svg{width:22px;height:22px;display:block}
-.rowIcon.is-on{color:#000}
+.rowIcon img{
+  width:22px;
+  height:22px;
+  display:block;
+  object-fit:contain;
+}
 
 .loading{
   padding:14px;

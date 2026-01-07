@@ -1,12 +1,20 @@
 /**
  * 부산광역시_부산맛집정보 서비스
- * ✅ 올바른 엔드포인트:
+ * ✅ 엔드포인트:
  * https://apis.data.go.kr/6260000/FoodService/getFoodKr
  *
  * ⚠️ 주의:
  * - data.go.kr API는 환경에 따라 브라우저 CORS가 막힐 수 있음
  * - 지도는 hidden 상태에서 생성하면 흰 화면이 될 수 있어 resize 트리거 포함
  */
+
+/* ================== ✅ 리스트 아이콘 이미지 경로(여기만 바꾸면 됨) ================== */
+const ICON = {
+  detail: "./images/search.png",        // 돋보기(상세)
+  heartOff: "./images/like.png",   // 빈 하트
+  heartOn: "./images/full_like.png"      // 채운 하트
+};
+/* ================================================================================== */
 
 const API_ENDPOINT = "https://apis.data.go.kr/6260000/FoodService/getFoodKr";
 const SERVICE_KEY = "45ba9fe435f41f46e91024695eb4fbdaaef824f3561da33fb4105a7ecb3eea21"; // 본인 키로 교체
@@ -190,6 +198,7 @@ function applyFilter(){
   emptyEl.hidden = filtered.length !== 0;
 }
 
+/** ✅ 여기서 svg 대신 img로 아이콘 렌더링 */
 function renderList(items){
   listEl.innerHTML = "";
 
@@ -208,30 +217,34 @@ function renderList(items){
     const right = document.createElement("div");
     right.className = "item__right";
 
+    // 상세(돋보기)
     const btnDetail = document.createElement("button");
     btnDetail.className = "rowIcon";
     btnDetail.type = "button";
     btnDetail.title = "상세";
-    btnDetail.innerHTML = `
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-        <circle cx="11" cy="11" r="7"></circle>
-        <path d="M20 20l-3.5-3.5"></path>
-      </svg>
-    `;
-    btnDetail.addEventListener("click", (e)=>{ e.stopPropagation(); openDetail(it); });
+    btnDetail.innerHTML = `<img src="${ICON.detail}" alt="상세 보기" />`;
+    btnDetail.addEventListener("click", (e)=>{
+      e.stopPropagation();
+      openDetail(it);
+    });
 
+    // 즐겨찾기(하트)
     const btnHeart = document.createElement("button");
-    btnHeart.className = "rowIcon" + (isFav(it.id) ? " is-on" : "");
+    btnHeart.className = "rowIcon";
     btnHeart.type = "button";
     btnHeart.title = "즐겨찾기";
-    btnHeart.innerHTML = `
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-        <path d="M12 21s-7-4.35-9.5-8.5C.6 9.2 2.2 6 5.7 6c1.9 0 3.4 1.1 4.3 2.4C10.9 7.1 12.4 6 14.3 6c3.5 0 5.1 3.2 3.2 6.5C19 16.65 12 21 12 21z"></path>
-      </svg>
-    `;
+
+    const heartSrc = isFav(it.id) ? ICON.heartOn : ICON.heartOff;
+    btnHeart.innerHTML = `<img src="${heartSrc}" alt="즐겨찾기" />`;
+
     btnHeart.addEventListener("click", (e)=>{
       e.stopPropagation();
       toggleFav(it.id);
+
+      // 즉시 아이콘 반영
+      const img = btnHeart.querySelector("img");
+      if (img) img.src = isFav(it.id) ? ICON.heartOn : ICON.heartOff;
+
       applyFilter();
     });
 
@@ -332,7 +345,6 @@ function waitForKakaoMaps(timeoutMs = 8000) {
 
 async function initMapIfNeeded() {
   await waitForKakaoMaps();
-
   if (map) return;
 
   const mapEl = document.getElementById("map");
@@ -358,9 +370,7 @@ async function showRestaurantOnMap(it) {
     await initMapIfNeeded();
 
     // ✅ hidden -> visible 직후 렌더 안정화
-    setTimeout(() => {
-      refreshMapLayout();
-    }, 0);
+    setTimeout(() => refreshMapLayout(), 0);
 
     const setPos = (lat, lng) => {
       const pos = new kakao.maps.LatLng(lat, lng);
