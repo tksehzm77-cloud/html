@@ -246,10 +246,10 @@ function renderPages(total) {
   const totalPages = Math.max(1, Math.ceil(total / perPage));
   $pages.innerHTML = "";
 
-  const windowSize = 7;
-  let start = Math.max(1, page - Math.floor(windowSize / 2));
-  let end = Math.min(totalPages, start + windowSize - 1);
-  start = Math.max(1, end - windowSize + 1);
+  const groupSize = 5; // ✅ 1~5, 6~10, 11~15 ...
+  const groupIndex = Math.floor((page - 1) / groupSize); // 0부터
+  const start = groupIndex * groupSize + 1;
+  const end = Math.min(totalPages, start + groupSize - 1);
 
   for (let p = start; p <= end; p++) {
     const b = document.createElement("button");
@@ -268,6 +268,7 @@ function renderPages(total) {
   $prev.disabled = page <= 1;
   $next.disabled = page >= totalPages;
 }
+
 
 /* ---------------- Page Mode ---------------- */
 async function loadPage() {
