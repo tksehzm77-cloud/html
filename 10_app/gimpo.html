@@ -7,15 +7,12 @@
   <link rel="stylesheet" href="./css/gimpo.css" />
 </head>
 <body>
-  <!-- PC에서도 보이지만 “모바일 앱 화면”처럼 고정 -->
   <div class="app-shell">
     <header class="topbar">
-      <div class="brand-row">
-        <img src="./images/logo.png" alt="따숨 로고" class="brand-logo" />
-        <div class="brand-text">
-          <div class="brand-name">따숨</div>
-          <div class="brand-sub">김포시 버스정류장 온열의자 위치 안내</div>
-        </div>
+      <!-- ✅ 박스 없이 “상단 중앙 로고” -->
+      <div class="logo-center">
+        <img src="./images/logo.png" alt="따숨 로고" class="top-logo" />
+        <div class="top-sub">김포시 버스정류장 온열의자 위치 안내</div>
       </div>
 
       <div class="search">
@@ -26,7 +23,6 @@
     </header>
 
     <main class="content">
-      <!-- 지도 -->
       <section class="mapwrap">
         <div class="map-topchip">
           <span class="chip">🔥 따숨 ON</span>
@@ -34,7 +30,6 @@
         </div>
         <div id="map" class="map"></div>
 
-        <!-- 선택 상세 (바텀시트) -->
         <aside class="sheet" id="detail">
           <div class="sheet-handle"></div>
           <div class="sheet-head">
@@ -47,7 +42,6 @@
         </aside>
       </section>
 
-      <!-- 목록 -->
       <section class="panel">
         <div class="panel-head">
           <div class="meta">
@@ -84,8 +78,7 @@
     </main>
   </div>
 
-  <!-- 카카오맵 -->
   <script src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=48fbd67fa46bf2693d779bf17f684787&libraries=services"></script>
-  <script src="/js/gimpo.js"></script>
+  <script src="./js/gimpo.js"></script>
 </body>
 </html>
