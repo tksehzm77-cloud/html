@@ -9,40 +9,22 @@
 <body>
   <div class="app-shell">
     <header class="topbar">
-      <!-- ✅ 박스 없이 “상단 중앙 로고” -->
+      <!-- ✅ 상단 중앙 로고(박스 없음) -->
       <div class="logo-center">
         <img src="./images/logo.png" alt="따숨 로고" class="top-logo" />
         <div class="top-sub">김포시 버스정류장 온열의자 위치 안내</div>
       </div>
 
       <div class="search">
-        <input id="q" type="text" placeholder="정류소명 / 주소로 검색" autocomplete="off" />
+        <input id="q" type="text" placeholder="정류소명 / 주소 / 승강장ID 검색" autocomplete="off" />
         <button id="btnClear" class="icon-btn" type="button" aria-label="검색어 지우기">×</button>
         <button id="btnSearch" class="primary" type="button">검색</button>
       </div>
     </header>
 
     <main class="content">
-      <section class="mapwrap">
-        <div class="map-topchip">
-          <span class="chip">🔥 따숨 ON</span>
-          <span class="chip ghostchip">주소 기반 표시</span>
-        </div>
-        <div id="map" class="map"></div>
-
-        <aside class="sheet" id="detail">
-          <div class="sheet-handle"></div>
-          <div class="sheet-head">
-            <div class="sheet-title">상세</div>
-            <button id="btnCloseDetail" class="ghost" type="button">닫기</button>
-          </div>
-          <div class="sheet-body" id="detailBody">
-            <p class="hint">아래 목록에서 정류소를 선택하면 위치가 지도에 표시됩니다.</p>
-          </div>
-        </aside>
-      </section>
-
-      <section class="panel">
+      <!-- ✅ 목록 화면 -->
+      <section class="panel" id="panel">
         <div class="panel-head">
           <div class="meta">
             <div class="title">정류소 목록</div>
@@ -61,10 +43,11 @@
 
         <div id="list" class="list" role="list"></div>
 
+        <!-- ✅ 검색하지 않았을 때만 보여야 하는 empty -->
         <div id="empty" class="empty" hidden>
           <img src="./images/mascot.png" alt="따숨 마스코트" class="empty-mascot" />
           <div class="empty-title">따뜻한 정류소를 찾고 있어요!</div>
-          <div class="empty-desc">정류소명이나 주소로 다시 검색해보세요.</div>
+          <div class="empty-desc">정류소명이나 주소로 검색해보세요.</div>
         </div>
 
         <div class="pager">
@@ -75,9 +58,27 @@
 
         <div id="status" class="status" aria-live="polite"></div>
       </section>
+
+      <!-- ✅ 상세 화면(정류장 클릭 시) -->
+      <section class="detail-page" id="detailPage" hidden>
+        <div class="detail-head">
+          <button id="btnBack" class="ghost" type="button">← 목록</button>
+          <div class="detail-title">정류장 상세</div>
+          <span class="detail-badge">🔥 따숨</span>
+        </div>
+
+        <div class="detail-body" id="detailBody"></div>
+
+        <div class="detail-mapwrap">
+          <div class="detail-map-title">위치</div>
+          <div id="detailMap" class="detail-map"></div>
+          <div class="detail-map-note">※ 주소를 기반으로 위치를 표시합니다.</div>
+        </div>
+      </section>
     </main>
   </div>
 
+  <!-- ✅ 카카오맵: services 포함(지오코딩 필요) -->
   <script src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=48fbd67fa46bf2693d779bf17f684787&libraries=services"></script>
   <script src="./js/gimpo.js"></script>
 </body>
