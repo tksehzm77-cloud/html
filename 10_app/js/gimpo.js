@@ -18,7 +18,7 @@ const MAX_ALL = 5000;
 const BULK_SIZE = 1000;
 
 /** ✅ 마커 이미지(첨부 마스코트) */
-const MARKER_SRC = "./images/mascot.png";
+const MARKER_SRC = "./assets/mascot.png";
 
 /** DOM */
 const $q = document.querySelector("#q");
