@@ -1,250 +1,63 @@
-/*
-  ✅ 필수 설정
-  1) 공공데이터 serviceKey 발급 후 아래 SERVICE_KEY에 넣기
-  2) Kakao Maps appkey를 index.html script url의 appkey= 에 넣기
+/**
+ * 부산광역시_부산맛집정보 서비스
+ * - 문서 기준 요청주소: http://apis.data.go.kr/6260000/FoodService/getFoodKr
+ * - resultType=json, pageNo, numOfRows, (옵션) UC_SEQ
+ * 출처: 공공데이터포털 ‘부산광역시_부산맛집정보 서비스’ 문서에 명시된 요청주소/파라미터. 
+ */
 
-  ⚠️ CORS 주의
-  - data.go.kr API가 브라우저에서 CORS 차단될 수 있습니다.
-  - 그 경우: (1) 간단한 프록시 서버를 두거나 (2) Vite/webpack devServer proxy를 사용하세요.
-*/
+const API_ENDPOINT = "https://apis.data.go.kr/6260000/FoodService/getFoodKr";
+const SERVICE_KEY = "45ba9fe435f41f46e91024695eb4fbdaaef824f3561da33fb4105a7ecb3eea21"; // 본인 키로 교체 (일반적으로 이미 URL 인코딩된 키 사용)
 
-const API_BASE = "https://apis.data.go.kr/6260000/FoodService";
-const SERVICE_KEY = "45ba9fe435f41f46e91024695eb4fbdaaef824f3561da33fb4105a7ecb3eea21"; // 인코딩된 키(일반적으로 이미 URL 인코딩된 형태)
+// 비짓부산 이미지가 상대경로로 내려오는 경우가 많아 보정
+const VISITBUSAN_BASE = "https://www.visitbusan.net";
 
-// UI refs
+// DOM
 const $ = (s) => document.querySelector(s);
-const listEl = $("#list");
-const loaderEl = $("#loader");
-const emptyEl = $("#empty");
-const hintEl = $("#hint");
-const countEl = $("#count");
 
-const screenList = $("#screenList");
-const screenDetail = $("#screenDetail");
+const pageList = $("#pageList");
+const pageDetail = $("#pageDetail");
 
 const qEl = $("#q");
-const btnClear = $("#btnClear");
 const btnRefresh = $("#btnRefresh");
-const btnTop = $("#btnTop");
+const statusEl = $("#status");
 
-const chips = $("#chips");
+const listEl = $("#list");
+const loadingEl = $("#loading");
+const emptyEl = $("#empty");
+const errorEl = $("#error");
+const btnRetry = $("#btnRetry");
 
-// detail refs
+const btnBack = $("#btnBack");
+const btnFav = $("#btnFav");
+
+const heroImg = $("#heroImg");
 const dName = $("#dName");
 const dAddr = $("#dAddr");
 const dIntro = $("#dIntro");
 const dMenu = $("#dMenu");
 const dTel = $("#dTel");
 const dTime = $("#dTime");
-const heroImg = $("#heroImg");
 
-const btnBack = $("#btnBack");
-const btnFav = $("#btnFav");
+const homeBar = $("#homeBar");
 const btnCall = $("#btnCall");
 const btnCopy = $("#btnCopy");
-const homeBanner = $("#homeBanner");
-const dHome = $("#dHome");
-
 const btnRoad = $("#btnRoad");
-const btnZoomIn = $("#btnZoomIn");
-const btnZoomOut = $("#btnZoomOut");
 
 // state
 let allItems = [];
 let filtered = [];
-let activeGu = "";
 let current = null;
 
-// Kakao map objects
+const FAV_KEY = "busan_food_favs_v2";
+
+// kakao map
 let map = null;
 let marker = null;
 let geocoder = null;
 
-const FAV_KEY = "busan_food_favs_v1";
-const IMG_KEY = "busan_food_img_overrides_v1";
-
-function getFavs() {
-  try { return JSON.parse(localStorage.getItem(FAV_KEY) || "[]"); } catch { return []; }
-}
-function setFavs(arr) { localStorage.setItem(FAV_KEY, JSON.stringify(arr)); }
-function isFav(id) { return getFavs().includes(id); }
-function toggleFav(id) {
-  const favs = getFavs();
-  const idx = favs.indexOf(id);
-  if (idx >= 0) favs.splice(idx, 1);
-  else favs.push(id);
-  setFavs(favs);
-}
-
-function getImgOverrides() {
-  try { return JSON.parse(localStorage.getItem(IMG_KEY) || "{}"); } catch { return {}; }
-}
-function setImgOverrides(obj) { localStorage.setItem(IMG_KEY, JSON.stringify(obj)); }
-
-// ---------- Data Mapping (API 필드가 다를 수 있어 fallback 다수 준비) ----------
-function pick(obj, keys) {
-  for (const k of keys) {
-    const v = obj?.[k];
-    if (v !== undefined && v !== null && String(v).trim() !== "") return String(v).trim();
-  }
-  return "";
-}
-
-function normalizeItem(raw) {
-  const name = pick(raw, ["MAIN_TITLE", "title", "TITLE", "BIZPLC_NM", "업소명", "상호명", "name"]);
-  const addr = pick(raw, ["ADDR1", "ADDR", "ADDRESS", "ROAD_ADDR", "도로명주소", "지번주소", "addr", "address"]);
-  const gu = guessGuFromAddr(addr);
-  const menu = pick(raw, ["MAIN_MENU", "MENU", "대표메뉴", "메뉴", "mainMenu"]);
-  const intro = pick(raw, ["ITEMCNTNTS", "INTRO", "소개", "content", "description"]);
-  const tel = pick(raw, ["CNTCT_TEL", "TEL", "PHONE", "전화번호", "tel"]);
-  const time = pick(raw, ["USAGE_DAY_WEEK_AND_TIME", "TIME", "운영시간", "hours"]);
-  const home = pick(raw, ["HOMEPAGE_URL", "HOMEPAGE", "URL", "homepage"]);
-
-  const lat = parseFloat(pick(raw, ["LAT", "Y", "LATITUDE", "위도", "lat"])) || null;
-  const lng = parseFloat(pick(raw, ["LNG", "X", "LONGITUDE", "경도", "lng"])) || null;
-
-  const id = pick(raw, ["UC_SEQ", "ID", "id"]) || `${name}__${addr}`;
-  return { id, name, addr, gu, menu, intro, tel, time, home, lat, lng, _raw: raw };
-}
-
-function guessGuFromAddr(addr) {
-  if (!addr) return "";
-  const gus = ["중구","서구","동구","영도구","부산진구","동래구","남구","북구","해운대구","사하구","금정구","강서구","연제구","수영구","사상구","기장군"];
-  for (const g of gus) if (addr.includes(g)) return g;
-  return "";
-}
-
-// ---------- Fetch ----------
-async function fetchFood() {
-  loaderEl.hidden = false;
-  emptyEl.hidden = true;
-  hintEl.textContent = "데이터를 불러오는 중…";
-
-  const url = new URL(API_BASE);
-  url.searchParams.set("serviceKey", SERVICE_KEY);
-  url.searchParams.set("pageNo", "1");
-  url.searchParams.set("numOfRows", "120");
-  url.searchParams.set("resultType", "json");
-
-  try {
-    const res = await fetch(url.toString());
-    if (!res.ok) throw new Error(`HTTP ${res.status}`);
-    const data = await res.json();
-
-    const items = extractItems(data);
-    allItems = items.map(normalizeItem).filter(x => x.name);
-
-    allItems.sort((a, b) => {
-      const af = isFav(a.id) ? 0 : 1;
-      const bf = isFav(b.id) ? 0 : 1;
-      if (af !== bf) return af - bf;
-      return a.name.localeCompare(b.name, "ko");
-    });
-
-    hintEl.textContent = `${allItems.length}개 맛집을 불러왔어요`;
-    applyFilter();
-  } catch (err) {
-    console.error(err);
-    hintEl.textContent = "데이터 로딩 실패 (CORS/키/요청 파라미터 확인)";
-    allItems = [];
-    applyFilter();
-  } finally {
-    loaderEl.hidden = true;
-  }
-}
-
-function extractItems(data) {
-  const candidates = [
-    data?.getFoodKr?.item,
-    data?.getFoodKr,
-    data?.response?.body?.items?.item,
-    data?.response?.body?.items,
-    data?.response?.body,
-    data?.items,
-    data?.item,
-  ];
-  for (const c of candidates) if (Array.isArray(c)) return c;
-  for (const c of candidates) {
-    if (c && typeof c === "object" && Array.isArray(c.item)) return c.item;
-  }
-  return [];
-}
-
-// ---------- Render List ----------
-function applyFilter() {
-  const q = (qEl.value || "").trim().toLowerCase();
-  filtered = allItems.filter(it => {
-    if (activeGu && it.gu !== activeGu) return false;
-    if (!q) return true;
-    const hay = `${it.name} ${it.addr} ${it.menu} ${it.intro} ${it.gu}`.toLowerCase();
-    return hay.includes(q);
-  });
-
-  countEl.textContent = String(filtered.length);
-  renderList(filtered);
-  emptyEl.hidden = filtered.length !== 0;
-}
-
-function renderList(items) {
-  listEl.innerHTML = "";
-
-  for (const it of items) {
-    const li = document.createElement("li");
-    li.className = "item";
-
-    const left = document.createElement("div");
-    left.className = "item__left";
-
-    const h3 = document.createElement("h3");
-    h3.className = "item__name";
-    h3.textContent = it.name;
-
-    const r1 = document.createElement("p");
-    r1.className = "item__row";
-    r1.innerHTML = `<b>주소:</b> ${escapeHTML(it.addr || "-")}`;
-
-    const r2 = document.createElement("p");
-    r2.className = "item__row";
-    r2.innerHTML = `<b>메뉴:</b> ${escapeHTML(it.menu || "-")}`;
-
-    left.appendChild(h3);
-    left.appendChild(r1);
-    left.appendChild(r2);
-
-    const actions = document.createElement("div");
-    actions.className = "item__actions";
-
-    const btnMore = document.createElement("button");
-    btnMore.className = "smallbtn more";
-    btnMore.type = "button";
-    btnMore.textContent = "⌕";
-    btnMore.title = "상세 보기";
-    btnMore.addEventListener("click", () => openDetail(it));
-
-    const btnHeart = document.createElement("button");
-    btnHeart.className = "smallbtn heart" + (isFav(it.id) ? " is-on" : "");
-    btnHeart.type = "button";
-    btnHeart.textContent = isFav(it.id) ? "♥" : "♡";
-    btnHeart.title = "즐겨찾기";
-    btnHeart.addEventListener("click", (e) => {
-      e.stopPropagation();
-      toggleFav(it.id);
-      applyFilter();
-    });
-
-    actions.appendChild(btnMore);
-    actions.appendChild(btnHeart);
-
-    li.appendChild(left);
-    li.appendChild(actions);
-
-    li.addEventListener("click", () => openDetail(it));
-    listEl.appendChild(li);
-  }
-}
-
-function escapeHTML(s) {
-  return String(s)
+// --------- utils
+function escapeHTML(s){
+  return String(s ?? "")
     .replaceAll("&","&amp;")
     .replaceAll("<","&lt;")
     .replaceAll(">","&gt;")
@@ -252,185 +65,322 @@ function escapeHTML(s) {
     .replaceAll("'","&#039;");
 }
 
-// ---------- Detail ----------
-function openDetail(item) {
-  current = item;
+function getFavs(){
+  try { return JSON.parse(localStorage.getItem(FAV_KEY) || "[]"); }
+  catch { return []; }
+}
+function isFav(id){ return getFavs().includes(id); }
+function toggleFav(id){
+  const favs = getFavs();
+  const i = favs.indexOf(id);
+  if(i >= 0) favs.splice(i, 1);
+  else favs.push(id);
+  localStorage.setItem(FAV_KEY, JSON.stringify(favs));
+}
 
-  const overrides = getImgOverrides();
-  const img = overrides[item.id] || "data:image/svg+xml;charset=utf-8," + encodeURIComponent(`
-    <svg xmlns='http://www.w3.org/2000/svg' width='1200' height='700'>
-      <defs>
-        <linearGradient id='g' x1='0' y1='0' x2='1' y2='1'>
-          <stop offset='0' stop-color='#e5e7eb'/>
-          <stop offset='1' stop-color='#cbd5e1'/>
-        </linearGradient>
-      </defs>
-      <rect width='1200' height='700' fill='url(#g)'/>
-      <text x='50%' y='50%' dominant-baseline='middle' text-anchor='middle'
-        font-family='Noto Sans KR, sans-serif' font-size='44' fill='#111827'>
-        대표 이미지 추가
-      </text>
-      <text x='50%' y='58%' dominant-baseline='middle' text-anchor='middle'
-        font-family='Noto Sans KR, sans-serif' font-size='22' fill='#374151'>
-        heroImg.src 를 원하는 이미지 URL/경로로 교체하세요
-      </text>
-    </svg>
-  `);
-  heroImg.src = img;
+// API 스키마(공식 문서 기준) 매핑
+function normalize(raw){
+  const id = raw?.UC_SEQ ? String(raw.UC_SEQ) : `${raw?.MAIN_TITLE || ""}__${raw?.ADDR1 || ""}`;
 
-  dName.textContent = item.name || "-";
-  dAddr.textContent = item.addr || "-";
-  dIntro.textContent = item.intro || "-";
-  dMenu.textContent = item.menu || "-";
-  dTel.textContent = item.tel || "-";
-  dTime.textContent = item.time || "-";
+  const name = (raw?.MAIN_TITLE || "").trim();
+  const addr = (raw?.ADDR1 || "").trim();
+  const intro = (raw?.ITEMCNTNTS || "").trim();
+  const menu = (raw?.RPRSNTV_MENU || raw?.MAIN_MENU || "").trim();
+  const tel  = (raw?.CNTCT_TEL || "").trim();
+  const time = (raw?.USAGE_DAY_WEEK_AND_TIME || "").trim();
+  const home = (raw?.HOMEPAGE_URL || "").trim();
 
-  if (item.home) {
-    homeBanner.hidden = false;
-    dHome.href = item.home.startsWith("http") ? item.home : `https://${item.home}`;
-    dHome.textContent = dHome.href;
-  } else {
-    homeBanner.hidden = true;
-    dHome.href = "#";
+  const lat = raw?.LAT ? parseFloat(raw.LAT) : null;
+  const lng = raw?.LNG ? parseFloat(raw.LNG) : null;
+
+  const img = fixImageUrl(raw?.MAIN_IMG_NORMAL);
+  const thumb = fixImageUrl(raw?.MAIN_IMG_THUMB);
+
+  return { id, name, addr, intro, menu, tel, time, home, lat, lng, img, thumb, _raw: raw };
+}
+
+function fixImageUrl(url){
+  if(!url) return "";
+  const u = String(url).trim();
+  if(!u) return "";
+  if(u.startsWith("http://") || u.startsWith("https://")) return u;
+  // "/uploadImgs/..." 형태면 비짓부산 도메인 prefix
+  if(u.startsWith("/")) return VISITBUSAN_BASE + u;
+  return u;
+}
+
+// 공공데이터 응답 파싱(환경별로 wrapper가 달라서 방어적으로)
+function extractItems(data){
+  // 흔한 형태:
+  // data.getFoodKr.item
+  // data.getFoodKr
+  // data.response.body.items.item
+  const cands = [
+    data?.getFoodKr?.item,
+    data?.getFoodKr,
+    data?.response?.body?.items?.item,
+    data?.response?.body?.items,
+    data?.response?.body,
+    data?.items,
+    data?.item
+  ];
+  for(const c of cands){
+    if(Array.isArray(c)) return c;
+    if(c && typeof c === "object" && Array.isArray(c.item)) return c.item;
+  }
+  return [];
+}
+
+// --------- fetch
+async function loadFoods(){
+  loadingEl.hidden = false;
+  emptyEl.hidden = true;
+  errorEl.hidden = true;
+  listEl.innerHTML = "";
+  statusEl.textContent = "불러오는 중…";
+
+  const url = new URL(API_ENDPOINT);
+  // 문서에는 ServiceKey지만 예제들은 serviceKey도 동작. 둘 다 세팅(호환용)
+  url.searchParams.set("serviceKey", SERVICE_KEY);
+  url.searchParams.set("ServiceKey", SERVICE_KEY);
+  url.searchParams.set("pageNo", "1");
+  url.searchParams.set("numOfRows", "200");
+  url.searchParams.set("resultType", "json");
+
+  try{
+    const res = await fetch(url.toString());
+    if(!res.ok) throw new Error(`HTTP ${res.status}`);
+
+    const data = await res.json();
+    const items = extractItems(data).map(normalize).filter(x => x.name);
+
+    allItems = items;
+    applyFilter();
+
+    statusEl.textContent = `${filtered.length}개`;
+    loadingEl.hidden = true;
+
+  }catch(err){
+    console.error(err);
+    loadingEl.hidden = true;
+    errorEl.hidden = false;
+
+    // CORS면 대개 "TypeError: Failed to fetch" 형태로 떨어짐
+    statusEl.textContent = "로딩 실패 (키/CORS/URL 확인)";
+  }
+}
+
+// --------- list
+function applyFilter(){
+  const q = (qEl.value || "").trim().toLowerCase();
+  filtered = allItems.filter(it => {
+    if(!q) return true;
+    const hay = `${it.name} ${it.addr} ${it.menu} ${it.intro}`.toLowerCase();
+    return hay.includes(q);
+  });
+
+  renderList(filtered);
+  emptyEl.hidden = filtered.length !== 0;
+}
+
+function renderList(items){
+  listEl.innerHTML = "";
+
+  items.forEach(it => {
+    const li = document.createElement("li");
+    li.className = "item";
+
+    const left = document.createElement("div");
+    left.className = "item__left";
+    left.innerHTML = `
+      <h3 class="item__name">${escapeHTML(it.name)}</h3>
+      <p class="item__meta"><b>주소:</b> ${escapeHTML(it.addr || "-")}</p>
+      <p class="item__meta"><b>메뉴:</b> ${escapeHTML(it.menu || "-")}</p>
+    `;
+
+    const right = document.createElement("div");
+    right.className = "item__right";
+
+    // 시안의 우측 "검색" 아이콘(상세보기)
+    const btnDetail = document.createElement("button");
+    btnDetail.className = "rowIcon";
+    btnDetail.type = "button";
+    btnDetail.title = "상세";
+    btnDetail.innerHTML = `
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="11" cy="11" r="7"></circle>
+        <path d="M20 20l-3.5-3.5"></path>
+      </svg>
+    `;
+    btnDetail.addEventListener("click", (e)=>{ e.stopPropagation(); openDetail(it); });
+
+    // 시안의 우측 "하트" 아이콘
+    const btnHeart = document.createElement("button");
+    btnHeart.className = "rowIcon" + (isFav(it.id) ? " is-on" : "");
+    btnHeart.type = "button";
+    btnHeart.title = "즐겨찾기";
+    btnHeart.innerHTML = `
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M12 21s-7-4.35-9.5-8.5C.6 9.2 2.2 6 5.7 6c1.9 0 3.4 1.1 4.3 2.4C10.9 7.1 12.4 6 14.3 6c3.5 0 5.1 3.2 3.2 6.5C19 16.65 12 21 12 21z"></path>
+      </svg>
+    `;
+    btnHeart.addEventListener("click", (e)=>{
+      e.stopPropagation();
+      toggleFav(it.id);
+      applyFilter();
+    });
+
+    right.appendChild(btnDetail);
+    right.appendChild(btnHeart);
+
+    li.appendChild(left);
+    li.appendChild(right);
+
+    li.addEventListener("click", ()=> openDetail(it));
+    listEl.appendChild(li);
+  });
+}
+
+// --------- detail
+function openDetail(it){
+  current = it;
+
+  // 이미지: API 제공 이미지가 있으면 사용, 없으면 플레이스홀더
+  heroImg.src = it.img || it.thumb || placeholderImage(it.name);
+
+  dName.textContent = it.name || "-";
+  dAddr.textContent = it.addr || "-";
+  dIntro.textContent = it.intro || "-";
+  dMenu.textContent = it.menu || "-";
+  dTel.textContent = it.tel || "-";
+  dTime.textContent = it.time || "-";
+
+  // 홈페이지 바(시안처럼 검정바)
+  if(it.home){
+    homeBar.textContent = "공식 홈페이지 열기";
+    homeBar.onclick = () => window.open(it.home, "_blank");
+  }else{
+    homeBar.textContent = "공식 홈페이지 없음";
+    homeBar.onclick = null;
   }
 
-  const favOn = isFav(item.id);
-  btnFav.textContent = favOn ? "♥" : "♡";
-  btnFav.classList.toggle("is-on", favOn);
+  // 즐겨찾기 오버레이 하트
+  syncFavButton();
 
-  btnCall.disabled = !item.tel;
+  // 액션 버튼
+  btnCall.disabled = !it.tel;
+  btnCall.onclick = () => {
+    if(!it.tel) return;
+    location.href = `tel:${it.tel.replace(/[^0-9+]/g,"")}`;
+  };
 
-  screenList.hidden = true;
-  screenDetail.hidden = false;
-  window.scrollTo({ top: 0, behavior: "instant" });
+  btnCopy.onclick = async () => {
+    try{
+      await navigator.clipboard.writeText(it.addr || "");
+      btnCopy.textContent = "복사됨";
+      setTimeout(()=> btnCopy.textContent = "주소복사", 900);
+    }catch{
+      alert("복사 실패 (권한 확인)");
+    }
+  };
 
+  btnRoad.onclick = () => {
+    if(it.lat && it.lng){
+      const url = `https://map.kakao.com/link/to/${encodeURIComponent(it.name)},${it.lat},${it.lng}`;
+      window.open(url, "_blank");
+    }else if(it.addr){
+      const url = `https://map.kakao.com/link/search/${encodeURIComponent(it.addr)}`;
+      window.open(url, "_blank");
+    }
+  };
+
+  // 페이지 전환
+  pageList.hidden = true;
+  pageDetail.hidden = false;
+  window.scrollTo({top:0, behavior:"instant"});
+
+  // 지도
   initMapIfNeeded();
-  locateOnMap(item);
+  locateOnMap(it);
 }
 
-function closeDetail() {
-  screenDetail.hidden = true;
-  screenList.hidden = false;
+function closeDetail(){
+  pageDetail.hidden = true;
+  pageList.hidden = false;
 }
 
-// ---------- Map ----------
-function initMapIfNeeded() {
-  if (map) return;
-  const mapEl = document.getElementById("map");
+function syncFavButton(){
+  const on = current && isFav(current.id);
+  btnFav.textContent = on ? "♥" : "♡";
+}
+
+function placeholderImage(title){
+  return "data:image/svg+xml;charset=utf-8," + encodeURIComponent(`
+    <svg xmlns='http://www.w3.org/2000/svg' width='1200' height='700'>
+      <rect width='1200' height='700' fill='#f2f2f2'/>
+      <text x='50%' y='50%' dominant-baseline='middle' text-anchor='middle'
+        font-family='Noto Sans KR, sans-serif' font-size='42' fill='#111'>대표 이미지 없음</text>
+      <text x='50%' y='58%' dominant-baseline='middle' text-anchor='middle'
+        font-family='Noto Sans KR, sans-serif' font-size='22' fill='#555'>${escapeHTML(title || "")}</text>
+    </svg>
+  `);
+}
+
+// --------- kakao map
+function initMapIfNeeded(){
+  if(map) return;
   const center = new kakao.maps.LatLng(35.1796, 129.0756);
-  map = new kakao.maps.Map(mapEl, { center, level: 6 });
-
+  map = new kakao.maps.Map(document.getElementById("map"), { center, level: 6 });
   marker = new kakao.maps.Marker({ position: center });
   marker.setMap(map);
-
   geocoder = new kakao.maps.services.Geocoder();
 }
 
-function locateOnMap(item) {
-  if (!map) return;
-
+function locateOnMap(it){
   const setPos = (lat, lng) => {
     const pos = new kakao.maps.LatLng(lat, lng);
     map.setCenter(pos);
     marker.setPosition(pos);
   };
 
-  if (item.lat && item.lng) {
-    setPos(item.lat, item.lng);
+  if(it.lat && it.lng){
+    setPos(it.lat, it.lng);
     return;
   }
 
-  const addr = item.addr;
-  if (!addr || !geocoder) return;
-
-  geocoder.addressSearch(addr, (result, status) => {
-    if (status === kakao.maps.services.Status.OK && result?.[0]) {
+  if(!it.addr) return;
+  geocoder.addressSearch(it.addr, (result, status) => {
+    if(status === kakao.maps.services.Status.OK && result?.[0]){
       const lat = parseFloat(result[0].y);
       const lng = parseFloat(result[0].x);
+      it.lat = lat; it.lng = lng;
       setPos(lat, lng);
-      item.lat = lat; item.lng = lng;
     }
   });
 }
 
-// ---------- Events ----------
-qEl.addEventListener("input", () => {
-  btnClear.style.opacity = qEl.value ? "1" : ".4";
+// --------- events
+qEl.addEventListener("input", ()=>{
   applyFilter();
+  statusEl.textContent = `${filtered.length}개`;
 });
-btnClear.addEventListener("click", () => {
-  qEl.value = "";
-  qEl.focus();
-  applyFilter();
-});
-btnRefresh.addEventListener("click", fetchFood);
-
-btnTop.addEventListener("click", () => window.scrollTo({ top: 0, behavior: "smooth" }));
-
-chips.addEventListener("click", (e) => {
-  const btn = e.target.closest(".chip");
-  if (!btn) return;
-  [...chips.querySelectorAll(".chip")].forEach(x => x.classList.remove("is-active"));
-  btn.classList.add("is-active");
-  activeGu = btn.dataset.gu || "";
-  applyFilter();
-});
+btnRefresh.addEventListener("click", loadFoods);
+btnRetry.addEventListener("click", loadFoods);
 
 btnBack.addEventListener("click", closeDetail);
-
-btnFav.addEventListener("click", () => {
-  if (!current) return;
+btnFav.addEventListener("click", ()=>{
+  if(!current) return;
   toggleFav(current.id);
-  const favOn = isFav(current.id);
-  btnFav.textContent = favOn ? "♥" : "♡";
-  btnFav.classList.toggle("is-on", favOn);
-
-  allItems.sort((a, b) => {
-    const af = isFav(a.id) ? 0 : 1;
-    const bf = isFav(b.id) ? 0 : 1;
-    if (af !== bf) return af - bf;
-    return a.name.localeCompare(b.name, "ko");
-  });
+  syncFavButton();
+  applyFilter();
 });
 
-btnCall.addEventListener("click", () => {
-  if (!current?.tel) return;
-  location.href = `tel:${current.tel.replace(/[^0-9+]/g, "")}`;
-});
+// init
+window.addEventListener("load", loadFoods);
 
-btnCopy.addEventListener("click", async () => {
-  if (!current?.addr) return;
-  try {
-    await navigator.clipboard.writeText(current.addr);
-    btnCopy.textContent = "복사됨";
-    setTimeout(() => (btnCopy.textContent = "주소 복사"), 900);
-  } catch {
-    alert("복사에 실패했어요. 브라우저 권한을 확인해주세요.");
-  }
-});
-
-btnRoad.addEventListener("click", () => {
-  if (!current) return;
-  if (current.lat && current.lng) {
-    const url = `https://map.kakao.com/link/to/${encodeURIComponent(current.name)},${current.lat},${current.lng}`;
-    window.open(url, "_blank");
-  } else if (current.addr) {
-    const url = `https://map.kakao.com/link/search/${encodeURIComponent(current.addr)}`;
-    window.open(url, "_blank");
-  }
-});
-
-btnZoomIn.addEventListener("click", () => { if (map) map.setLevel(map.getLevel() - 1); });
-btnZoomOut.addEventListener("click", () => { if (map) map.setLevel(map.getLevel() + 1); });
-
-// 대표 이미지 저장용(옵션)
-window.setRestaurantHeroImage = function (id, imageUrl) {
-  const overrides = getImgOverrides();
-  overrides[id] = imageUrl;
-  setImgOverrides(overrides);
-};
-
-window.addEventListener("load", () => {
-  btnClear.style.opacity = qEl.value ? "1" : ".4";
-  fetchFood();
-});
+/**
+ * ✅ CORS가 계속 막히면?
+ * - 프론트만으로는 해결이 안 되는 환경이 있어요.
+ * - 이 경우, 로컬에서 간단 프록시(서버)로 우회해야 합니다.
+ * (원하면 내가 server.js(Express)까지 같이 만들어 줄게)
+ */
