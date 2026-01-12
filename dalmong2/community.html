@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+  />
+  <title>커뮤니티</title>
+
+  <!-- Noto Sans KR -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="./css/community.css" />
+</head>
+<body>
+  <div class="app" id="app">
+
+    <!-- Top App Bar -->
+    <header class="appbar">
+      <button class="icon-btn" type="button" aria-label="뒤로가기" id="backBtn">
+        <img class="icon-img" src="./images/back.png" alt="뒤로가기">
+      </button>
+
+      <h1 class="appbar-title">커뮤니티</h1>
+
+      <button class="icon-btn" type="button" aria-label="알림" id="bellBtn">
+        <img class="icon-img" src="./images/bell.png" alt="알림">
+      </button>
+    </header>
+
+    <main class="content">
+
+      <!-- Community Search -->
+      <section class="card top-search" aria-label="커뮤니티 검색">
+        <div class="search-input-wrap">
+          <span class="search-ico">
+            <img class="icon-img" src="./images/home_banner_moon.png" alt="검색">
+          </span>
+
+          <label class="sr-only" for="cq">커뮤니티 검색어</label>
+          <input
+            id="cq"
+            class="search-input"
+            type="search"
+            placeholder="전시회, 체험, 커스텀 조합을 검색해보세요"
+            autocomplete="off"
+          />
+
+          <button class="clear-btn" id="clearBtn" type="button" aria-label="검색어 지우기" hidden>
+            <img class="icon-img" src="./images/trash.png" alt="지우기">
+          </button>
+        </div>
+
+        <div class="search-actions">
+          <button class="ghost-btn" type="button" id="tagAllBtn">전체</button>
+          <button class="ghost-btn" type="button" id="tagExBtn">전시·체험</button>
+          <button class="ghost-btn" type="button" id="tagCustomBtn">커스텀</button>
+          <button class="primary-ghost-btn" type="button" id="searchBtn">검색</button>
+        </div>
+      </section>
+
+      <!-- Tabs -->
+      <section class="section" aria-label="커뮤니티 탭">
+        <div class="tabs">
+          <button class="tab is-active" type="button" data-tab="feed">피드</button>
+          <button class="tab" type="button" data-tab="events">전시·체험</button>
+          <button class="tab" type="button" data-tab="custom">커스텀 조합</button>
+        </div>
+      </section>
+
+      <!-- Quick Chips -->
+      <section class="section" aria-label="빠른 필터">
+        <div class="chips" id="chipWrap">
+          <button class="chip is-active" type="button" data-chip="ALL">추천</button>
+          <button class="chip" type="button" data-chip="HOT">인기</button>
+          <button class="chip" type="button" data-chip="NEW">최신</button>
+          <button class="chip" type="button" data-chip="NEAR">내 주변</button>
+        </div>
+      </section>
+
+      <!-- Compose Card -->
+      <section class="card compose" aria-label="글쓰기">
+        <div class="compose-left">
+          <div class="avatar">
+            <!-- ✅ 프로필 이미지 넣기 -->
+            <img src="./images/profile.png" alt="프로필" />
+          </div>
+          <button class="compose-input" type="button" id="openComposerBtn">
+            오늘의 전통 이야기를 공유해보세요…
+          </button>
+        </div>
+
+        <div class="compose-actions">
+          <button class="icon-mini-btn" type="button" aria-label="사진" id="photoBtn">
+            <img class="icon-mini" src="./images/picture.png" alt="">
+          </button>
+          <button class="icon-mini-btn" type="button" aria-label="위치" id="locationBtn">
+            <img class="icon-mini" src="./images/position.png" alt="">
+          </button>
+        </div>
+      </section>
+
+      <!-- Feed List -->
+      <section class="feed" id="feedList" aria-label="커뮤니티 피드">
+        <!-- JS 렌더링 -->
+      </section>
+
+      <!-- Empty -->
+      <section class="card empty" id="emptyState" hidden>
+        <div class="empty-illust">
+          <img src="./images/walk_sticker_1.png" alt="게시글 없음" class="empty-img">
+        </div>
+        <p class="empty-title">아직 게시글이 없어요</p>
+        <p class="empty-desc">첫 번째 게시글을 작성해보세요.</p>
+        <button class="primary-btn" type="button" id="writeBtn">글 쓰기</button>
+      </section>
+
+    </main>
+
+    <!-- Floating Write Button -->
+    <button class="fab" type="button" aria-label="글쓰기" id="fabBtn">
+      <img class="icon-img" src="./images/pencil.png" alt="">
+    </button>
+
+    <!-- Bottom Nav -->
+    <nav class="bottom-nav" role="navigation" aria-label="하단 내비게이션">
+      <a class="nav-item" href="https://tksehzm77-cloud.github.io/html/dalmong/home.html" data-href="home.html">
+        <img class="nav-icon" src="./images/home_icon.svg" alt="홈" data-placeholder="nav-home-icon" />
+        <span class="nav-text">홈</span>
+      </a>
+
+      <a class="nav-item" href="https://tksehzm77-cloud.github.io/html/dalmong/order.html" data-href="orders.html">
+        <img class="nav-icon" src="./images/order_icon.svg" alt="주문/배송" data-placeholder="nav-orders-icon" />
+        <span class="nav-text">주문/배송</span>
+      </a>
+
+      <a class="nav-item is-active" href="#" data-href="community.html">
+        <img class="nav-icon" src="./images/community_icon_2.svg" alt="커뮤니티" data-placeholder="nav-community-icon" />
+        <span class="nav-text">커뮤니티</span>
+      </a>
+
+      <a class="nav-item" href="search.html" data-href="search.html">
+        <img class="nav-icon" src="./images/search_icon.svg" alt="검색" data-placeholder="nav-search-icon" />
+        <span class="nav-text">검색</span>
+      </a>
+
+      <a class="nav-item" href="https://tksehzm77-cloud.github.io/html/dalmong/my.html" data-href="my.html" aria-current="page">
+        <img class="nav-icon" src="./images/my_icon.svg" alt="마이" data-placeholder="nav-my-icon" />
+        <span class="nav-text">마이</span>
+      </a>
+    </nav>
+
+    <!-- Toast -->
+    <div class="toast" id="toast" role="status" aria-live="polite" aria-atomic="true" hidden></div>
+  </div>
+
+  <script src="./js/community.js"></script>
+</body>
+</html>
