@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>내 정보</title>
+
+  <!-- Noto Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="./css/info.css" />
+</head>
+<body>
+  <div class="app" role="application">
+    <!-- Top App Bar -->
+    <header class="topbar" role="banner">
+      <button class="icon-btn" type="button" aria-label="뒤로가기" id="backBtn">
+        <img class="icon-img" src="./images/back.png" alt="" data-placeholder="back-icon" />
+      </button>
+
+      <h1 class="topbar-title">내 정보</h1>
+
+      <!-- 오른쪽은 시안처럼 비워두기(정렬용) -->
+      <span class="topbar-spacer" aria-hidden="true"></span>
+    </header>
+
+    <main class="content" role="main">
+      <!-- 프로필 -->
+      <section class="profile" aria-label="프로필">
+        <div class="avatar-wrap">
+          <img class="avatar" src="./images/profile.png" alt="프로필 이미지" data-placeholder="profile-image" />
+          <button class="camera-btn" type="button" aria-label="프로필 사진 변경" id="cameraBtn">
+            <img class="camera-icon" src="./images/camera.png" alt="" data-placeholder="camera-icon" />
+          </button>
+        </div>
+
+        <div class="profile-text">
+          <div class="profile-name" id="userName">권나영</div>
+          <div class="profile-email" id="userEmail">tksehzm77@naver.com</div>
+        </div>
+      </section>
+
+      <!-- 패널 1 -->
+      <section class="panel" aria-label="계정 및 배송">
+        <a class="row border" href="#" data-href="address.html">
+          <span class="row-title">배송지 관리</span>
+          <img class="chev" src="./images/next.png" alt="" data-placeholder="chevron-icon" />
+        </a>
+
+        <a class="row" href="#" data-href="account.html">
+          <span class="row-title">내 계정 정보</span>
+          <img class="chev" src="./images/next.png" alt="" data-placeholder="chevron-icon" />
+        </a>
+      </section>
+
+      <!-- 패널 2 -->
+      <section class="panel" aria-label="결제 설정">
+        <a class="row border" href="#" data-href="card.html">
+          <span class="row-title">신용카드 관리</span>
+          <img class="chev" src="./images/next.png" alt="" data-placeholder="chevron-icon" />
+        </a>
+
+        <div class="row row-toggle" role="group" aria-label="생체인식 토글">
+          <span class="row-title">간편결제 시 생체인식 사용</span>
+
+          <label class="switch" aria-label="간편결제 시 생체인식 사용">
+            <input type="checkbox" id="bioToggle" checked />
+            <span class="slider" aria-hidden="true"></span>
+          </label>
+        </div>
+      </section>
+
+      <!-- 패널 3 -->
+      <section class="panel" aria-label="배송지">
+        <a class="row" href="#" data-href="address.html">
+          <span class="row-title">배송지 관리</span>
+          <img class="chev" src="./images/next.png" alt="" data-placeholder="chevron-icon" />
+        </a>
+      </section>
+
+      <!-- 패널 4 -->
+      <section class="panel" aria-label="설정">
+        <a class="row border" href="#" data-href="alarm.html">
+          <span class="row-title">알림 설정</span>
+          <img class="chev" src="./images/next.png" alt="" data-placeholder="chevron-icon" />
+        </a>
+
+        <a class="row border" href="#" data-href="tracking.html">
+          <span class="row-title">추적 허용 설정</span>
+          <img class="chev" src="./images/next.png" alt="" data-placeholder="chevron-icon" />
+        </a>
+
+        <!-- 비활성(시안처럼 연하게) -->
+        <button class="row row-disabled" type="button" disabled aria-disabled="true">
+          <span class="row-title">저장된 이미지 삭제</span>
+        </button>
+      </section>
+
+      <!-- 로그아웃 -->
+      <section class="panel panel-logout" aria-label="로그아웃">
+        <button class="logout-btn" type="button" id="logoutBtn">로그아웃</button>
+      </section>
+    </main>
+  </div>
+
+  <script src="./js/info.js"></script>
+</body>
+</html>
