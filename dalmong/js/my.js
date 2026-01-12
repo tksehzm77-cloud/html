@@ -13,10 +13,9 @@
   });
 
   menuBtn?.addEventListener('click', () => {
-    // 메뉴 오픈 동작은 사용자 구현에 맞게 연결
-    // 예: location.href = 'menu.html';
-    console.log('menu click');
-  });
+  location.href = 'https://tksehzm77-cloud.github.io/html/dalmong2/info.html'; // ✅ 내 정보 페이지로 이동
+});
+
 
   // 나의 아바타 꾸미기 버튼 이동
 const avatarDecorateLink = document.getElementById('avatarDecorateLink');
