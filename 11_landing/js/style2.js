@@ -2,28 +2,24 @@
   Helpers
 ========================= */
 const $ = (sel, parent = document) => parent.querySelector(sel);
-const $$ = (sel, parent = document) => [...parent.querySelectorAll(sel)];
 
-function pad2(n) {
-  return String(n).padStart(2, "0");
-}
+function pad2(n){ return String(n).padStart(2, "0"); }
 
-function toast(msg) {
-  // 간단 알림 (원하면 UI 토스트로 확장 가능)
+function toast(msg){
   alert(msg);
 }
 
 /* =========================
   Countdown: 다음 22:00까지 남은 시간
 ========================= */
-function getNextTenPM(now = new Date()) {
+function getNextTenPM(now = new Date()){
   const target = new Date(now);
   target.setHours(22, 0, 0, 0);
   if (now >= target) target.setDate(target.getDate() + 1);
   return target;
 }
 
-function startCountdown() {
+function startCountdown(){
   const elH = $("#cdH");
   const elM = $("#cdM");
   const elS = $("#cdS");
@@ -49,7 +45,7 @@ function startCountdown() {
 }
 
 /* =========================
-  Wishlist sample render (하단 테이블)
+  Wishlist sample render
 ========================= */
 const sampleWishes = [
   { id: 1050, name: "에어팟", date: "2026.01.13" },
@@ -59,7 +55,16 @@ const sampleWishes = [
   { id: 1046, name: "편의점 상품권", date: "2026.01.11" },
 ];
 
-function renderWishes(list) {
+function escapeHtml(str){
+  return String(str)
+    .replaceAll("&","&amp;")
+    .replaceAll("<","&lt;")
+    .replaceAll(">","&gt;")
+    .replaceAll('"',"&quot;")
+    .replaceAll("'","&#039;");
+}
+
+function renderWishes(list){
   const tbody = $("#wishTbody");
   if (!tbody) return;
   tbody.innerHTML = "";
@@ -68,7 +73,6 @@ function renderWishes(list) {
     const div = document.createElement("div");
     div.className = "t-row";
     div.setAttribute("role", "row");
-
     div.innerHTML = `
       <div class="t-cell" role="cell">${row.id}</div>
       <div class="t-cell" role="cell">${escapeHtml(row.name)}</div>
@@ -78,42 +82,30 @@ function renderWishes(list) {
   });
 }
 
-function escapeHtml(str) {
-  return String(str)
-    .replaceAll("&", "&amp;")
-    .replaceAll("<", "&lt;")
-    .replaceAll(">", "&gt;")
-    .replaceAll('"', "&quot;")
-    .replaceAll("'", "&#039;");
-}
-
 /* =========================
-  Modal (응모 팝업)
+  Modal
 ========================= */
 const modal = $("#applyModal");
 const applyBtn = $("#applyBtn");
 const heroApplyBtn = $("#heroApplyBtn");
 const modalCloseBtn = $("#modalCloseBtn");
 const modalCancelBtn = $("#modalCancelBtn");
-const applyForm = $("#applyForm");
 
-function openModal() {
+function openModal(){
   if (!modal) return;
   modal.classList.add("is-open");
   modal.setAttribute("aria-hidden", "false");
 
-  // 첫 입력으로 포커스
   setTimeout(() => {
-    const first = $("#nameInput");
+    const first = document.querySelector('#contactForm input[name="Name"]');
     first && first.focus();
   }, 0);
 
-  // 스크롤 잠금
   document.documentElement.style.overflow = "hidden";
   document.body.style.overflow = "hidden";
 }
 
-function closeModal() {
+function closeModal(){
   if (!modal) return;
   modal.classList.remove("is-open");
   modal.setAttribute("aria-hidden", "true");
@@ -122,25 +114,23 @@ function closeModal() {
   document.body.style.overflow = "";
 }
 
-function getSelectedPrize() {
-  const checked = document.querySelector('input[name="prize"]:checked');
-  return checked ? checked.value : "";
+function getSelectedPrize(){
+  return document.querySelector('input[name="prize"]:checked')?.value || "";
 }
 
-function collectEventData() {
+function collectEventData(){
   const answer = ($("#answerInput")?.value || "").trim();
   const prize = getSelectedPrize();
   return { answer, prize };
 }
 
-function validateBeforeOpen() {
+function validateBeforeOpen(){
   const { answer, prize } = collectEventData();
-
-  if (!prize) {
+  if (!prize){
     toast("선물을 선택해주세요.");
     return false;
   }
-  if (!answer) {
+  if (!answer){
     toast("정답을 입력해주세요.");
     $("#answerInput")?.focus();
     return false;
@@ -148,108 +138,96 @@ function validateBeforeOpen() {
   return true;
 }
 
-function normalizePhone(phone) {
-  // 01012345678 또는 010-1234-5678 형태를 010-1234-5678로 맞춤(간단)
-  const digits = phone.replace(/[^\d]/g, "");
-  if (digits.length === 11) {
-    return `${digits.slice(0,3)}-${digits.slice(3,7)}-${digits.slice(7)}`;
-  }
-  if (digits.length === 10) {
-    return `${digits.slice(0,3)}-${digits.slice(3,6)}-${digits.slice(6)}`;
-  }
-  return phone.trim();
+function normalizePhone(phone){
+  const digits = String(phone).replace(/[^\d]/g, "");
+  if (digits.length === 11) return `${digits.slice(0,3)}-${digits.slice(3,7)}-${digits.slice(7)}`;
+  if (digits.length === 10) return `${digits.slice(0,3)}-${digits.slice(3,6)}-${digits.slice(6)}`;
+  return String(phone).trim();
 }
 
-function isValidEmail(email) {
-  // 너무 빡빡하지 않은 기본 검증
+function isValidEmail(email){
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 }
 
-function persistEntry(entry) {
-  const key = "conects_entries";
-  const prev = JSON.parse(localStorage.getItem(key) || "[]");
-  prev.unshift(entry);
-  localStorage.setItem(key, JSON.stringify(prev));
+/* =========================
+  Google Sheet submit (요청한 폼 형식)
+========================= */
+function bindGoogleSheetForm() {
+  const scriptURL = "https://script.google.com/macros/s/AKfycbySYt5ca86JKFKOEm7AsRRhPnAE4Zo6ZKyCnJx4-aVFqosJz4-oZh6RvRUNMJve-wjmOA/exec"; // 너가 가진 웹앱 URL 넣기
+  const form = document.forms["submit-to-google-sheet"];
+  const msg = document.getElementById("formStatus"); // index.html에 있는 상태 문구
+
+  if (!form) return;
+
+  form.addEventListener("submit", (e) => {
+    e.preventDefault();
+
+    // ✅ 이벤트 섹션에서 정답/경품 선택값을 hidden input에 넣고 전송
+    const answer = (document.getElementById("answerInput")?.value || "").trim();
+    const prize = document.querySelector('input[name="prize"]:checked')?.value || "";
+
+    if (!prize) return toast("선물을 선택해주세요.");
+    if (!answer) return toast("정답을 입력해주세요.");
+
+    document.getElementById("hiddenAnswer").value = answer;
+    document.getElementById("hiddenPrize").value = prize;
+    document.getElementById("hiddenCreatedAt").value = new Date().toISOString();
+
+    // 전화번호 정규화(선택)
+    const telEl = form.querySelector('input[name="Tel"]');
+    if (telEl) telEl.value = normalizePhone(telEl.value);
+
+    fetch(scriptURL, { method: "POST", body: new FormData(form) })
+      .then(() => {
+        if (msg) msg.innerHTML = "응모가 완료되었습니다!";
+        setTimeout(() => {
+          if (msg) msg.innerHTML = "";
+        }, 5000);
+
+        form.reset();
+        closeModal();
+        toast("응모 완료!");
+      })
+      .catch((error) => {
+        console.error("Error!", error.message);
+        if (msg) msg.innerHTML = "전송 실패! URL/배포 설정을 확인하세요.";
+        setTimeout(() => {
+          if (msg) msg.innerHTML = "";
+        }, 5000);
+      });
+  });
 }
 
+
 /* =========================
-  Event bindings
+  Events
 ========================= */
-function bindEvents() {
-  // 응모하기(이벤트 카드)
+function bindEvents(){
   applyBtn?.addEventListener("click", () => {
     if (!validateBeforeOpen()) return;
     openModal();
   });
 
-  // 히어로 CTA도 동일하게 (이벤트로 스크롤 + 모달)
   heroApplyBtn?.addEventListener("click", () => {
-    // 이벤트 섹션으로 이동
     $("#event")?.scrollIntoView({ behavior: "smooth", block: "start" });
-
-    // 살짝 기다렸다가 모달
     setTimeout(() => {
       if (!validateBeforeOpen()) return;
       openModal();
     }, 450);
   });
 
-  // 모달 닫기
   modalCloseBtn?.addEventListener("click", closeModal);
   modalCancelBtn?.addEventListener("click", closeModal);
 
-  // dim 클릭 닫기
   modal?.addEventListener("click", (e) => {
     const t = e.target;
     if (t && t.dataset && t.dataset.close === "true") closeModal();
   });
 
-  // ESC 닫기
   window.addEventListener("keydown", (e) => {
-    if (e.key === "Escape" && modal?.classList.contains("is-open")) {
-      closeModal();
-    }
+    if (e.key === "Escape" && modal?.classList.contains("is-open")) closeModal();
   });
 
-  // 모달 제출
-  applyForm?.addEventListener("submit", (e) => {
-    e.preventDefault();
-
-    const name = ($("#nameInput")?.value || "").trim();
-    const phoneRaw = ($("#phoneInput")?.value || "").trim();
-    const email = ($("#emailInput")?.value || "").trim();
-
-    if (!name) return toast("성함을 입력해주세요.");
-    if (!phoneRaw) return toast("전화번호를 입력해주세요.");
-    if (!email) return toast("이메일을 입력해주세요.");
-    if (!isValidEmail(email)) return toast("이메일 형식이 올바르지 않습니다.");
-
-    const phone = normalizePhone(phoneRaw);
-    const { answer, prize } = collectEventData();
-
-    const payload = {
-      name,
-      phone,
-      email,
-      answer,
-      prize,
-      createdAt: new Date().toISOString(),
-      ua: navigator.userAgent,
-    };
-
-    // ✅ 실제 서버 연동 시 여기서 fetch로 전송하면 됩니다.
-    // fetch("/api/apply", { method:"POST", headers:{ "Content-Type":"application/json" }, body: JSON.stringify(payload) })
-
-    // 데모: 로컬 저장
-    persistEntry(payload);
-
-    console.log("[응모 데이터]", payload);
-    closeModal();
-    toast("응모가 완료되었습니다! (데모: 로컬 저장 처리)");
-    applyForm.reset();
-  });
-
-  // Wishlist 등록(데모)
   $("#wishAddBtn")?.addEventListener("click", () => {
     const input = $("#wishInput");
     const val = (input?.value || "").trim();
@@ -260,16 +238,17 @@ function bindEvents() {
     const y = date.getFullYear();
     const m = pad2(date.getMonth() + 1);
     const d = pad2(date.getDate());
-
     sampleWishes.unshift({ id, name: val, date: `${y}.${m}.${d}` });
     renderWishes(sampleWishes);
     input.value = "";
   });
 
-  // 영상 버튼(데모)
   $("#videoPlayBtn")?.addEventListener("click", () => {
     toast("영상 재생 영역입니다. 실제 영상 연결 시 iframe/플레이어로 교체하세요.");
   });
+
+  // ✅ 구글 시트 전송 바인딩
+  bindGoogleSheetForm();
 }
 
 /* =========================
