@@ -206,6 +206,7 @@ function bindEvents(){
   applyBtn?.addEventListener("click", () => {
     if (!validateBeforeOpen()) return;
     openModal();
+    bindGoogleSheetForm();
   });
 
   heroApplyBtn?.addEventListener("click", () => {
