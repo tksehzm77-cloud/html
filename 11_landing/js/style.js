@@ -187,7 +187,7 @@ function bindGoogleSheetForm(){
 
     const url = form.dataset.sheetUrl; // data-sheet-url
     if (!url || url.includes("https://script.google.com/macros/s/AKfycbySYt5ca86JKFKOEm7AsRRhPnAE4Zo6ZKyCnJx4-aVFqosJz4-oZh6RvRUNMJve-wjmOA/exec")) {
-      return toast('팝업 form의 data-sheet-url="..." 에 구글 저장 URL을 넣어주세요.');
+      return toast('https://script.google.com/macros/s/AKfycbySYt5ca86JKFKOEm7AsRRhPnAE4Zo6ZKyCnJx4-aVFqosJz4-oZh6RvRUNMJve-wjmOA/exec');
     }
 
     try{
